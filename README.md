@@ -1,4 +1,24 @@
-# portfolio-2025
+# Vue 3 Portfolio Website
+
+This is a simple portfolio website built using Vue 3 and hosted on GitHub Pages.
+
+## Features
+- **Homepage**: Introduction and highlights.
+- **About Me**: Personal details and background.
+- **Contact**: A form to reach out.
+- **My Work**: Showcase of projects.
+
+## Prerequisites
+- Node.js (LTS version)
+- Vue CLI
+- Git
+
+## Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/bozena-zawilinska/portfolio-2025.git
+   cd portfolio-2025
+
 
 ## Project setup
 ```
