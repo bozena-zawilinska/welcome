@@ -20,7 +20,7 @@
 export default {
   methods: {
     navigateToWork() {
-      this.$router.push('/my-work');
+      this.$router.push('/work');
     },
   },
 };
