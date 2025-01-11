@@ -1,34 +1,56 @@
 <template>
   <section class="page page--about">
-    <h1>About Me</h1>
-    <p>
-      I believe in the power of curiosity and the thrill of creating something out of nothing.
-      Web development is my playground where creativity meets problem-solving.
-      Every day, I strive to build meaningful and accessible digital experiences.
-    </p>
-    <p>
-      Over the years, I've grown my expertise in front-end and WordPress development.
-      From building Vue 3 applications to designing custom WordPress themes, I aim to create fast, SEO-friendly, and
-      inclusive websites.
-    </p>
-    <p>
-      When I’m not coding, I’m experimenting with new technologies like headless WordPress using React or conducting
-      accessibility audits to improve web usability for everyone.
-    </p>
-    <blockquote>
-      “Good design is inclusive, intuitive, and impactful—and I work to bring these principles to every project I
-      touch.”
-    </blockquote>
+    <div class="container">
+      <h1 class="animated-heading">About Me</h1>
+      <p class="description">
+        I believe in the power of curiosity and the thrill of creating something out of nothing.
+        Web development is my playground where creativity meets problem-solving.
+        Every day, I strive to build meaningful and accessible digital experiences.
+      </p>
+      <p class="description">
+        Over the years, I've refined my skills in front-end development, WordPress, and performance optimisation.
+        My mission is to deliver inclusive, fast, and impactful web solutions.
+      </p>
+      <button class="button" @click="navigateToWork">View My Work</button>
+    </div>
   </section>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    navigateToWork() {
+      this.$router.push('/my-work');
+    },
+  },
+};
 </script>
 
-<style scoped>
+<style lang="scss">
 .page--about {
-  /* Styling goes here */
+  @include gradient-background($lavender, $rosemary);
+  min-height: 100vh;
+  padding: 3rem;
+  color: $white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .container {
+    max-width: 800px;
+    text-align: center;
+    box-shadow: $box-shadow-soft;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+
+    .description {
+      font-size: $font-base;
+      margin: 1rem 0;
+      color: $dark;
+      animation: fadeIn 1s ease-in-out;
+    }
+  }
 }
 </style>
 

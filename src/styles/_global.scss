@@ -1,0 +1,40 @@
+// Reusable Buttons
+.button {
+    padding: 0.75rem 1.5rem;
+    font-size: $font-base;
+    color: $white;
+    background-color: $sage;
+    border: none;
+    border-radius: 8px;
+    box-shadow: $box-shadow-soft;
+    transition: $transition;
+
+    &:hover {
+        background-color: darken($sage, 10%);
+        box-shadow: $box-shadow-hover;
+    }
+}
+
+// Animated Headings
+.animated-heading {
+    font-size: $font-large;
+    font-weight: bold;
+    @include gradient-background($lavender, $sage);
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    color: transparent;
+    animation: fadeIn 1s ease-in-out;
+}
+
+// Keyframes for Animations
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
