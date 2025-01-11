@@ -1,0 +1,39 @@
+/* Tooltip styles */
+.v-popper--theme-tooltip .v-popper__inner {
+    background-color: $green-white;
+    color: $dark-gunmetal;
+    border-radius: 4px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+    max-width: 150px;
+    padding: $spacing-sm;
+    font-size: $font-small;
+    font-weight: bold;
+    text-align: center;
+}
+
+.v-popper--theme-tooltip .v-popper__arrow-inner {
+    visibility: visible;
+    border-color: $green-white;
+}
+
+.v-popper--theme-tooltip .v-popper__arrow-outer {
+    border-color: $green-white;
+}
+
+/* Transition */
+
+.v-popper--theme-tooltip.v-popper__popper--hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 125ms, visibility 125ms;
+}
+
+.v-popper--theme-tooltip.v-popper__popper--shown {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 125ms;
+}
+
+.v-popper--theme-tooltip.v-popper__popper--skip-transition {
+    transition: none !important;
+}

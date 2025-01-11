@@ -1,0 +1,58 @@
+// Breakpoints for responsive design
+$breakpoint-sm: 576px; // Small devices (phones)
+$breakpoint-md: 768px; // Medium devices (tablets)
+$breakpoint-lg: 992px; // Large devices (small desktops)
+$breakpoint-xl: 1200px; // Extra large devices (large desktops)
+
+// Spacing Utilities
+$spacing-xs: 8px;
+$spacing-sm: 16px;
+$spacing-md: 24px;
+$spacing-lg: 32px;
+$spacing-xl: 48px;
+
+// Margins & Paddings
+$padding-base: $spacing-sm;
+$padding-large: $spacing-md;
+$margin-base: $spacing-xs;
+$margin-large: $spacing-sm;
+
+// Responsive Design Mixins
+
+// Mobile-first approach
+@mixin breakpoint-up($size) {
+    @if $size ==sm {
+        @media (min-width: $breakpoint-sm) {
+            @content;
+        }
+    }
+
+    @else if $size ==md {
+        @media (min-width: $breakpoint-md) {
+            @content;
+        }
+    }
+
+    @else if $size ==lg {
+        @media (min-width: $breakpoint-lg) {
+            @content;
+        }
+    }
+
+    @else if $size ==xl {
+        @media (min-width: $breakpoint-xl) {
+            @content;
+        }
+    }
+}
+
+// Flexbox mixin for row or column layouts
+@mixin flex-row {
+    @include flex-center;
+    flex-direction: row;
+}
+
+@mixin flex-column {
+    @include flex-center;
+    flex-direction: column;
+}

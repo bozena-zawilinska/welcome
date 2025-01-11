@@ -1,15 +1,22 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/work">My Work</router-link> |
-      <router-link to="/contact">Contact</router-link>
-    </nav>
-    <router-view />
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <SideNav />
+    <main id="main-content">
+      <router-view />
+    </main>
   </div>
 </template>
+
+<script>
+import SideNav from './components/SideNav.vue';
+
+export default {
+  components: {
+    SideNav,
+  },
+};
+</script>
 
 <style lang="scss">
 #app {
@@ -17,19 +24,32 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  text-wrap: pretty;
+  color: $dark;
 }
 
-nav {
-  padding: 30px;
+:focus {
+  outline: 2px solid #ff9900;
+  /* Custom focus styling */
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+/* Skip Link */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+  &:focus {
+    left: 0;
+    top: 0;
+    width: auto;
+    height: auto;
+    background: #000;
+    color: #fff;
+    padding: 0.5rem;
   }
 }
 </style>
