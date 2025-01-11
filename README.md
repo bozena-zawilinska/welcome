@@ -42,3 +42,7 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### Libraries and Tools Used
+- **Vue 3**: The JavaScript framework used for building the user interface.
+- **floating-vue**: A Vue.js tooltip library. [Documentation](https://floating-vue.starpad.dev/guide/)
