@@ -35,22 +35,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-
-  .container {
-    max-width: 800px;
-    text-align: center;
-    box-shadow: $box-shadow-soft;
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 12px;
-
-    .description {
-      font-size: $font-base;
-      margin: 1rem 0;
-      color: $dark;
-      animation: fadeIn 1s ease-in-out;
-    }
-  }
 }
 </style>
 
