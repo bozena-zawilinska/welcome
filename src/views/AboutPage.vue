@@ -28,7 +28,7 @@ export default {
 
 <style lang="scss">
 .page--about {
-  @include gradient-background($lavender, $rosemary);
+  @include gradient-background($green-white, $rosemary);
   min-height: 100vh;
   padding: 3rem;
   color: $white;

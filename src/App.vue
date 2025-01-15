@@ -19,14 +19,6 @@ export default {
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  text-wrap: pretty;
-  color: $dark;
-}
 
 :focus {
   outline: 2px solid #ff9900;

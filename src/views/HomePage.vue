@@ -1,13 +1,13 @@
 <template>
   <div class="home page page--home">
-    <section id="welcome" class="welcome-section">
-      <div class="hero-content ">
+    <section id="hello" class="section--welcome">
+      <div class="hero-content">
 
         <div class="hero-image">
             <img src="@/assets/avatar.png" alt="Bozena's avatar" />
         </div>
         <div class="hero-text container">
-          <h1 class="animated-heading">Hello! <span>I'm Bozena. 👋</span></h1>
+         <TypingAnimation class="header animated-heading" text="Hello! I'm Bozena. 👋" :speed="100" wrapperElement="h1" />
           <p class="description">
             A multidisciplinary <span>developer</span> and <span>designer</span>
             <span class="smaller-text">(sometimes)</span> with a passion for
@@ -15,10 +15,14 @@
           </p>
         </div>
       </div>
+      <!-- Scroll Arrow -->
+      <a href="#portfolio" class="scroll-arrow" aria-label="Scroll to Portfolio">
+        ↓
+      </a>
     </section>
 
       <!-- Portfolio Projects -->
-      <section id="projects" class="portfolio-projects">
+      <section id="portfolio" class="section--projects">
         <div class="project" v-for="project in projects" :key="project.id">
           <video autoplay loop muted playsinline>
             <source :src="project.video" type="video/mp4" />
@@ -38,7 +42,7 @@
       </section>
 
       <!-- About Me -->
-      <section id="aboutMe" class="about-me">
+      <section id="about" class="section--about">
         <h2>About Me 🌸</h2>
         <p>Hello again! Thanks for scrolling this far! 🤗</p>
         <p>
@@ -58,18 +62,25 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
+import TypingAnimation from "@/components/TypingAnimation.vue";
 
 export default {
   name: "HomePage",
   components: {
     // HelloWorld,
+    TypingAnimation,
   },
 };
 </script>
 <style lang="scss" scoped>
-.welcome-section {
-    @include gradient-background($lavender, $rosemary);
-    padding: 2rem;
+.section {
+  &--welcome {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    @include gradient-background($lavender, white);
+    // padding: 2rem;
    
     .hero-content {
       display: flex;
@@ -87,24 +98,36 @@ export default {
         text-align: justify;
         max-width: 70%;
         position: relative;
-        h1 {
-          position: relative;
-          &::after {
-            content: "";
-            width: 100%;
-            background-color: $dark;
-            margin: 1rem 0;
-            position: absolute;
-            box-shadow: 0 0 8px $dark;
-            left: $spacing-xs;
-            bottom: -$spacing-sm;
-            z-index: -1;
-          }
-        }
-        p {
-          font-size: 1.2rem;
-        }
       }
     }
   }
+}
+
+.scroll-arrow {
+  display: block;
+  margin: 0 auto $spacing-lg;
+  text-align: center;
+  font-size: 2rem;
+  text-decoration: none;
+  color: $dark;
+  animation: bounce 2s infinite;
+  transition: transform 0.3s;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
 </style>

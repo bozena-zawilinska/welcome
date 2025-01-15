@@ -1,7 +1,14 @@
 <template>
     <nav class="side-nav" :class="{ collapsed: isCollapsed }">
-        <div class="logo" @click="toggleNav">
+        <!-- <div class="logo" @click="toggleNav">
             <img src="@/assets/logo.png" alt="Portfolio Logo" />
+             <i :class="isCollapsed ? 'fas fa-arrow-right' : 'fas fa-arrow-left'"></i>
+        </div> -->
+
+
+        <div class="is-collapsed" @click="toggleNav">
+             <!-- <i :class="isCollapsed ? 'fas fa-arrow-left' : 'fas fa-arrow-right'" v-tooltip="isCollapsed ? '[ to expand' : '[ to collapse'">]</i> -->
+              <span v-html="isCollapsed ? '<<' : '>>'" v-tooltip="isCollapsed ? '[ to expand' : '[ to collapse'" />
         </div>
         <ul>
             <li v-for="(item, index) in menuItems" :key="index" class="nav-item" @mouseover="hoverItem = index"
@@ -34,6 +41,20 @@ export default {
         toggleNav() {
             this.isCollapsed = !this.isCollapsed;
         },
+        handleKeyDown(event) {
+            // Check if the key pressed is '['
+            if (event.key === '[') {
+                this.toggleNav();
+            }
+        },
+    },
+    mounted() {
+        // Listen for the '[' key to toggle the navigation
+        window.addEventListener('keydown', this.handleKeyDown);
+    },
+    beforeDestroy() {
+        // Remove the event listener when the component is destroyed
+        window.removeEventListener('keydown', this.handleKeyDown);
     },
 };
 </script>
@@ -46,12 +67,16 @@ export default {
     top: 0;
     height: 100vh;
     width: 200px;
-    background: $dark-gunmetal;
+    background: white;
+    // border-left: 1px solid #553c9a50;
+    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
+    // box-shadow: -40px 40px 40px 60px rgba(0, 0, 0, 0.75);
     transition: width 0.3s ease;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     padding: $padding-base;
-    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+    // box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
     z-index: 10;
 
     &.collapsed {
@@ -63,9 +88,39 @@ export default {
         text-align: center;
         cursor: pointer;
 
-        img {
-            max-width: 100%;
-            height: auto;
+        // img {
+        //     max-width: 100%;
+        //     height: auto;
+        // }
+
+
+        i {
+            font-size: 24px; /* Adjust icon size */
+            color: $dark;    /* Icon color */
+            transition: transform 0.2s ease;
+
+            &:hover {
+                transform: rotate(180deg); /* Optional: adds rotation on hover */
+            }
+        }
+    }
+
+    .is-collapsed {
+        font-size: 24px;
+        transition: transform 0.2s ease;
+
+        span {
+            visibility: hidden;
+        }
+    }
+    &:hover {
+        .is-collapsed {
+        font-size: 24px;
+        transition: transform 0.2s ease;
+
+            span {
+                visibility: visible;
+            }
         }
     }
 
@@ -82,7 +137,7 @@ export default {
                 display: flex;
                 align-items: center;
                 justify-content: flex-start;
-                color: $white;
+                // color: $white;
                 text-decoration: none;
                 padding: $spacing-sm;
                 border-radius: 8px;
