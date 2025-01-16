@@ -11,8 +11,9 @@
         Over the years, I've refined my skills in front-end development, WordPress, and performance optimisation.
         My mission is to deliver inclusive, fast, and impactful web solutions.
       </p>
-      <button class="button" @click="navigateToWork">View My Work</button>
+      <button class="button button--primary button--confetti" @click="navigateToWork">View My Work</button>
     </div>
+    <div class="shade--grayish-cyan"></div>
   </section>
 </template>
 
@@ -28,7 +29,8 @@ export default {
 
 <style lang="scss">
 .page--about {
-  @include gradient-background($green-white, $rosemary);
+  // @include gradient-background($green-white, $grayish-cyan, $grayish-blue);
+  // background: $green-background;
   min-height: 100vh;
   padding: 3rem;
   color: $white;

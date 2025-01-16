@@ -1,26 +1,43 @@
 <template>
-    <nav class="side-nav" :class="{ collapsed: isCollapsed }">
-        <!-- <div class="logo" @click="toggleNav">
-            <img src="@/assets/logo.png" alt="Portfolio Logo" />
-             <i :class="isCollapsed ? 'fas fa-arrow-right' : 'fas fa-arrow-left'"></i>
-        </div> -->
+    <div>
+        <!-- Hamburger Icon (Only visible on mobile) -->
+        <button class="hamburger-btn" @click="toggleNav" v-if="isCollapsed">
+            <i class="fas fa-bars"></i>
+        </button>
+        <nav 
+            class="side-nav" 
+            :class="{ collapsed: isCollapsed }"
+            v-show="!isCollapsed || !isMobile"
+        >
+            <!-- <div class="logo" @click="toggleNav">
+                <img src="@/assets/logo.png" alt="Portfolio Logo" />
+                <i :class="isCollapsed ? 'fas fa-arrow-right' : 'fas fa-arrow-left'"></i>
+            </div> -->
 
 
-        <div class="is-collapsed" @click="toggleNav">
-             <!-- <i :class="isCollapsed ? 'fas fa-arrow-left' : 'fas fa-arrow-right'" v-tooltip="isCollapsed ? '[ to expand' : '[ to collapse'">]</i> -->
-              <span v-html="isCollapsed ? '<<' : '>>'" v-tooltip="isCollapsed ? '[ to expand' : '[ to collapse'" />
-        </div>
-        <ul>
-            <li v-for="(item, index) in menuItems" :key="index" class="nav-item" @mouseover="hoverItem = index"
-                @mouseleave="hoverItem = null" v-float="isCollapsed && hoverItem === index ? item.title : ''"
-                v-bind:title="isCollapsed && hoverItem === index ? item.title : ''" v-tooltip="isCollapsed && hoverItem === index ? item.title : ''">
-                <a :href="item.link">
-                    <span class="emoji">{{ item.emoji }}</span>
-                    <span v-if="!isCollapsed" class="title">{{ item.title }}</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+            <button class="button button--primary button--toggle" @click="toggleNav">
+                <!-- <i :class="isCollapsed ? 'fas fa-arrow-left' : 'fas fa-arrow-right'" v-tooltip="isCollapsed ? '[ to expand' : '[ to collapse'">]</i> -->
+                <span v-html="isCollapsed ? '&lt;&lt;' : 'Hide &gt;&gt;'" v-tooltip="isCollapsed ? 'Use [ to expand' : 'Use [ to hide'" />
+            </button>
+            <ul>
+                <li 
+                    v-for="(item, index) in menuItems" 
+                    :key="index" 
+                    class="nav-item" 
+                    @mouseover="hoverItem = index"
+                    @mouseleave="hoverItem = null" 
+                    v-float="isCollapsed && hoverItem === index ? item.title : ''"
+                    v-bind:title="isCollapsed && hoverItem === index ? item.title : ''" 
+                    v-tooltip="isCollapsed && hoverItem === index ? item.title : ''"
+                >
+                    <a :href="item.link">
+                        <span class="emoji">{{ item.emoji }}</span>
+                        <span v-if="!isCollapsed" class="title">{{ item.title }}</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </template>
 
 <script>
@@ -28,6 +45,7 @@ export default {
     data() {
         return {
             isCollapsed: true, // controls nav state
+            isMobile: false,   // tracks if the device is mobile
             hoverItem: null,   // tracks hovered item
             menuItems: [
                 { title: "Welcome 🌟", link: "/", emoji: "🏠" },
@@ -38,91 +56,91 @@ export default {
         };
     },
     methods: {
-        toggleNav() {
-            this.isCollapsed = !this.isCollapsed;
-        },
         handleKeyDown(event) {
             // Check if the key pressed is '['
             if (event.key === '[') {
                 this.toggleNav();
             }
         },
+        toggleNav() {
+            this.isCollapsed = !this.isCollapsed;
+        },
+        updateIsMobile() {
+            // Updates the isMobile property based on the screen width
+            this.isMobile = window.innerWidth <= 768;
+        },
     },
     mounted() {
+        // Initial check for mobile devices
+        this.updateIsMobile();
+        // Listen for window resize to update the mobile state
+        window.addEventListener("resize", this.updateIsMobile);
         // Listen for the '[' key to toggle the navigation
         window.addEventListener('keydown', this.handleKeyDown);
     },
     beforeDestroy() {
+        // Clean up the event listener
+        window.removeEventListener("resize", this.updateIsMobile);
         // Remove the event listener when the component is destroyed
         window.removeEventListener('keydown', this.handleKeyDown);
     },
 };
 </script>
 <style lang="scss" scoped>
+/* Hamburger Menu Button (Mobile Only) */
+.hamburger-btn {
+    display: none;
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 20;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+
+    &:hover {
+        color: #007bff;
+    }
+
+    @media (max-width: 768px) {
+        display: block;
+    }
+}
 
 /* Side Navigation */
 .side-nav {
+    background: white;
+    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
     position: fixed;
     right: 0;
     top: 0;
     height: 100vh;
-    width: 200px;
-    background: white;
-    // border-left: 1px solid #553c9a50;
-    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
-    // box-shadow: -40px 40px 40px 60px rgba(0, 0, 0, 0.75);
-    transition: width 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: $padding-base;
-    // box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
     z-index: 10;
 
+    opacity: 1;
+    visibility: visible;
+
     &.collapsed {
-        width: 60px;
+        opacity: 0;
+        visibility: hidden;
+        transition: width 0.7s ease, opacity 0.7s ease, visibility 0.7s ease;
     }
 
-    .logo {
-        margin-bottom: $spacing-lg;
-        text-align: center;
-        cursor: pointer;
-
-        // img {
-        //     max-width: 100%;
-        //     height: auto;
-        // }
-
-
-        i {
-            font-size: 24px; /* Adjust icon size */
-            color: $dark;    /* Icon color */
-            transition: transform 0.2s ease;
-
-            &:hover {
-                transform: rotate(180deg); /* Optional: adds rotation on hover */
-            }
-        }
+    .button--toggle {
+        display: inline-block;
+        transition: all 0.3s ease;
+        margin: $spacing-lg;
     }
 
-    .is-collapsed {
-        font-size: 24px;
-        transition: transform 0.2s ease;
-
-        span {
-            visibility: hidden;
-        }
-    }
-    &:hover {
-        .is-collapsed {
-        font-size: 24px;
-        transition: transform 0.2s ease;
-
-            span {
-                visibility: visible;
-            }
-        }
-    }
 
     ul {
         list-style: none;
@@ -159,6 +177,29 @@ export default {
                 }
             }
         }
+    }
+}
+
+/* Media Query for Desktop View */
+@media (min-width: 769px) {
+    .side-nav {
+        display: flex;
+        width: 200px;
+
+        &.collapsed {
+            width: 60px;
+            visibility: visible;
+            opacity: 1;
+
+            .button--toggle {
+                margin: 8px;
+                padding: 8px;
+            }
+        }
+    }
+
+    .hamburger-btn {
+        display: none;
     }
 }
 @import "@/styles/vendors/floating-vue.scss";

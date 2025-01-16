@@ -1,8 +1,12 @@
 @import "variables.scss";
-@import "global.scss";
 @import "responsive.scss";
+@import "global.scss";
 @import "base/index.scss";
 
-body {
+body,
+main,
+#app {
     margin: 0;
+    max-width: 100dvw;
+    overflow: hidden;
 }

@@ -1,6 +1,7 @@
 <template>
   <div class="home page page--home">
     <section id="hello" class="section--welcome">
+      <div class="shade--grayish-red"></div>
       <div class="hero-content">
 
         <div class="hero-image">
@@ -20,7 +21,7 @@
         ↓
       </a>
     </section>
-
+    
       <!-- Portfolio Projects -->
       <section id="portfolio" class="section--projects">
         <div class="project" v-for="project in projects" :key="project.id">
@@ -79,7 +80,7 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     height: 100vh;
-    @include gradient-background($lavender, white);
+    // @include gradient-background($lavender, white);
     // padding: 2rem;
    
     .hero-content {
@@ -96,7 +97,7 @@ export default {
       }
       .hero-text {
         text-align: justify;
-        max-width: 70%;
+        max-width: 70dvw;
         position: relative;
       }
     }

@@ -1,0 +1,72 @@
+
+
+/**
+* REUSABLE BUTTTONS
+*/
+
+.button {
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 8px 16px;
+    &--primary {
+        // background: linear-gradient(165deg, $white, $grayish-red, $lavender);
+        background: rgba(215, 189, 193, 0.75); // grayish-red
+        box-shadow: 4px 4px 8px rgba(215, 189, 193, 0.1), 4px 4px 2px #ffffff;
+        border: none;
+        // color: $dark;   
+    }
+    &--secondary {}
+
+    /* Confetti */
+    &--confetti {
+        position: relative;
+        transition: all 0.2s ease;
+
+        &:active {
+            transform: scale(0.96);
+        }
+
+        &:before,
+        &:after {
+            position: absolute;
+            content: "";
+            width: 150%;
+            left: 50%;
+            height: 100%;
+            transform: translateX(-50%);
+            // z-index: -1000;
+            background-repeat: no-repeat;
+        }
+
+        &:hover:before {
+            top: -70%;
+            background-image: radial-gradient(circle, $grayish-red 20%, transparent 20%),
+                radial-gradient(circle, transparent 20%, $grayish-red 20%, transparent 30%),
+                radial-gradient(circle, $grayish-red 20%, transparent 20%),
+                radial-gradient(circle, $grayish-red 20%, transparent 20%),
+                radial-gradient(circle, transparent 10%, $grayish-red 15%, transparent 20%),
+                radial-gradient(circle, $grayish-red 20%, transparent 20%),
+                radial-gradient(circle, $grayish-red 20%, transparent 20%),
+                radial-gradient(circle, $grayish-red 20%, transparent 20%),
+                radial-gradient(circle, $grayish-red 20%, transparent 20%);
+            background-size: 10% 10%, 20% 20%, 15% 15%, 20% 20%, 18% 18%, 10% 10%, 15% 15%,
+                10% 10%, 18% 18%;
+            background-position: 50% 120%;
+            animation: fireBefore 0.8s ease;
+        }
+
+        &:hover::after {
+            bottom: -70%;
+            background-image: radial-gradient(circle, $grayish-red 20%, transparent 20%),
+                radial-gradient(circle, $grayish-red 20%, transparent 20%),
+                radial-gradient(circle, transparent 10%, $grayish-red 15%, transparent 20%),
+                radial-gradient(circle, $grayish-red 20%, transparent 20%),
+                radial-gradient(circle, $grayish-red 20%, transparent 20%),
+                radial-gradient(circle, $grayish-red 20%, transparent 20%),
+                radial-gradient(circle, $grayish-red 20%, transparent 20%);
+            background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 20% 20%, 18% 18%;
+            background-position: 50% 0%;
+            animation: fireAfter 0.8s ease;
+        }
+    }
+}

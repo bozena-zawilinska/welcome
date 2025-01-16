@@ -21,7 +21,7 @@ export default {
 <style lang="scss">
 
 :focus {
-  outline: 2px solid #ff9900;
+  outline: 2px solid $dark;
   /* Custom focus styling */
 }
 

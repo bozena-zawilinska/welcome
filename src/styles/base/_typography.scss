@@ -19,10 +19,10 @@ h6,
     font-family: "Abril Fatface", serif;
     text-transform: uppercase;
     letter-spacing: 0.2rem;
-    background-image: radial-gradient(#553c9a, $lavender);
-    color: transparent;
-    background-clip: text;
-    -webkit-background-clip: text;
+    // background-image: radial-gradient($lavender, $dark);
+    // color: transparent;
+    // background-clip: text;
+    // -webkit-background-clip: text;
 
     // ::after {
     //     content: "";
@@ -32,4 +32,11 @@ h6,
     //     background-image: linear-gradient(to left, #553c9a, #b393d3);
     //     margin: -4px auto auto;
     // }
+}
+
+.button {
+    font-family: "Poppins", serif;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    font-weight: 700;
 }
