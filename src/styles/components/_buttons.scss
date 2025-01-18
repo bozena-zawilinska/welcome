@@ -1,6 +1,6 @@
 
 
-/**
+/*
 * REUSABLE BUTTTONS
 */
 
@@ -10,10 +10,9 @@
     padding: 8px 16px;
     &--primary {
         // background: linear-gradient(165deg, $white, $grayish-red, $lavender);
-        background: rgba(215, 189, 193, 0.75); // grayish-red
+        background: rgba(209, 160, 216, 0.75); // wisteria
         box-shadow: 4px 4px 8px rgba(215, 189, 193, 0.1), 4px 4px 2px #ffffff;
         border: none;
-        // color: $dark;   
     }
     &--secondary {}
 

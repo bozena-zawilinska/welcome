@@ -11,9 +11,13 @@
         Over the years, I've refined my skills in front-end development, WordPress, and performance optimisation.
         My mission is to deliver inclusive, fast, and impactful web solutions.
       </p>
-      <button class="button button--primary button--confetti" @click="navigateToWork">View My Work</button>
+      <a class="link-underline" href="/work">
+        View My Work
+        <i class="fa fa-arrow-right"></i>
+      </a>
+      <!-- <button class="button button--primary button--confetti" @click="navigateToWork">View My Work</button> -->
     </div>
-    <div class="shade--grayish-cyan"></div>
+    <div class="shade--lavender"></div>
   </section>
 </template>
 

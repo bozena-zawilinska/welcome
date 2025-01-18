@@ -1,22 +1,51 @@
-// Colour Palette
+/*
+* COLOR PALETTE
+*/
+
+// Backgrounds
 $white: #ffffff;
 $lavender: #b5a0d8;
+$wisteria: #d1a0d8;
+$blue-bell: #a0a7d8;
+
+// Old - remove?
 $grayish-red: #d7bdc1;
 $grayish-blue: #bdced7;
 $green-white: #fafcfc; // Used for .container and tooltip background
 $grayish-cyan: #bdd7d3;
 $sage: #9ab89e;
 $rosemary: #47756e;
-$dark: #362d45;
+
+// Text
+$font-dark: #362d45;
+$font-grey: #626f89;
 $dark-gunmetal: #333e61; // Used for side nav background and tooltip text
 
 // Gradients
 $green-background: linear-gradient(135deg, $green-white, $grayish-cyan, $grayish-blue);
 
 // Font Sizes
-$font-small: 14px;
-$font-base: 16px;
-$font-large: 24px;
+$font-size-small: 0.833rem;
+$font-size-small-mobile: 0.833rem;
+
+$font-size-base: 1rem;
+$font-size-base-mobile: 1rem;
+
+$font-size-heading: 2.488rem;
+$font-size-heading-mobile: 1.802rem;
+
+$font-size-subheading: 2.074rem;
+$font-size-subheading-mobile: 1.602rem;
+
+$font-size-h3: 1.728rem;
+$font-size-h3-mobile: 1.424rem;
+
+$font-size-h4: 1.44rem;
+$font-size-h4-mobile: 1.266rem;
+
+$font-size-h5: 1.2rem;
+$font-size-h5-mobile: 1.1rem;
+
 
 // Box Shadows
 $box-shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.15);

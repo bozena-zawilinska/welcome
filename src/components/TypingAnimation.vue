@@ -1,7 +1,7 @@
 <template>
   <div class="typing">
     <component :is="wrapperElement">{{ displayedText }}</component>
-    <span class="cursor">|</span>
+    <span :class="['cursor', customCursorClass]"   v-show="isTyping">|</span>
   </div>
 </template>
 
@@ -9,6 +9,14 @@
 export default {
   name: "TypingAnimation",
   props: {
+    customCursorClass: {
+      type: String,
+      default: "",  // Default cursor size
+    },
+    startDelay: {
+      type: Number,
+      default: 0, // Delay before the animation starts in ms
+    },
     text: {
       type: String,
       required: true,
@@ -30,17 +38,26 @@ export default {
     return {
       displayedText: "",
       index: 0,
+      isTyping: false,
     };
   },
   mounted() {
-    this.startTyping();
+    console.log("Start delay:", this.startDelay);
+    setTimeout(() => {
+      this.startTyping();
+    }, this.startDelay);
   },
   methods: {
     startTyping() {
+      this.isTyping = true; // Start showing the cursor
       if (this.index < this.text.length) {
         this.displayedText += this.text[this.index];
         this.index++;
         setTimeout(this.startTyping, this.speed);
+      } else {
+        this.isTyping = false; // Stop showing the cursor
+        this.$emit("typingFinished", this.text.length * this.speed); // Emit total duration
+        console.log("Typing finished event emitted. Duration:", this.text.length * this.speed);
       }
     },
   },

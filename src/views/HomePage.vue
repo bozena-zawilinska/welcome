@@ -1,19 +1,28 @@
 <template>
   <div class="home page page--home">
     <section id="hello" class="section--welcome">
-      <div class="shade--grayish-red"></div>
+      <div class="shade--wisteria"></div>
       <div class="hero-content">
 
         <div class="hero-image">
-            <img src="@/assets/avatar.png" alt="Bozena's avatar" />
+            <img src="@/assets/avatar-bz-2.png" alt="Bozena's avatar" />
         </div>
         <div class="hero-text container">
-         <TypingAnimation class="header animated-heading" text="Hello! I'm Bozena. 👋" :speed="100" wrapperElement="h1" />
-          <p class="description">
-            A multidisciplinary <span>developer</span> and <span>designer</span>
-            <span class="smaller-text">(sometimes)</span> with a passion for
-            creating engaging, entertaining user experiences. ✨
-          </p>
+         <TypingAnimation
+          class="header animated-heading"
+          text="Hello, I'm Bozena!"
+          :speed="100"
+          wrapperElement="h1"
+          customCursorClass="heading"
+          @typingFinished="onFirstAnimationFinished"
+        />
+        <TypingAnimation 
+          class="description animated-heading"
+          text="A multidisciplinary developer with a passion for creating engaging, entertaining user experiences. ✨"
+          :startDelay="2000"
+          :speed="100"
+          wrapperElement="p"
+        />
         </div>
       </div>
       <!-- Scroll Arrow -->
@@ -71,6 +80,17 @@ export default {
     // HelloWorld,
     TypingAnimation,
   },
+  data() {
+    return {
+      secondAnimationDelay: 0, // Dynamic delay for the second animation
+    };
+  },
+  methods: {
+    onFirstAnimationFinished(totalDuration) {
+      console.log("First animation finished. Total duration:", totalDuration);
+      this.secondAnimationDelay = totalDuration; // Update delay for the second animation
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
@@ -79,15 +99,32 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100vh;
-    // @include gradient-background($lavender, white);
-    // padding: 2rem;
+    position: relative;
+
+      height: 90dvh;
+      @include breakpoint-up(md) {
+         height: 95dvh;
+      }
    
     .hero-content {
       display: flex;
       align-items: center;
+      flex: 1 1 50%;
+      flex-direction: column-reverse;
+      margin-top: $spacing-lg * 2;
+      // height: 90dvh;
+      h1 {
+        ::v-deep .typing .cursor {
+          height: $font-size-heading !important; // Use more specificity with the class
+        }
+      }
+      
+
+      @include breakpoint-up(md) {
+        flex-direction: row;
+      }
+
       .hero-image {
-        max-width: 25%;
         img {
           aspect-ratio: 9/16;
           object-fit: scale-down;
@@ -96,9 +133,13 @@ export default {
         }
       }
       .hero-text {
-        text-align: justify;
-        max-width: 70dvw;
+        text-align: left;
         position: relative;
+        width: 80%;
+        
+        @include breakpoint-up(lg) {
+          width: 100%;
+        }
       }
     }
   }
@@ -110,7 +151,7 @@ export default {
   text-align: center;
   font-size: 2rem;
   text-decoration: none;
-  color: $dark;
+  color: $font-dark !important;
   animation: bounce 2s infinite;
   transition: transform 0.3s;
 

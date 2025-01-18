@@ -30,7 +30,9 @@
                     v-bind:title="isCollapsed && hoverItem === index ? item.title : ''" 
                     v-tooltip="isCollapsed && hoverItem === index ? item.title : ''"
                 >
-                    <a :href="item.link">
+                    <a 
+                        :href="item.link"
+                    >
                         <span class="emoji">{{ item.emoji }}</span>
                         <span v-if="!isCollapsed" class="title">{{ item.title }}</span>
                     </a>
@@ -48,10 +50,14 @@ export default {
             isMobile: false,   // tracks if the device is mobile
             hoverItem: null,   // tracks hovered item
             menuItems: [
-                { title: "Welcome 🌟", link: "/", emoji: "🏠" },
-                { title: "About Me 💡", link: "/about", emoji: "👤" },
-                { title: "Portfolio 🚀", link: "/work", emoji: "🎨" },
-                { title: "Get in Touch 📬", link: "/contact", emoji: "✉️" },
+                { title: "Welcome", link: "/", emoji: "🏠" },
+                { title: "About Me", link: "/about", emoji: "👤" },
+                { title: "Portfolio", link: "/work", emoji: "🎨" },
+                { title: "Get in Touch", link: "/contact", emoji: "✉️" },
+                // { title: "Welcome 🌟", link: "/", emoji: "🏠" },
+                // { title: "About Me 💡", link: "/about", emoji: "👤" },
+                // { title: "Portfolio 🚀", link: "/work", emoji: "🎨" },
+                // { title: "Get in Touch 📬", link: "/contact", emoji: "✉️" },
             ],
         };
     },
@@ -148,7 +154,9 @@ export default {
         margin: 0;
 
         .nav-item {
-            margin: $spacing-sm 0;
+            font-size: $font-size-small;
+            font-weight: 600;
+            // margin: $spacing-sm 0;
             text-align: center;
 
             a {
@@ -156,7 +164,8 @@ export default {
                 align-items: center;
                 justify-content: flex-start;
                 // color: $white;
-                text-decoration: none;
+                // text-decoration: none;
+                margin: $spacing-sm;
                 padding: $spacing-sm;
                 border-radius: 8px;
                 transition: background $transition;
@@ -166,14 +175,8 @@ export default {
                 }
 
                 .emoji {
-                    font-size: $font-large;
-                    margin-right: $spacing-sm;
+                    margin-right: $spacing-xs;
                     transition: transform 0.2s ease;
-                }
-                
-                .title {
-                    font-size: $font-base;
-                    font-weight: 600;
                 }
             }
         }
@@ -187,12 +190,12 @@ export default {
         width: 200px;
 
         &.collapsed {
-            width: 60px;
+            width: 80px;
             visibility: visible;
             opacity: 1;
 
             .button--toggle {
-                margin: 8px;
+                margin: $spacing-lg $spacing-xs;
                 padding: 8px;
             }
         }

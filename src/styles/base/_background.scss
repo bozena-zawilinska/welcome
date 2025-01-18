@@ -1,0 +1,86 @@
+/* 
+* SHADES & BACKGROUNDS 
+*/
+.shade--wisteria {
+    position: absolute;
+    width: 75vw;
+    height: 75vw;
+    border-radius: 75vw;
+    background: rgba(209, 160, 216, 0.7); // wisteria
+    filter: blur(300px);
+    transform: translate3d(0, 0, 0);
+    z-index: -1;
+    pointer-events: none;
+
+    left: -25vw;
+    top: -25vw;
+
+    @include breakpoint-up(sm) {}
+
+    @include breakpoint-up(md) {}
+
+    @include breakpoint-up(lg) {}
+
+    @include breakpoint-up(xl) {
+        left: -40vw;
+        top: -40vw;
+    }
+}
+
+.shade--lavender {
+    position: absolute;
+    width: 50vw;
+    height: 80vw;
+    border-radius: 75vw;
+    background: rgba(181, 160, 216); // lavender
+    filter: blur(200px);
+    transform: translate3d(0, 0, 0);
+    z-index: -1;
+    pointer-events: none;
+
+    bottom: -15vw;
+    right: 0;
+
+    @include breakpoint-up(sm) {
+        bottom: -50vw;
+        right: -25vw;
+    }
+
+    @include breakpoint-up(md) {}
+
+    @include breakpoint-up(lg) {}
+
+    @include breakpoint-up(xl) {
+        right: -30vw;
+        bottom: -60vw;
+    }
+}
+
+.shade--blue-bell {
+    position: absolute;
+    width: 50vw;
+    height: 80vw;
+    border-radius: 75vw;
+    background: rgba(160, 167, 216); // blue-bell
+    filter: blur(200px);
+    transform: translate3d(0, 0, 0);
+    z-index: -1;
+    pointer-events: none;
+
+    bottom: -15vw;
+    right: 0;
+
+    @include breakpoint-up(sm) {
+        bottom: -50vw;
+        right: -25vw;
+    }
+
+    @include breakpoint-up(md) {}
+
+    @include breakpoint-up(lg) {}
+
+    @include breakpoint-up(xl) {
+        right: -30vw;
+        bottom: -60vw;
+    }
+}
