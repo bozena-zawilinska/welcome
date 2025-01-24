@@ -18,7 +18,7 @@
         />
         <TypingAnimation 
           class="description animated-heading"
-          text="A multidisciplinary developer with a passion for creating engaging, entertaining user experiences. ✨"
+          text="A passionate Front-end and Website Developer with a knack for building web experiences that are not only visually captivating but also optimized for accessibility and performance. 🚀"
           :startDelay="2000"
           :speed="100"
           wrapperElement="p"
