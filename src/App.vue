@@ -1,8 +1,8 @@
 <template>
-  <div id="app">
+  <div class="app__container">
     <a href="#main-content" class="skip-link">Skip to content</a>
     <SideNav />
-    <main id="main-content">
+    <main id="main-content" class="main__container">
       <router-view />
     </main>
   </div>

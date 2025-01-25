@@ -7,10 +7,17 @@
 * GLOBAL CLASSES
 */
 .page {
-    padding: 0 $padding-large;
+    // padding: 0 $padding-large;
+    max-width: 90dvw;
+    margin: auto;
 
     @include breakpoint-up(md) {
         padding-right: $padding-large * 4 ;
+        max-width: 80dvw;
+        margin: auto;
+    }
+    @include breakpoint-up(lg) {
+        max-width: 80dvw;
     }
 }
 

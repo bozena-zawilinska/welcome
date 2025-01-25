@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="side-nav__container">
         <!-- Hamburger Icon (Only visible on mobile) -->
         <button class="hamburger-btn" @click="toggleNav" v-if="isCollapsed">
             <i class="fas fa-bars"></i>
@@ -93,6 +93,21 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.side-nav__container {
+    background: white;
+    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    position: fixed;
+    height: 24px;
+    padding: 16px 0;
+    z-index: 1;
+    @include breakpoint-up(md) {
+        background: none;
+        height: 0;
+        padding: 0;
+        width: 0;
+    }
+}
 /* Hamburger Menu Button (Mobile Only) */
 .hamburger-btn {
     display: none;
@@ -184,7 +199,7 @@ export default {
 }
 
 /* Media Query for Desktop View */
-@media (min-width: 769px) {
+@include breakpoint-up(md) {
     .side-nav {
         display: flex;
         width: 200px;
