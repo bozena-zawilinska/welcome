@@ -28,61 +28,53 @@
 
         <section class="work__portfolio">
             <h2 class="work__heading">Featured Projects</h2>
-            <!-- {{ projects }} -->
+            
             <div class="bento-grid">
                 <div v-for="project in projects" :key="project.id" :id="`row-${project.id}`" class="row" >
-                    <div class="col col-1">
-                        <!-- Card 1: Project -->
-                        <article class="bento__card project">
+                    
+                    <div class="col col-1-1-1">
                         <header class="project__header">
-                            <img class="project__logo" :src="project.logo" :alt="`${project.title} logo`" />
-                            <p class="project__title text--supporting">{{ project.title }}</p>
-                            <div class="dropdown" @click.stop="toggleDropdown(project.id)">
-                                <button class="dropdown__toggle">⋮</button>
-                                <ul v-if="project.showDropdown" class="dropdown__menu">
-                                    <li><a :href="project.link" target="_blank" rel="noopener">View Project</a></li>
-                                </ul>
-                            </div>
-
+                            <img class="project__logo" :src="getProjectPath(project.logo)" :alt="`${project.title} logo`" />
+                            <h3 class="project__title text--supporting">{{ project.title }}</h3>
                         </header>
-                        <img v-if="project.images[0]" class="project__image" :src="project.images[0].src" :alt="project.images[0].alt" />
-                        <div class="project__content">
-                            <p class="project__description">{{ project.description }}</p>
-                        </div>
-                        <footer class="project__footer">
-                            <span class="project__footer-text">I built this website for:</span>
-                            <!-- <span class="project__client">{{ project.title }}</span> -->
-                        </footer>
-                        </article>
-                    </div>
-                    <div class="col col-4">
-                        
-                        <!-- Card 2: Tools -->
-                        <article class="bento__card tools">
-                        <h4 class="tools__heading">Tools Used</h4>
-                        <div class="tools__logos">
-                            <img v-for="tool in project.tools" :src="tool.src" :alt="tool.alt" :key="tool.alt" class="tools__logo" />
-                        </div>
-                        </article>
-
-                        <!-- Card 4: Image -->
-                        <article class="bento__card image">
-                        <img v-if="project.images[1]" :src="project.images[1].src" :alt="project.images[1].alt" />
-                        </article>
 
                         <!-- Card 5: Image -->
-                        <article class="bento__card image">
-                        <img v-if="project.images[2]" :src="project.images[2].src" :alt="project.images[2].alt" />
+                        <div class="bento__card image no-padding">
+                            <img v-if="project.images[0]" class="project__image" :src="getProjectPath(project.images[0].src)" :alt="project.images[0].alt" />
+                            <!-- <img v-if="project.images[2]" :src="project.images[2].src" :alt="project.images[2].alt" /> -->
+                        </div>
+                        <!-- Card 2: Project -->
+                        <article class="bento__card project">
+                            <p class="project__description">{{ project.description }}</p>
+                                    <a class="button button--primary" :href="project.link" target="_blank" rel="noopener noreferrer">
+                                        <span class="project__footer-text">Visit website </span>
+                                        <font-awesome-icon icon="arrow-up-right-from-square" />
+                                    </a>
                         </article>
-
-                        <!-- Card 3: Skills -->
-                        <article class="bento__card skills">
-                        <h4 class="skills__heading">Skills Used</h4>
-                        <ul class="skills__tags text--small">
-                            <li v-for="skill in project.skills" :key="skill" class="skills__tag">{{ skill }}</li>
-                        </ul>
-                        </article>
-                        
+                    </div>
+                    <div class="col col-1-1-2">
+                        <div></div>
+                        <div class="group-cards">
+                            <!-- Card 3: Skills -->
+                            <div class="bento__card skills">
+                                <h4 class="skills__heading">Skills Used</h4>
+                                <ul class="skills__tags text--small">
+                                    <li v-for="skill in project.skills" :key="skill" class="skills__tag">{{ skill }}</li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Card 2: Tools -->
+                            <div class="bento__card tools">
+                                <h4 class="tools__heading">Tools Used</h4>
+                                <ul class="skills__tags text--small">
+                                    <li v-for="tool in project.tools" :key="tool" class="skills__tag">{{ tool }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="bento__card no-bg no-padding">
+                            <img v-if="project.images[0]" class="project__image" :src="getProjectPath(project.images[0].src)" :alt="project.images[0].alt" />
+                            <!-- <img v-if="project.images[1]" class="project__image" :src="getProjectPath(project.images[1].src)" :alt="project.images[1].alt" /> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -135,6 +127,7 @@
 </template>
 
 <script>
+// import * from "@/assets/projects/";
 export default {
     name: "ProjectsShowcase",
     data() {
@@ -142,80 +135,54 @@ export default {
             projects: [
                 {
                     id: 1,
-                    title: "ProdPad",
-                    logo: "@/assets/prodpad-1.jpg",
+                    title: "ProdPad - SaaS Platform",
+                    logo: "prodpad/logo.png",
                     showDropdown: false,
-                    description: "SaaS product for product teams to build flexible roadmaps and manage backlogs.",
+                    description: "ProdPad is a product management platform that helps teams build products that solve problems and drive outcomes. It offers features like roadmap, idea management, and feedback software to help teams work faster and communicate better. ProdPad emphasizes stakeholder communication, goal management, AI assistance, and organization-wide collaboration to help teams achieve their product goals.",
                     goals: "Enhance the UI/UX of the SaaS platform, bugfixes and pixel perfect new features builded with accessibility in mind. Components created for reusability to prepare the platform for growth.",
                     role: "Front-end developer using Vue 3.",
                     outcome: "Improved user experience and WCAG 2.2 AA compliant platform.",
                     link: "https://www.prodpad.com/",
-                    skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
+                    skills: ["Vue.js", "HTML", "SCSS", "RESTful APIs & Fetching Data", "JavaScript"],
+                    tools: ["Git/GitHub", "npm", "Vite", "DevTools", "VS Code"],
                     images: [
                         {
-                            src: "/assets/prodpad-1.jpg",
+                            src: "prodpad/prodpad-website.png",
                             alt: "ProdPad Dashboard",
                         },
                         {
-                            src: "/assets/prodpad-2.jpg",
+                            src: "prodpad/website-1.png",
                             alt: "ProdPad Roadmap",
                         },
                         {
-                            src: "/assets/prodpad-3.jpg",
-                            alt: "ProdPad Backlog",
-                        },
-                    ],
-                    tools: [
-                        {
-                            src: "/assets/prodpad-1.jpg",
-                            alt: "ProdPad Dashboard",
-                        },
-                        {
-                            src: "/assets/prodpad-2.jpg",
-                            alt: "ProdPad Roadmap",
-                        },
-                        {
-                            src: "/assets/prodpad-3.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Backlog",
                         },
                     ],
                 },
                 {
                     id: 2,
-                    title: "ProdPad",
-                    logo: "/assets/prodpad-1.jpg",
+                    title: "ProdPad - Marketing Website",
+                    logo: "prodpad/logo.png",
                     showDropdown: false,
-                    description: "Marketing website.",
+                    description: "Marketing website built on a custom WordPress template, allowing the marketing team to create engaging content with ease. Using bespoke Gutenberg blocks, it delivers a smooth user experience while showcasing key features like roadmaps, idea management, and feedback collection. As the sole web developer on this project, I crafted a dynamic, user-friendly site that effectively communicates the brand’s strengths.",
                     goals: "Build bespoke pixel perfect website with responsive Gutenberg blocks, templates and plugins for CPT.",
                     role: "WordPress developer",
                     outcome: "Improved user experience and achieved near-perfect PageSpeed Insights scores.",
                     link: "https://www.prodpad.com/",
-                    skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
+                    skills: ["PHP", "HTML", "SCSS", "JavaScript", "Webpack", "Website Performance"],
+                    tools: ["WordPress CMS", "ACF PRO", "WP Engine", "VS Code", "GitHub"],
                     images: [
                         {
-                            src: "/assets/prodpad-1.jpg",
+                            src: "prodpad/prodpad-website.png",
                             alt: "ProdPad Dashboard",
                         },
                         {
-                            src: "/assets/prodpad-2.jpg",
+                            src: "prodpad/website-1.png",
                             alt: "ProdPad Roadmap",
                         },
                         {
-                            src: "/assets/prodpad-3.jpg",
-                            alt: "ProdPad Backlog",
-                        },
-                    ],
-                    tools: [
-                        {
-                            src: "/assets/prodpad-1.jpg",
-                            alt: "ProdPad Dashboard",
-                        },
-                        {
-                            src: "/assets/prodpad-2.jpg",
-                            alt: "ProdPad Roadmap",
-                        },
-                        {
-                            src: "/assets/prodpad-3.jpg",
+                            src: "prodpad/website-2.png",
                             alt: "ProdPad Backlog",
                         },
                     ],
@@ -223,7 +190,7 @@ export default {
                 {
                     id: 3,
                     title: "Passion4Social",
-                    logo: "/assets/prodpad-1.jpg",
+                    logo: "p4s/logo.png",
                     showDropdown: false,
                     description: "Website for a creative agency focused on building accessible and visually engaging websites for non-profits.",
                     goals: "Create bespoke WordPress websites that meet WCAG accessibility guidelines.",
@@ -233,37 +200,24 @@ export default {
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
                     images: [
                         {
-                            src: "/assets/prodpad-1.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Dashboard",
                         },
                         {
-                            src: "/assets/prodpad-2.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Roadmap",
                         },
                         {
-                            src: "/assets/prodpad-3.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Backlog",
                         },
                     ],
-                    tools: [
-                        {
-                            src: "/assets/prodpad-1.jpg",
-                            alt: "ProdPad Dashboard",
-                        },
-                        {
-                            src: "/assets/prodpad-2.jpg",
-                            alt: "ProdPad Roadmap",
-                        },
-                        {
-                            src: "/assets/prodpad-3.jpg",
-                            alt: "ProdPad Backlog",
-                        },
-                    ],
+                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                 },
                 {
                     id: 4,
                     title: "Royal Hospital for Children and Young People",
-                    logo: "/assets/prodpad-1.jpg",
+                    logo: "nhs/logo.svg",
                     showDropdown: false,
                     description: "Informational Website for Children hospital in Edinburgh containing helpful information for young patients and their parents.",
                     goals: "Create an engagening and colorful website with well organised sections and a search feature to easily find information.",
@@ -273,37 +227,24 @@ export default {
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
                     images: [
                         {
-                            src: "/assets/prodpad-1.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Dashboard",
                         },
                         {
-                            src: "/assets/prodpad-2.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Roadmap",
                         },
                         {
-                            src: "/assets/prodpad-3.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Backlog",
                         },
                     ],
-                    tools: [
-                        {
-                            src: "/assets/prodpad-1.jpg",
-                            alt: "ProdPad Dashboard",
-                        },
-                        {
-                            src: "/assets/prodpad-2.jpg",
-                            alt: "ProdPad Roadmap",
-                        },
-                        {
-                            src: "/assets/prodpad-3.jpg",
-                            alt: "ProdPad Backlog",
-                        },
-                    ],
+                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                 },
                 {
                     id: 5,
                     title: "Just Enterprise",
-                    logo: "/assets/prodpad-1.jpg",
+                    logo: "just-enterprise/logo.png",
                     showDropdown: false,
                     description: "Website for a Business Support for Social Enterprises in Scotland.",
                     goals: "Provide an accessible and responsive website for patients and families to easily find information.",
@@ -313,37 +254,24 @@ export default {
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
                     images: [
                         {
-                            src: "/assets/prodpad-1.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Dashboard",
                         },
                         {
-                            src: "/assets/prodpad-2.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Roadmap",
                         },
                         {
-                            src: "/assets/prodpad-3.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Backlog",
                         },
                     ],
-                    tools: [
-                        {
-                            src: "/assets/prodpad-1.jpg",
-                            alt: "ProdPad Dashboard",
-                        },
-                        {
-                            src: "/assets/prodpad-2.jpg",
-                            alt: "ProdPad Roadmap",
-                        },
-                        {
-                            src: "/assets/prodpad-3.jpg",
-                            alt: "ProdPad Backlog",
-                        },
-                    ],
+                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                 },
                 {
                     id: 6,
                     title: "Cerebral Palsy Scotland",
-                    logo: "/assets/prodpad-1.jpg",
+                    logo: "cps/logo.svg",
                     showDropdown: false,
                     description: "Non-profit organization supporting people with cerebral palsy in building skills and confidence.",
                     goals: "Create a responsive and accessible website to increase resource availability and user engagement.",
@@ -353,37 +281,24 @@ export default {
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
                     images: [
                         {
-                            src: "/assets/prodpad-1.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Dashboard",
                         },
                         {
-                            src: "/assets/prodpad-2.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Roadmap",
                         },
                         {
-                            src: "/assets/prodpad-3.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Backlog",
                         },
                     ],
-                    tools: [
-                        {
-                            src: "/assets/prodpad-1.jpg",
-                            alt: "ProdPad Dashboard",
-                        },
-                        {
-                            src: "/assets/prodpad-2.jpg",
-                            alt: "ProdPad Roadmap",
-                        },
-                        {
-                            src: "/assets/prodpad-3.jpg",
-                            alt: "ProdPad Backlog",
-                        },
-                    ],
+                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                 },
                 {
                     id: 7,
                     title: "Bytzari",
-                    logo: "/assets/prodpad-1.jpg",
+                    logo: "tzari/logo.svg",
                     showDropdown: false,
                     description: "E-commerce platform for sustainable, ethical, and purposeful bespoke clothing.",
                     goals: "Develop a visually stunning and highly functional e-commerce platform.",
@@ -393,37 +308,24 @@ export default {
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
                     images: [
                         {
-                            src: "/assets/prodpad-1.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Dashboard",
                         },
                         {
-                            src: "/assets/prodpad-2.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Roadmap",
                         },
                         {
-                            src: "/assets/prodpad-3.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Backlog",
                         },
                     ],
-                    tools: [
-                        {
-                            src: "/assets/prodpad-1.jpg",
-                            alt: "ProdPad Dashboard",
-                        },
-                        {
-                            src: "/assets/prodpad-2.jpg",
-                            alt: "ProdPad Roadmap",
-                        },
-                        {
-                            src: "/assets/prodpad-3.jpg",
-                            alt: "ProdPad Backlog",
-                        },
-                    ],
+                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                 },
                 {
                     id: 8,
                     title: "ABZ Works",
-                    logo: "/assets/prodpad-1.jpg",
+                    logo: "abz-works/logo.svg",
                     showDropdown: false,
                     description: "Website for Aberdeen City Council's employability team to support skills and training.",
                     goals: "Deliver an accessible platform to provide employment resources and training information.",
@@ -433,37 +335,24 @@ export default {
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
                     images: [
                         {
-                            src: "/assets/prodpad-1.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Dashboard",
                         },
                         {
-                            src: "/assets/prodpad-2.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Roadmap",
                         },
                         {
-                            src: "/assets/prodpad-3.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Backlog",
                         },
                     ],
-                    tools: [
-                        {
-                            src: "/assets/prodpad-1.jpg",
-                            alt: "ProdPad Dashboard",
-                        },
-                        {
-                            src: "/assets/prodpad-2.jpg",
-                            alt: "ProdPad Roadmap",
-                        },
-                        {
-                            src: "/assets/prodpad-3.jpg",
-                            alt: "ProdPad Backlog",
-                        },
-                    ],
+                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                 },
                 {
                     id: 9,
                     title: "Environmental Key Fund",
-                    logo: "/assets/prodpad-1.jpg",
+                    logo: "ekf/logo.svg",
                     showDropdown: false,
                     description: "Grant platform for North Lanarkshire focused on environmental initiatives.",
                     goals: "Design a user-friendly and responsive site to simplify grant applications.",
@@ -473,72 +362,46 @@ export default {
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
                     images: [
                         {
-                            src: "/assets/prodpad-1.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Dashboard",
                         },
                         {
-                            src: "/assets/prodpad-2.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Roadmap",
                         },
                         {
-                            src: "/assets/prodpad-3.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Backlog",
                         },
                     ],
-                    tools: [
-                        {
-                            src: "/assets/prodpad-1.jpg",
-                            alt: "ProdPad Dashboard",
-                        },
-                        {
-                            src: "/assets/prodpad-2.jpg",
-                            alt: "ProdPad Roadmap",
-                        },
-                        {
-                            src: "/assets/prodpad-3.jpg",
-                            alt: "ProdPad Backlog",
-                        },
-                    ],
+                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                 },
                 {
                     id: 10,
                     title: "Scottish Communities Finance",
-                    logo: "/assets/prodpad-1.jpg",
+                    logo: "scf/logo.svg",
                     showDropdown: false,
                     description: "Website enabling reinvestment into local Scottish communities.",
                     goals: "Develop an accessible and responsive platform to encourage community funding initiatives.",
-                    role: "Front-end developer focusing on performance and accessibility.",
+                    role: "I developed the ScotCom Finance website using the WordPress Genesis Framework, creating custom page templates tailored to the client’s needs. I utilized Advanced Custom Fields (ACF) to build flexible content fields and leveraged Genesis hooks and WordPress widgets to position custom elements efficiently.",
                     outcome: "Improved community engagement and funding participation.",
                     link: "https://scotcomfinance.scot/",
-                    skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
+                    skills: ["HTML", "CSS", "PHP", "WordPress", "Genesis Framework", "ACF"],
                     images: [
                         {
-                            src: "/assets/prodpad-1.jpg",
-                            alt: "ProdPad Dashboard",
+                            src: "scf/website-1.png",
+                            alt: "Scottish Communities Finance Website",
                         },
                         {
-                            src: "/assets/prodpad-2.jpg",
-                            alt: "ProdPad Roadmap",
+                            src: "scf/website.png",
+                            alt: "SCF Hooks",
                         },
                         {
-                            src: "/assets/prodpad-3.jpg",
+                            src: "scf/website.png",
                             alt: "ProdPad Backlog",
                         },
                     ],
-                    tools: [
-                        {
-                            src: "/assets/prodpad-1.jpg",
-                            alt: "ProdPad Dashboard",
-                        },
-                        {
-                            src: "/assets/prodpad-2.jpg",
-                            alt: "ProdPad Roadmap",
-                        },
-                        {
-                            src: "/assets/prodpad-3.jpg",
-                            alt: "ProdPad Backlog",
-                        },
-                    ],
+                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                 },
             ],
             skills: [
@@ -578,6 +441,9 @@ export default {
         };
     },
     methods: {
+        getProjectPath(project) {
+            return require(`@/assets/projects/${project}`);
+        },
         toggleDropdown(id) {
             this.projects.forEach((project) => {
                 project.showDropdown = project.id === id ? !project.showDropdown : false;
@@ -599,6 +465,11 @@ export default {
         gap: 1.5rem;
         flex-direction: column;
 
+        background-color: $green-white;
+        border-radius: 12px;
+        overflow: hidden;
+        padding: $padding-large;
+
         @include breakpoint-up(md) {
             flex-direction: row;
         }
@@ -613,11 +484,62 @@ export default {
             grid-template-columns: 1fr;
         }
 
+        .col-1-1 {
+            grid-template-rows: auto auto;
+            grid-template-columns: 1fr;
+        }
+
+        .col-1-1-1 {
+            grid-template-rows: 50px 1fr 1fr;
+        }
+
+        .col-1-1-2 {
+            grid-template-rows: 50px 1fr 1fr;
+
+            .group-cards {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+        }
+        .col-1-2 {
+            grid-template-rows: auto auto;
+
+            > *:first-child {
+                grid-column: span 2;
+            }
+
+            @include breakpoint-up(lg) {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         .col-4 {
             grid-template-columns: repeat(1, 1fr);
             @include breakpoint-up(lg) {
                 grid-template-columns: repeat(2, 1fr);
             }
+        }
+    }
+
+    .project__header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        .project__logo {
+            height: 30px;
+            width: auto;
+            margin-right: $margin-large;
+            @include breakpoint-up(lg) {
+                height: 50px;
+            }
+        }
+
+        .project__title {
+            flex-grow: 1;
+            text-align: left;
+            margin: 0;
         }
     }
 
@@ -627,104 +549,32 @@ export default {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         overflow: hidden;
         padding: $padding-large;
-
-        grid-column: span 2;
-        grid-row: span 2;
         display: flex;
         flex-direction: column;
+        gap: $padding-large;
 
-        .project {
-            &__header {
-                display: flex;
-                // flex: 1 1 0;
-                align-items: center;
-                // justify-content: space-between;
-                justify-content: flex-start;
-                margin-bottom: $padding-large;
+        &.no-padding {
+            padding: 0;
+        }
+        &.no-bg {
+            background: none;
+            box-shadow: none;
+        }
 
-                .project__logo {
-                    height: 60px;
-                    width: 60px;
-                    border-radius: 50%;
-                    margin-right: $padding-large;
-                }
-                .project__title {
-                //   font-size: 1.5rem;
-                //   font-weight: bold;
-                    flex-grow: 1;
-                    text-align: left;
-                }
-                .dropdown {
-                    display: flex;
-                    justify-content: flex-end;
-                    position: relative;
-                    // width: 100%;
-
-                    &__toggle {
-                        background: none;
-                        border: none;
-                        cursor: pointer;
-                        font-size: 1.2rem;
-                        font-weight: bold;
-                    }
-
-                    &__menu {
-                        display: none;
-                        position: absolute;
-                        right: 0;
-                        background: white;
-                        border: 1px solid #ddd;
-                        list-style: none;
-                        padding: 0.5rem;
-                        border-radius: 8px;
-
-                        li {
-                            margin: 0;
-                            a {
-                                text-decoration: none;
-                                color: #007bff;
-                                &:hover {
-                                    color: #0056b3;
-                                }
-                            }
-                        }
-                    }
-
-                    &:hover .dropdown__menu {
-                        display: block;
-                    }
-                }
+        &.project {
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            p {
+                line-height: 1.5;
+                margin: 0;
             }
-
-            &__image {
-                flex: 1;
-                width: 100%;
-                height: auto;
-                margin-bottom: 1rem;
-            }
-
-            &__content {
-                margin-bottom: auto;
-                p {
-                    line-height: 1.5;
-                    overflow: hidden;
-                    display: -webkit-box;
-                    -webkit-line-clamp: 4;
-                    -webkit-box-orient: vertical;
-                }
-            }
-
-            &__footer {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-top: 1rem;
-
-                .project__client {
-                    font-weight: bold;
-                }
+            .button {
+                width: fit-content;
+                max-width: 100%;
             }
         }
+
 
         &.tools, &.skills {
             grid-column: span 1;
@@ -740,8 +590,8 @@ export default {
             }
 
             .tools__logo {
-                width: 50px;
-                height: 50px;
+                width: 30px;
+                height: 30px;
             }
 
             .skills__tags {
@@ -749,6 +599,7 @@ export default {
                 flex-wrap: wrap;
                 list-style: none;
                 padding: 0;
+                margin: 0;
                 width: 100%;
             }
 
@@ -765,57 +616,18 @@ export default {
             grid-column: span 1;
 
             img {
+                flex: 1;
                 width: 100%;
                 height: auto;
+                aspect-ratio: 16 / 9;
+                object-fit: cover;
+                display: block;
+
                 border-radius: 12px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
         }
     }
 }
-
-// .projects {
-//     display: grid;
-//     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-//     gap: 2rem;
-//     margin-top: 2rem;
-// }
-// .portfolio {
-//     &__card {
-//         display: flex;
-//         flex-direction: column;
-//         gap: 1.5rem;
-//         margin-bottom: 2rem;
-//         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-//         border-radius: 12px;
-//         overflow: hidden;
-//         text-align: left;
-//     }
-//     .project {
-//         &__image {
-//             width: 100%;
-//             height: auto;
-//         }
-//         &__content {
-//             padding: $spacing-lg;
-//             flex: 1;
-//         }
-//         &__title {}
-//         &__description {}
-//         &__details {}
-//         &__link {
-//             display: inline-block;
-//             margin-top: 1rem;
-//             padding: 0.5rem 1rem;
-//             background-color: #007BFF;
-//             color: white;
-//             text-decoration: none;
-//             border-radius: 6px;
-//             transition: background-color 0.3s;
-//             &:hover {
-//                 background-color: #0056b3;
-//             }
-//         }
-//     }
-// }
 </style>
 
