@@ -105,4 +105,7 @@ a {
     &:visited {
         color: $font-grey;
     }
+    &.button {
+        color: $font-dark;
+    }
 }

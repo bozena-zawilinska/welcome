@@ -30,7 +30,7 @@
             <h2 class="work__heading">Featured Projects</h2>
             
             <div class="bento-grid">
-                <div v-for="project in projects" :key="project.id" :id="`row-${project.id}`" class="row" >
+                <div v-for="project in projects.slice(0, 3)" :key="project.id" :id="`row-${project.id}`" class="row" >
                     
                     <div class="col col-1-1-1">
                         <header class="project__header">
@@ -45,11 +45,13 @@
                         </div>
                         <!-- Card 2: Project -->
                         <article class="bento__card project">
-                            <p class="project__description">{{ project.description }}</p>
-                                    <a class="button button--primary" :href="project.link" target="_blank" rel="noopener noreferrer">
-                                        <span class="project__footer-text">Visit website </span>
-                                        <font-awesome-icon icon="arrow-up-right-from-square" />
-                                    </a>
+                            <p v-for="(line, index) in project.description.split('\n')" :key="index" class="project__description">
+                                {{ line }}
+                            </p>
+                            <a class="button button--primary" :href="project.link" target="_blank" rel="noopener noreferrer">
+                                <span class="project__footer-text">Visit website </span>
+                                <font-awesome-icon icon="arrow-up-right-from-square" />
+                            </a>
                         </article>
                     </div>
                     <div class="col col-1-1-2">
@@ -72,10 +74,41 @@
                             </div>
                         </div>
                         <div class="bento__card no-bg no-padding">
-                            <img v-if="project.images[0]" class="project__image" :src="getProjectPath(project.images[0].src)" :alt="project.images[0].alt" />
+                            <img v-if="project.images[1]" class="project__image" :src="getProjectPath(project.images[1].src)" :alt="project.images[1].alt" />
                             <!-- <img v-if="project.images[1]" class="project__image" :src="getProjectPath(project.images[1].src)" :alt="project.images[1].alt" /> -->
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Other Projects -->
+            <div class="bento-grid bento-grid--100">
+                <div v-for="project in projects.slice(3)" :key="project.id" class="bento-item">
+
+                <!-- Image Card with Overlay -->
+                <div class="bento__card image-container" @click="toggleDetails(project.id)">
+                    <img class="project__image" :src="getProjectPath(project.images[0].src)" :alt="project.images[0].alt" />
+
+                    <!-- Overlay Description -->
+                    <div class="overlay" :class="{ 'show': project.showDetails }">
+                    <p v-for="(line, index) in project.description.split('\n')" :key="index">
+                        {{ line }}
+                    </p>
+                    <button class="button button--secondary" @click.stop="toggleDetails(project.id)">
+                        Hide Details
+                    </button>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="bento__actions">
+                    <a class="button button--primary" :href="project.link" target="_blank" rel="noopener noreferrer">
+                    Visit website <font-awesome-icon icon="arrow-up-right-from-square" />
+                    </a>
+                    <button class="button button--secondary" @click="toggleDetails(project.id)">
+                    Show Details
+                    </button>
+                </div>
                 </div>
             </div>
         </section>
@@ -139,9 +172,7 @@ export default {
                     logo: "prodpad/logo.png",
                     showDropdown: false,
                     description: "ProdPad is a product management platform that helps teams build products that solve problems and drive outcomes. It offers features like roadmap, idea management, and feedback software to help teams work faster and communicate better. ProdPad emphasizes stakeholder communication, goal management, AI assistance, and organization-wide collaboration to help teams achieve their product goals.",
-                    goals: "Enhance the UI/UX of the SaaS platform, bugfixes and pixel perfect new features builded with accessibility in mind. Components created for reusability to prepare the platform for growth.",
-                    role: "Front-end developer using Vue 3.",
-                    outcome: "Improved user experience and WCAG 2.2 AA compliant platform.",
+                    
                     link: "https://www.prodpad.com/",
                     skills: ["Vue.js", "HTML", "SCSS", "RESTful APIs & Fetching Data", "JavaScript"],
                     tools: ["Git/GitHub", "npm", "Vite", "DevTools", "VS Code"],
@@ -166,12 +197,10 @@ export default {
                     logo: "prodpad/logo.png",
                     showDropdown: false,
                     description: "Marketing website built on a custom WordPress template, allowing the marketing team to create engaging content with ease. Using bespoke Gutenberg blocks, it delivers a smooth user experience while showcasing key features like roadmaps, idea management, and feedback collection. As the sole web developer on this project, I crafted a dynamic, user-friendly site that effectively communicates the brand’s strengths.",
-                    goals: "Build bespoke pixel perfect website with responsive Gutenberg blocks, templates and plugins for CPT.",
-                    role: "WordPress developer",
-                    outcome: "Improved user experience and achieved near-perfect PageSpeed Insights scores.",
+                    
                     link: "https://www.prodpad.com/",
-                    skills: ["PHP", "HTML", "SCSS", "JavaScript", "Webpack", "Website Performance"],
-                    tools: ["WordPress CMS", "ACF PRO", "WP Engine", "VS Code", "GitHub"],
+                    skills: ["PHP", "HTML", "SCSS", "JavaScript", "Webpack", "Website Performance", "Custom Gutenberg Blocks", "Custom WordPress Templates"],
+                    tools: ["WordPress", "ACF PRO", "WP Engine", "VS Code", "GitHub"],
                     images: [
                         {
                             src: "prodpad/prodpad-website.png",
@@ -192,51 +221,53 @@ export default {
                     title: "Passion4Social",
                     logo: "p4s/logo.png",
                     showDropdown: false,
-                    description: "Website for a creative agency focused on building accessible and visually engaging websites for non-profits.",
-                    goals: "Create bespoke WordPress websites that meet WCAG accessibility guidelines.",
-                    role: "Lead WordPress developer responsible for custom designs, implementing features, and ensuring responsive mobile-first designs.",
-                    outcome: "Delivered multiple WCAG-compliant websites that increased client visibility and engagement.",
+                    description: "At Passion4Social, I was the lead web developer responsible for building high-quality, accessible websites for a variety of clients. Collaborating closely with the design team, I transformed website mockups into fully functional, performant WordPress websites that met client expectations and industry best practices. My role involved the entire website development lifecycle, from initial setup on 20i hosting to local development using Local by Flywheel, and final deployment to the client’s hosting provider. I ensured smooth migrations, optimized site performance, and maintained high coding standards.",
+                    
                     link: "https://passion4social.com/",
-                    skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
+                    skills: ["PHP", "HTML", "CSS", "jQuery", "responsive design", "Website deployment and migration", "Website maintenance"],
+                    tools: ["WordPress", "Genesis Framework", "20i", "Local by Flywheel", "Beanstalk", "FileZilla (SFTP)", "BrowserStack"],
                     images: [
                         {
-                            src: "scf/website.png",
-                            alt: "ProdPad Dashboard",
+                            src: "p4s/p4s-website.png",
+                            alt: "Passion 4 Social Website",
                         },
                         {
-                            src: "scf/website.png",
-                            alt: "ProdPad Roadmap",
+                            src: "p4s/p4s-website-1.png",
+                            alt: "Passion 4 Social Portfolio",
                         },
                         {
                             src: "scf/website.png",
                             alt: "ProdPad Backlog",
                         },
                     ],
-                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                 },
                 {
                     id: 4,
                     title: "Royal Hospital for Children and Young People",
                     logo: "nhs/logo.svg",
                     showDropdown: false,
-                    description: "Informational Website for Children hospital in Edinburgh containing helpful information for young patients and their parents.",
-                    goals: "Create an engagening and colorful website with well organised sections and a search feature to easily find information.",
-                    role: "Front-end developer ensuring WCAG compliance and optimized performance.",
-                    outcome: "Enhanced website usability and achieved accessibility compliance.",
+                    description: 
+                        `I had the privilege of leading the development of this impactful project, designed to support children, young people, parents, carers, and healthcare professionals across NHS Lothian. This website serves as a vital resource, providing accessible and engaging information to help young patients and their families navigate hospital visits with confidence. 
+                        The platform features: 
+                        - Child-Friendly Content – Interactive guides to help children understand hospital procedures, tests, and stays in an approachable, reassuring way.
+                        - Support for Families & Carers – Practical resources, from accommodation details to financial assistance and wellbeing support.
+                        - Optimized Accessibility & Performance – Ensuring a seamless, inclusive experience for all users, including those with additional needs.
+                        As the lead web developer, I was responsible for building a fully customized WordPress solution, implementing accessibility best practices, and optimizing performance to ensure a smooth and user-friendly experience. This project was a rewarding challenge that combined technical expertise with meaningful impact, making hospital visits less daunting for children and their families.`,
+                    
                     link: "https://children.nhslothian.scot/",
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
                     images: [
                         {
-                            src: "scf/website.png",
-                            alt: "ProdPad Dashboard",
+                            src: "nhs/nhs-website.png",
+                            alt: "NHS Website",
                         },
                         {
-                            src: "scf/website.png",
-                            alt: "ProdPad Roadmap",
+                            src: "nhs/nhs-website-children.png",
+                            alt: "Royal Hospital for Children and Young People",
                         },
                         {
-                            src: "scf/website.png",
-                            alt: "ProdPad Backlog",
+                            src: "nhs/nhs-website-young-people.png",
+                            alt: "Royal Hospital for Children and Young People",
                         },
                     ],
                     tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
@@ -449,6 +480,11 @@ export default {
                 project.showDropdown = project.id === id ? !project.showDropdown : false;
             });
         },
+        toggleDetails(id) {
+            this.projects = this.projects.map(project =>
+                project.id === id ? { ...project, showDetails: !project.showDetails } : project
+            );
+        },
     },
 };
 </script>
@@ -522,6 +558,56 @@ export default {
         }
     }
 
+    /* Bento Grid Full width */
+    &--100 {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+        @include breakpoint-up(lg) {
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        }
+
+        /* Bento Item */
+        .bento-item {
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            transition: transform 0.2s ease;
+            padding: $padding-large;
+
+            &:hover {
+                transform: translateY(-5px);
+            }
+
+            // .project__header {
+            //     flex-direction: column;
+            //     align-items: center;
+            // }
+
+            /* Image Container */
+            .image-container {
+                overflow: hidden;
+                cursor: pointer;
+                box-shadow: none;
+
+                .project__image {
+                    transition: transform 0.3s ease-in-out;
+                }
+
+                &:hover .project__image {
+                    transform: scale(1.05);
+                }
+            }
+
+             /* Action Buttons */
+            .bento__actions {
+                display: flex;
+                gap: 1.5rem;
+                justify-content: center;
+            }
+        }
+    }
+    
     .project__header {
         display: flex;
         align-items: center;
@@ -612,6 +698,8 @@ export default {
             }
         }
 
+        
+
         &.image {
             grid-column: span 1;
 
@@ -627,6 +715,36 @@ export default {
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
         }
+
+        /* Overlay Description */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: $spacing-xs;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .overlay.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .overlay p {
+            color: white;
+        }
+
+       
     }
 }
 </style>
