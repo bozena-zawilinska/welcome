@@ -29,33 +29,22 @@
         <section class="work__portfolio">
             <h2 class="work__heading">Featured Projects</h2>
             
-            <div class="bento-grid">
-                <div v-for="project in projects.slice(0, 3)" :key="project.id" :id="`row-${project.id}`" class="row" >
-                    
-                    <div class="col col-1-1-1">
+            <div class="bento-grid bento-grid--70-30">
+                <!-- <div v-for="project in projects.slice(0, 4)" :key="project.id" :id="`row-${project.id}`" class="row" > -->
+                <div v-for="project in projects.slice(0, 4)" :key="project.id" :id="`col-${project.id}`" class="col" >
+                    <div id="row-1" class="row row--project">
                         <header class="project__header">
                             <img class="project__logo" :src="getProjectPath(project.logo)" :alt="`${project.title} logo`" />
                             <h3 class="project__title text--supporting">{{ project.title }}</h3>
                         </header>
-
+                        <div></div>
+                    </div>
+                    <div id="row-2" class="row row--project">
                         <!-- Card 5: Image -->
                         <div class="bento__card image no-padding">
                             <img v-if="project.images[0]" class="project__image" :src="getProjectPath(project.images[0].src)" :alt="project.images[0].alt" />
                             <!-- <img v-if="project.images[2]" :src="project.images[2].src" :alt="project.images[2].alt" /> -->
                         </div>
-                        <!-- Card 2: Project -->
-                        <article class="bento__card project">
-                            <p v-for="(line, index) in project.description.split('\n')" :key="index" class="project__description">
-                                {{ line }}
-                            </p>
-                            <a class="button button--primary" :href="project.link" target="_blank" rel="noopener noreferrer">
-                                <span class="project__footer-text">Visit website </span>
-                                <font-awesome-icon icon="arrow-up-right-from-square" />
-                            </a>
-                        </article>
-                    </div>
-                    <div class="col col-1-1-2">
-                        <div></div>
                         <div class="group-cards">
                             <!-- Card 3: Skills -->
                             <div class="bento__card skills">
@@ -73,17 +62,73 @@
                                 </ul>
                             </div>
                         </div>
+                    </div>
+                    <div id="row-3" class="row row--project">
+                        <!-- Card 2: Project -->
+                        <article class="bento__card project">
+                            <p v-for="(line, index) in project.description.split('\n')" :key="index" class="project__description">
+                                {{ line }}
+                            </p>
+                            <a class="button button--primary" :href="project.link" target="_blank" rel="noopener noreferrer">
+                                <span class="project__footer-text">Visit website </span>
+                                <font-awesome-icon icon="arrow-up-right-from-square" />
+                            </a>
+                        </article>
                         <div class="bento__card no-bg no-padding">
                             <img v-if="project.images[1]" class="project__image" :src="getProjectPath(project.images[1].src)" :alt="project.images[1].alt" />
-                            <!-- <img v-if="project.images[1]" class="project__image" :src="getProjectPath(project.images[1].src)" :alt="project.images[1].alt" /> -->
                         </div>
                     </div>
+
+                    <!-- <div class="col col-1-1-1">
+                        <header class="project__header">
+                            <img class="project__logo" :src="getProjectPath(project.logo)" :alt="`${project.title} logo`" />
+                            <h3 class="project__title text--supporting">{{ project.title }}</h3>
+                        </header> -->
+
+                        <!-- Card 5: Image -->
+                        <!-- <div class="bento__card image no-padding">
+                            <img v-if="project.images[0]" class="project__image" :src="getProjectPath(project.images[0].src)" :alt="project.images[0].alt" />
+                        </div> -->
+                        <!-- Card 2: Project -->
+                        <!-- <article class="bento__card project">
+                            <p v-for="(line, index) in project.description.split('\n')" :key="index" class="project__description">
+                                {{ line }}
+                            </p>
+                            <a class="button button--primary" :href="project.link" target="_blank" rel="noopener noreferrer">
+                                <span class="project__footer-text">Visit website </span>
+                                <font-awesome-icon icon="arrow-up-right-from-square" />
+                            </a>
+                        </article>
+                    </div>
+                    <div class="col col-1-1-2">
+                        <div></div>
+                        <div class="group-cards"> -->
+                            <!-- Card 3: Skills -->
+                            <!-- <div class="bento__card skills">
+                                <h4 class="skills__heading">Skills Used</h4>
+                                <ul class="skills__tags text--small">
+                                    <li v-for="skill in project.skills" :key="skill" class="skills__tag">{{ skill }}</li>
+                                </ul>
+                            </div> -->
+                            
+                            <!-- Card 2: Tools -->
+                            <!-- <div class="bento__card tools">
+                                <h4 class="tools__heading">Tools Used</h4>
+                                <ul class="skills__tags text--small">
+                                    <li v-for="tool in project.tools" :key="tool" class="skills__tag">{{ tool }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="bento__card no-bg no-padding">
+                            <img v-if="project.images[1]" class="project__image" :src="getProjectPath(project.images[1].src)" :alt="project.images[1].alt" />
+                        </div>
+                    </div> -->
                 </div>
             </div>
 
             <!-- Other Projects -->
             <div class="bento-grid bento-grid--100">
-                <div v-for="project in projects.slice(3)" :key="project.id" class="bento-item">
+                <div v-for="project in projects.slice(4)" :key="project.id" class="bento-item">
 
                 <!-- Image Card with Overlay -->
                 <div class="bento__card image-container" @click="toggleDetails(project.id)">
@@ -256,6 +301,7 @@ export default {
                     
                     link: "https://children.nhslothian.scot/",
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
+                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                     images: [
                         {
                             src: "nhs/nhs-website.png",
@@ -270,7 +316,6 @@ export default {
                             alt: "Royal Hospital for Children and Young People",
                         },
                     ],
-                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                 },
                 {
                     id: 5,
@@ -278,26 +323,15 @@ export default {
                     logo: "just-enterprise/logo.png",
                     showDropdown: false,
                     description: "Website for a Business Support for Social Enterprises in Scotland.",
-                    goals: "Provide an accessible and responsive website for patients and families to easily find information.",
-                    role: "Front-end developer ensuring WCAG compliance and optimized performance.",
-                    outcome: "Enhanced website usability and achieved accessibility compliance.",
                     link: "https://justenterprise.org/",
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
+                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                     images: [
                         {
-                            src: "scf/website.png",
+                            src: "just-enterprise/just-enterprise-website.png",
                             alt: "ProdPad Dashboard",
                         },
-                        {
-                            src: "scf/website.png",
-                            alt: "ProdPad Roadmap",
-                        },
-                        {
-                            src: "scf/website.png",
-                            alt: "ProdPad Backlog",
-                        },
                     ],
-                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                 },
                 {
                     id: 6,
@@ -305,26 +339,15 @@ export default {
                     logo: "cps/logo.svg",
                     showDropdown: false,
                     description: "Non-profit organization supporting people with cerebral palsy in building skills and confidence.",
-                    goals: "Create a responsive and accessible website to increase resource availability and user engagement.",
-                    role: "Front-end developer focusing on accessibility, responsive design, and performance optimization.",
-                    outcome: "Improved accessibility and increased website visits by 35%.",
                     link: "https://cerebralpalsyscotland.org.uk/",
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
+                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                     images: [
                         {
-                            src: "scf/website.png",
+                            src: "cps/cps-website.png",
                             alt: "ProdPad Dashboard",
                         },
-                        {
-                            src: "scf/website.png",
-                            alt: "ProdPad Roadmap",
-                        },
-                        {
-                            src: "scf/website.png",
-                            alt: "ProdPad Backlog",
-                        },
                     ],
-                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                 },
                 {
                     id: 7,
@@ -332,26 +355,15 @@ export default {
                     logo: "tzari/logo.svg",
                     showDropdown: false,
                     description: "E-commerce platform for sustainable, ethical, and purposeful bespoke clothing.",
-                    goals: "Develop a visually stunning and highly functional e-commerce platform.",
-                    role: "WordPress developer responsible for designing and coding custom templates.",
-                    outcome: "Improved user experience and increased sales conversions.",
                     link: "https://bytzari.com/",
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
+                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                     images: [
                         {
-                            src: "scf/website.png",
+                            src: "tzari/tzari-website.png",
                             alt: "ProdPad Dashboard",
                         },
-                        {
-                            src: "scf/website.png",
-                            alt: "ProdPad Roadmap",
-                        },
-                        {
-                            src: "scf/website.png",
-                            alt: "ProdPad Backlog",
-                        },
                     ],
-                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                 },
                 {
                     id: 8,
@@ -359,26 +371,15 @@ export default {
                     logo: "abz-works/logo.svg",
                     showDropdown: false,
                     description: "Website for Aberdeen City Council's employability team to support skills and training.",
-                    goals: "Deliver an accessible platform to provide employment resources and training information.",
-                    role: "Lead WordPress developer responsible for front-end development and accessibility.",
-                    outcome: "Increased resource access and engagement across target demographics.",
                     link: "https://abzworks.co.uk/",
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
+                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                     images: [
                         {
-                            src: "scf/website.png",
+                            src: "abz-works/abz-works-website.png",
                             alt: "ProdPad Dashboard",
                         },
-                        {
-                            src: "scf/website.png",
-                            alt: "ProdPad Roadmap",
-                        },
-                        {
-                            src: "scf/website.png",
-                            alt: "ProdPad Backlog",
-                        },
                     ],
-                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                 },
                 {
                     id: 9,
@@ -386,26 +387,15 @@ export default {
                     logo: "ekf/logo.svg",
                     showDropdown: false,
                     description: "Grant platform for North Lanarkshire focused on environmental initiatives.",
-                    goals: "Design a user-friendly and responsive site to simplify grant applications.",
-                    role: "Front-end developer ensuring intuitive navigation and responsive design.",
-                    outcome: "Increased grant applications by 20% post-launch.",
                     link: "https://environmentalkeyfund.com/",
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
+                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                     images: [
                         {
-                            src: "scf/website.png",
+                            src: "ekf/ekf-website.png",
                             alt: "ProdPad Dashboard",
                         },
-                        {
-                            src: "scf/website.png",
-                            alt: "ProdPad Roadmap",
-                        },
-                        {
-                            src: "scf/website.png",
-                            alt: "ProdPad Backlog",
-                        },
                     ],
-                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                 },
                 {
                     id: 10,
@@ -413,26 +403,15 @@ export default {
                     logo: "scf/logo.svg",
                     showDropdown: false,
                     description: "Website enabling reinvestment into local Scottish communities.",
-                    goals: "Develop an accessible and responsive platform to encourage community funding initiatives.",
-                    role: "I developed the ScotCom Finance website using the WordPress Genesis Framework, creating custom page templates tailored to the client’s needs. I utilized Advanced Custom Fields (ACF) to build flexible content fields and leveraged Genesis hooks and WordPress widgets to position custom elements efficiently.",
-                    outcome: "Improved community engagement and funding participation.",
                     link: "https://scotcomfinance.scot/",
                     skills: ["HTML", "CSS", "PHP", "WordPress", "Genesis Framework", "ACF"],
+                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                     images: [
                         {
                             src: "scf/website-1.png",
                             alt: "Scottish Communities Finance Website",
                         },
-                        {
-                            src: "scf/website.png",
-                            alt: "SCF Hooks",
-                        },
-                        {
-                            src: "scf/website.png",
-                            alt: "ProdPad Backlog",
-                        },
                     ],
-                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                 },
             ],
             skills: [
@@ -473,6 +452,7 @@ export default {
     },
     methods: {
         getProjectPath(project) {
+            console.log(project);
             return require(`@/assets/projects/${project}`);
         },
         toggleDropdown(id) {
@@ -495,6 +475,21 @@ export default {
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(1, 1fr);
     gap: 3rem;
+
+    .col {
+        .row--project {
+            display: grid;
+        }
+        #row-2 {
+            grid-template-columns: 60% 40%;
+        }
+        #row-3 {
+            grid-template-columns: 40% 60%;
+        }
+        // .row--project:nth-child(1,3) {
+        //     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        // }
+    }
 
     .row {
         display: flex;
@@ -527,6 +522,9 @@ export default {
 
         .col-1-1-1 {
             grid-template-rows: 50px 1fr 1fr;
+            .image {
+                flex: 2;
+            }
         }
 
         .col-1-1-2 {
@@ -534,7 +532,8 @@ export default {
 
             .group-cards {
                 display: grid;
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: 1fr;
+                // grid-template-columns: repeat(2, 1fr);
                 gap: 1.5rem;
             }
         }
@@ -563,7 +562,7 @@ export default {
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 
         @include breakpoint-up(lg) {
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
         }
 
         /* Bento Item */
@@ -747,5 +746,17 @@ export default {
        
     }
 }
+
+// @media (prefers-reduced-motion: no-preference) {
+//   .bento-grid {
+//     & > .bento-item {
+//       animation: slide-in-from-right linear both;
+//       animation-timeline: view();
+//       animation-range: entry 0% entry 100% entry 200%;
+//     }
+//   }
+// }
+
+
 </style>
 

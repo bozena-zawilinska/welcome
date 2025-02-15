@@ -48,3 +48,39 @@
         background-size: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0% 0%;
     }
 }
+
+@keyframes slide-in-from-left {
+    from {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes slide-in-from-right {
+    from {
+        transform: translateX(100%);
+    }
+}
+
+  @keyframes swoop-up {
+      0% {
+          transform: translateX(50px) translateY(100%) scale(.01);
+      }
+
+      40% {
+          transform: translateX(-50px) translateY(60%) scale(.4);
+      }
+
+      80% {
+          transform: translateX(50px) translateY(20%) scale(.8);
+      }
+
+      100% {
+          transform: translateX(0) translateY(0%) scale(1);
+      }
+  }
+
+   @keyframes scale-y {
+       from {
+           transform: scaleY(0);
+       }
+   }
