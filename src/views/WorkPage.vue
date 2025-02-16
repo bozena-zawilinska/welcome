@@ -30,16 +30,28 @@
             <h2 class="work__heading">Featured Projects</h2>
             
             <div class="bento-grid bento-grid--70-30">
-                <!-- <div v-for="project in projects.slice(0, 4)" :key="project.id" :id="`row-${project.id}`" class="row" > -->
-                <div v-for="project in projects.slice(0, 4)" :key="project.id" :id="`col-${project.id}`" class="col" >
-                    <div id="row-1" class="row row--project">
+                <div 
+                    v-for="project in projects.slice(0, 4)" 
+                    :key="project.id" 
+                    class="bento-item"
+                    :class="{ 'is-visible': project.isVisible }"
+                    :style="{ '--delay': index * 0.15 + 's' }"
+                    ref="bentoItems"
+                >
+                    <div 
+                        id="row-1" 
+                        class="row row--project"
+                    >
                         <header class="project__header">
                             <img class="project__logo" :src="getProjectPath(project.logo)" :alt="`${project.title} logo`" />
                             <h3 class="project__title text--supporting">{{ project.title }}</h3>
                         </header>
                         <div></div>
                     </div>
-                    <div id="row-2" class="row row--project">
+                    <div 
+                        id="row-2" 
+                        class="row row--project"
+                    >
                         <!-- Card 5: Image -->
                         <div class="bento__card image no-padding">
                             <img v-if="project.images[0]" class="project__image" :src="getProjectPath(project.images[0].src)" :alt="project.images[0].alt" />
@@ -78,119 +90,47 @@
                             <img v-if="project.images[1]" class="project__image" :src="getProjectPath(project.images[1].src)" :alt="project.images[1].alt" />
                         </div>
                     </div>
-
-                    <!-- <div class="col col-1-1-1">
-                        <header class="project__header">
-                            <img class="project__logo" :src="getProjectPath(project.logo)" :alt="`${project.title} logo`" />
-                            <h3 class="project__title text--supporting">{{ project.title }}</h3>
-                        </header> -->
-
-                        <!-- Card 5: Image -->
-                        <!-- <div class="bento__card image no-padding">
-                            <img v-if="project.images[0]" class="project__image" :src="getProjectPath(project.images[0].src)" :alt="project.images[0].alt" />
-                        </div> -->
-                        <!-- Card 2: Project -->
-                        <!-- <article class="bento__card project">
-                            <p v-for="(line, index) in project.description.split('\n')" :key="index" class="project__description">
-                                {{ line }}
-                            </p>
-                            <a class="button button--primary" :href="project.link" target="_blank" rel="noopener noreferrer">
-                                <span class="project__footer-text">Visit website </span>
-                                <font-awesome-icon icon="arrow-up-right-from-square" />
-                            </a>
-                        </article>
-                    </div>
-                    <div class="col col-1-1-2">
-                        <div></div>
-                        <div class="group-cards"> -->
-                            <!-- Card 3: Skills -->
-                            <!-- <div class="bento__card skills">
-                                <h4 class="skills__heading">Skills Used</h4>
-                                <ul class="skills__tags text--small">
-                                    <li v-for="skill in project.skills" :key="skill" class="skills__tag">{{ skill }}</li>
-                                </ul>
-                            </div> -->
-                            
-                            <!-- Card 2: Tools -->
-                            <!-- <div class="bento__card tools">
-                                <h4 class="tools__heading">Tools Used</h4>
-                                <ul class="skills__tags text--small">
-                                    <li v-for="tool in project.tools" :key="tool" class="skills__tag">{{ tool }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="bento__card no-bg no-padding">
-                            <img v-if="project.images[1]" class="project__image" :src="getProjectPath(project.images[1].src)" :alt="project.images[1].alt" />
-                        </div>
-                    </div> -->
                 </div>
             </div>
 
             <!-- Other Projects -->
             <div class="bento-grid bento-grid--100">
-                <div v-for="project in projects.slice(4)" :key="project.id" class="bento-item">
+                <div 
+                    v-for="(project, index) in projects.slice(4)" 
+                    :key="project.id" 
+                    class="bento-item"
+                    :class="{ 'is-visible': project.isVisible, 'left-col': index % 2 === 0, 'right-col': index % 2 !== 0 }"
+                    :style="{ '--delay': (Math.floor(index / 2) * 0.4) + 's' }"
+                    ref="bentoItems"
+                >
 
-                <!-- Image Card with Overlay -->
-                <div class="bento__card image-container" @click="toggleDetails(project.id)">
-                    <img class="project__image" :src="getProjectPath(project.images[0].src)" :alt="project.images[0].alt" />
+                    <!-- Image Card with Overlay -->
+                    <div class="bento__card image-container" @click="toggleDetails(project.id)">
+                        <img class="project__image" :src="getProjectPath(project.images[0].src)" :alt="project.images[0].alt" />
 
-                    <!-- Overlay Description -->
-                    <div class="overlay" :class="{ 'show': project.showDetails }">
-                    <p v-for="(line, index) in project.description.split('\n')" :key="index">
-                        {{ line }}
-                    </p>
-                    <button class="button button--secondary" @click.stop="toggleDetails(project.id)">
-                        Hide Details
-                    </button>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="bento__actions">
-                    <a class="button button--primary" :href="project.link" target="_blank" rel="noopener noreferrer">
-                    Visit website <font-awesome-icon icon="arrow-up-right-from-square" />
-                    </a>
-                    <button class="button button--secondary" @click="toggleDetails(project.id)">
-                    Show Details
-                    </button>
-                </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- <section class="work__portfolio">
-            <h2 class="work__heading">Featured Projects</h2>
-            <div class="projects">
-                <article class="portfolio__card project" v-for="project in projects" :key="project.id">
-                    <img class="project__image" :src="project.image" :alt="project.title" />
-                    <div class="project__content">
-                        <h3 class="project__title">{{ project.title }}</h3>
-                        <p class="project__description">
-                            {{ project.description }}
+                        <!-- Overlay Description -->
+                        <div class="overlay" :class="{ 'show': project.showDetails }">
+                        <p v-for="(line, index) in project.description.split('\n')" :key="index">
+                            {{ line }}
                         </p>
-                            <ul class="project__details">
-                            <li><strong>Goals:</strong> {{ project.goals }}</li>
-                            <li><strong>Role:</strong> {{ project.role }}</li>
-                            <li><strong>Outcome:</strong> {{ project.outcome }}</li>
-                        </ul>
-                        <a class="project__link" :href="project.link" target="_blank" rel="noopener">View Project</a>
+                        <button class="button button--secondary" @click.stop="toggleDetails(project.id)">
+                            Hide Details
+                        </button>
+                        </div>
                     </div>
-                </article>
+
+                    <!-- Action Buttons -->
+                    <div class="bento__actions">
+                        <a class="button button--primary" :href="project.link" target="_blank" rel="noopener noreferrer">
+                        Visit website <font-awesome-icon icon="arrow-up-right-from-square" />
+                        </a>
+                        <button class="button button--secondary" @click="toggleDetails(project.id)">
+                        Show Details
+                        </button>
+                    </div>
+                </div>
             </div>
         </section>
-
-        <section class="work__skills">
-        <h2 class="work__heading">Tech Stack & Expertise</h2>
-        <div class="skills">
-            <div class="skills__category" v-for="category in skills" :key="category.id">
-            <h3 class="skills__heading">{{ category.title }}</h3>
-            <ul class="skills__list">
-                <li v-for="item in category.items" :key="item" class="skills__item">{{ item }}</li>
-            </ul>
-            </div>
-        </div>
-        </section> -->
 
         <footer class="work__footer">
             <h2 class="footer__heading">Let’s Build Something Amazing</h2>
@@ -205,7 +145,6 @@
 </template>
 
 <script>
-// import * from "@/assets/projects/";
 export default {
     name: "ProjectsShowcase",
     data() {
@@ -406,7 +345,7 @@ export default {
                     tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
                     images: [
                         {
-                            src: "scf/website-1.png",
+                            src: "scf/scf-website.png",
                             alt: "Scottish Communities Finance Website",
                         },
                     ],
@@ -448,6 +387,9 @@ export default {
             ],
         };
     },
+    mounted() {
+        this.observeBentoItems();
+    },
     methods: {
         getProjectPath(project) {
             console.log(project);
@@ -463,124 +405,92 @@ export default {
                 project.id === id ? { ...project, showDetails: !project.showDetails } : project
             );
         },
+        observeBentoItems() {
+            const options = {
+                root: null,
+                threshold: 0.3, // Trigger when 30% of the item is visible
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                }
+                });
+            }, options);
+
+            this.$nextTick(() => {
+                this.$refs.bentoItems.forEach((item) => {
+                observer.observe(item);
+                });
+            });
+        },
     },
 };
 </script>
 
 <style lang="scss" scoped>
+
+
 .bento-grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(1, 1fr);
     gap: 3rem;
+    margin: 3rem 0;
 
-    .col {
-            display: grid;
+    &--70-30 {
+
+        .bento-item {
+            display: flex;
+            gap: 1.5rem;
+            flex-direction: column;
+
+            background-color: $green-white;
+            border-radius: 12px;
+            overflow: hidden;
             padding: $padding-large;
-            box-sizing: border-box; // Ensures padding doesn't overflow
-            width: 100%;
-
+    
             .row {
+                display: flex;
                 flex-direction: column;
+                flex: 1;
+                gap: 1.5rem;
             }
-
-
-        @include breakpoint-up(lg) {    
-            .row {
-                flex-direction: row;
-            }
-
-            #row-2 {
-                .bento__card.image {
-                    flex: 0 0 66.66%;
+    
+    
+            @include breakpoint-up(xl) {    
+                .row {
+                    flex-direction: row;
+                    max-height: 320px; // required to align the cards with the image column
                 }
-            }
-            #row-3 {
-                .bento__card.project {
-                    flex: 0 0 33.33%;
+    
+                #row-2 {
+                    .bento__card.image {
+                        flex: 0 0 66.66%;
+                    }
+                }
+                #row-3 {
+                    .bento__card.project {
+                        flex: 0 0 33.33%;
+                    }
                 }
             }
         }
     }
+
 
     .group-cards {
         display: grid;
-        grid-template-rows: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr); // aligns the cards with the image column
         gap: 1.5rem;
-    }
-
-    .row {
-        display: flex;
-        gap: 1.5rem;
-        flex-direction: column;
-
-        background-color: $green-white;
-        border-radius: 12px;
-        overflow: hidden;
-        padding: $padding-large;
-
-        @include breakpoint-up(md) {
-            flex-direction: row;
-        }
-
-        .col {
-            flex: 1;
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .col-1 {
-            grid-template-columns: 1fr;
-        }
-
-        .col-1-1 {
-            grid-template-rows: auto auto;
-            grid-template-columns: 1fr;
-        }
-
-        .col-1-1-1 {
-            grid-template-rows: 50px 1fr 1fr;
-            .image {
-                flex: 2;
-            }
-        }
-
-        .col-1-1-2 {
-            grid-template-rows: 50px 1fr 1fr;
-
-            // .group-cards {
-            //     display: grid;
-            //     grid-template-columns: 1fr;
-            //     // grid-template-columns: repeat(2, 1fr);
-            //     gap: 1.5rem;
-            // }
-        }
-        .col-1-2 {
-            grid-template-rows: auto auto;
-
-            > *:first-child {
-                grid-column: span 2;
-            }
-
-            @include breakpoint-up(lg) {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .col-4 {
-            grid-template-columns: repeat(1, 1fr);
-            @include breakpoint-up(lg) {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
     }
 
     /* Bento Grid Full width */
     &--100 {
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-
         @include breakpoint-up(lg) {
-            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            grid-template-columns: repeat(2, minmax(400px, 1fr));
         }
 
         /* Bento Item */
@@ -595,11 +505,6 @@ export default {
             &:hover {
                 transform: translateY(-5px);
             }
-
-            // .project__header {
-            //     flex-direction: column;
-            //     align-items: center;
-            // }
 
             /* Image Container */
             .image-container {
@@ -725,6 +630,7 @@ export default {
                 width: 100%;
                 height: auto;
                 aspect-ratio: 16 / 9;
+                // object-fit: scale-down;
                 object-fit: cover;
                 display: block;
 
@@ -775,6 +681,45 @@ export default {
 //   }
 // }
 
+// Animations
+@media (prefers-reduced-motion: no-preference) {
+    .bento-grid {
+        &--70-30 {
+            .bento-item {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+                transition: opacity 0.6s ease-out, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+                transition-delay: var(--delay, 0s);
+                }
 
+            .bento-item.is-visible {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        &--100 {
+            .bento-item {
+                opacity: 0;
+                transform: scale(0.95);
+                transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+                transition-delay: var(--delay, 0s);
+            }
+
+            .bento-item.left-col {
+                transform: translateX(-50px) scale(0.95);
+            }
+
+            .bento-item.right-col {
+                transform: translateX(50px) scale(0.95);
+            }
+
+            .bento-item.is-visible {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+    }
+}
 </style>
 
