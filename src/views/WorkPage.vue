@@ -292,12 +292,10 @@ export default {
                     logo: "nhs/logo.svg",
                     showDropdown: false,
                     description: 
-                        `I had the privilege of leading the development of this impactful project, designed to support children, young people, parents, carers, and healthcare professionals across NHS Lothian. This website serves as a vital resource, providing accessible and engaging information to help young patients and their families navigate hospital visits with confidence. 
+                        `I had the privilege of leading the development of this project, designed to support children, young people, parents, carers, and healthcare professionals across NHS Lothian. 
                         The platform features: 
-                        - Child-Friendly Content – Interactive guides to help children understand hospital procedures, tests, and stays in an approachable, reassuring way.
-                        - Support for Families & Carers – Practical resources, from accommodation details to financial assistance and wellbeing support.
-                        - Optimized Accessibility & Performance – Ensuring a seamless, inclusive experience for all users, including those with additional needs.
-                        As the lead web developer, I was responsible for building a fully customized WordPress solution, implementing accessibility best practices, and optimizing performance to ensure a smooth and user-friendly experience. This project was a rewarding challenge that combined technical expertise with meaningful impact, making hospital visits less daunting for children and their families.`,
+                        – Interactive guides to help children understand hospital procedures, tests, and stays in an approachable, reassuring way.
+                        – Practical resources, from accommodation details to financial assistance and wellbeing support.`,
                     
                     link: "https://children.nhslothian.scot/",
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
@@ -477,18 +475,38 @@ export default {
     gap: 3rem;
 
     .col {
-        .row--project {
             display: grid;
+            padding: $padding-large;
+            box-sizing: border-box; // Ensures padding doesn't overflow
+            width: 100%;
+
+            .row {
+                flex-direction: column;
+            }
+
+
+        @include breakpoint-up(lg) {    
+            .row {
+                flex-direction: row;
+            }
+
+            #row-2 {
+                .bento__card.image {
+                    flex: 0 0 66.66%;
+                }
+            }
+            #row-3 {
+                .bento__card.project {
+                    flex: 0 0 33.33%;
+                }
+            }
         }
-        #row-2 {
-            grid-template-columns: 60% 40%;
-        }
-        #row-3 {
-            grid-template-columns: 40% 60%;
-        }
-        // .row--project:nth-child(1,3) {
-        //     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        // }
+    }
+
+    .group-cards {
+        display: grid;
+        grid-template-rows: repeat(2, 1fr);
+        gap: 1.5rem;
     }
 
     .row {
@@ -530,12 +548,12 @@ export default {
         .col-1-1-2 {
             grid-template-rows: 50px 1fr 1fr;
 
-            .group-cards {
-                display: grid;
-                grid-template-columns: 1fr;
-                // grid-template-columns: repeat(2, 1fr);
-                gap: 1.5rem;
-            }
+            // .group-cards {
+            //     display: grid;
+            //     grid-template-columns: 1fr;
+            //     // grid-template-columns: repeat(2, 1fr);
+            //     gap: 1.5rem;
+            // }
         }
         .col-1-2 {
             grid-template-rows: auto auto;
