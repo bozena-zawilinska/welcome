@@ -41,34 +41,34 @@ h2,
         font-size: $font-size-subheading;
     }
 }
-h3 {
+
+h3,
+.h3 {
     font-size: $font-size-h3-mobile;
     @include breakpoint-up(lg) {
             font-size: $font-size-h3;
     }
 }
-h4 {
+
+h4,
+.h4 {
     font-size: $font-size-h4-mobile;
     @include breakpoint-up(lg) {
             font-size: $font-size-h4;
     }
 }
-h5 {
+
+h5,
+.h5 {
     font-size: $font-size-h5-mobile;
     @include breakpoint-up(lg) {
             font-size: $font-size-h5;
     }
 }
 
-p {
-    color: $font-dark;
-    font-size: $font-size-base-mobile;
-    @include breakpoint-up(lg) {
-        font-size: $font-size-base;
-    }
-}
-
-span {
+p,
+span,
+.text--base {
     color: $font-dark;
     font-size: $font-size-base-mobile;
     @include breakpoint-up(lg) {
@@ -83,7 +83,8 @@ span {
     }
 }
 
-p.text--supporting {
+p.text--supporting,
+.text--supporting {
     text-transform: uppercase;
     font-weight: 700;
 }

@@ -57,18 +57,18 @@
                             <img v-if="project.images[0]" class="project__image" :src="getProjectPath(project.images[0].src)" :alt="project.images[0].alt" />
                             <!-- <img v-if="project.images[2]" :src="project.images[2].src" :alt="project.images[2].alt" /> -->
                         </div>
-                        <div class="group-cards">
+                        <div class="group-cards bento__card">
                             <!-- Card 3: Skills -->
-                            <div class="bento__card skills">
-                                <h4 class="skills__heading">Skills Used</h4>
+                            <div class="skills">
+                                <h4 class="skills__heading text--base">Skills:</h4>
                                 <ul class="skills__tags text--small">
                                     <li v-for="skill in project.skills" :key="skill" class="skills__tag">{{ skill }}</li>
                                 </ul>
                             </div>
                             
                             <!-- Card 2: Tools -->
-                            <div class="bento__card tools">
-                                <h4 class="tools__heading">Tools Used</h4>
+                            <div class="tools">
+                                <h4 class="tools__heading text--base">Tools:</h4>
                                 <ul class="skills__tags text--small">
                                     <li v-for="tool in project.tools" :key="tool" class="skills__tag">{{ tool }}</li>
                                 </ul>
@@ -82,7 +82,7 @@
                                 {{ line }}
                             </p>
                             <a class="button button--primary" :href="project.link" target="_blank" rel="noopener noreferrer">
-                                <span class="project__footer-text">Visit website </span>
+                                <span class="project__footer-text">View live </span>
                                 <font-awesome-icon icon="arrow-up-right-from-square" />
                             </a>
                         </article>
@@ -155,23 +155,19 @@ export default {
                     title: "ProdPad - SaaS Platform",
                     logo: "prodpad/logo.png",
                     showDropdown: false,
-                    description: "ProdPad is a product management platform that helps teams build products that solve problems and drive outcomes. It offers features like roadmap, idea management, and feedback software to help teams work faster and communicate better. ProdPad emphasizes stakeholder communication, goal management, AI assistance, and organization-wide collaboration to help teams achieve their product goals.",
+                    description: "As a Front-end Developer at ProdPad, I collaborated closely with the Product and Design teams to enhance UI/UX, develop new features and improve accessibility. My work focused on building reusable components, maintaining clean and well-documented code, and ensuring consistency using ESLint for formatting and best practices. I frequently interacted with backend APIs, handling data fetching for users and accounts to deliver seamless product experiences.",
                     
-                    link: "https://www.prodpad.com/",
-                    skills: ["Vue.js", "HTML", "SCSS", "RESTful APIs & Fetching Data", "JavaScript"],
-                    tools: ["Git/GitHub", "npm", "Vite", "DevTools", "VS Code"],
+                    link: "https://www.prodpad.com/sandbox/",
+                    skills: ["VUE 3", "HTML 5", "Sassy CSS", "JavaScript", "RESTful APIs"],
+                    tools: ["Git", "npm", "Vite", "ESLint", "DevTools", ],
                     images: [
                         {
-                            src: "prodpad/prodpad-website.png",
+                            src: "prodpad/prodpad-app-dashboard.png",
                             alt: "ProdPad Dashboard",
                         },
                         {
-                            src: "prodpad/website-1.png",
-                            alt: "ProdPad Roadmap",
-                        },
-                        {
-                            src: "scf/website.png",
-                            alt: "ProdPad Backlog",
+                            src: "prodpad/prodpad-app-product-portfolio.png",
+                            alt: "ProdPad Product Portfolio",
                         },
                     ],
                 },
@@ -180,23 +176,19 @@ export default {
                     title: "ProdPad - Marketing Website",
                     logo: "prodpad/logo.png",
                     showDropdown: false,
-                    description: "Marketing website built on a custom WordPress template, allowing the marketing team to create engaging content with ease. Using bespoke Gutenberg blocks, it delivers a smooth user experience while showcasing key features like roadmaps, idea management, and feedback collection. As the sole web developer on this project, I crafted a dynamic, user-friendly site that effectively communicates the brand’s strengths.",
+                    description: "As the sole Website Developer at ProdPad, I developed a library of 20+ custom Gutenberg blocks, enabling the Marketing team to build flexible and engaging pages with ease. The project prioritized SEO, performance, and accessibility to enhance user experience and search rankings. My work contributed to a modern, high-performing website aligned with brand and business goals.",
                     
                     link: "https://www.prodpad.com/",
-                    skills: ["PHP", "HTML", "SCSS", "JavaScript", "Webpack", "Website Performance", "Custom Gutenberg Blocks", "Custom WordPress Templates"],
-                    tools: ["WordPress", "ACF PRO", "WP Engine", "VS Code", "GitHub"],
+                    skills: ["PHP", "HTML & SCSS", "JavaScript", "Webpack", "WordPress (custom themes & blocks)"],
+                    tools: ["ACF PRO", "PageSpeed", "BrowserStack", "GitHub"],
                     images: [
                         {
-                            src: "prodpad/prodpad-website.png",
-                            alt: "ProdPad Dashboard",
+                            src: "prodpad/prodpad-homepage.png",
+                            alt: "ProdPad Homepage",
                         },
                         {
-                            src: "prodpad/website-1.png",
-                            alt: "ProdPad Roadmap",
-                        },
-                        {
-                            src: "prodpad/website-2.png",
-                            alt: "ProdPad Backlog",
+                            src: "prodpad/prodpad-glossary-page.png",
+                            alt: "ProdPad Glossary",
                         },
                     ],
                 },
@@ -205,23 +197,19 @@ export default {
                     title: "Passion4Social",
                     logo: "p4s/logo.png",
                     showDropdown: false,
-                    description: "At Passion4Social, I was the lead web developer responsible for building high-quality, accessible websites for a variety of clients. Collaborating closely with the design team, I transformed website mockups into fully functional, performant WordPress websites that met client expectations and industry best practices. My role involved the entire website development lifecycle, from initial setup on 20i hosting to local development using Local by Flywheel, and final deployment to the client’s hosting provider. I ensured smooth migrations, optimized site performance, and maintained high coding standards.",
+                    description: "As Lead Web Developer at Passion4Social, I built high-quality, accessible WordPress websites, transforming designs into performant, client-ready sites. I managed the full development lifecycle, from setup on 20i hosting to local development with Local by Flywheel and final deployment. My role included site migrations, performance optimization, and maintaining high coding standards.",
                     
                     link: "https://passion4social.com/",
-                    skills: ["PHP", "HTML", "CSS", "jQuery", "responsive design", "Website deployment and migration", "Website maintenance"],
-                    tools: ["WordPress", "Genesis Framework", "20i", "Local by Flywheel", "Beanstalk", "FileZilla (SFTP)", "BrowserStack"],
+                    skills: ["PHP", "HTML & CSS", "jQuery", "Responsive Design", "Website deployment & maintenance"],
+                    tools: ["WordPress", "Genesis Framework", "Local by Flywheel", "Beanstalk", "FileZilla (SFTP)"],
                     images: [
                         {
-                            src: "p4s/p4s-website.png",
-                            alt: "Passion 4 Social Website",
+                            src: "p4s/p4s-homepage.png",
+                            alt: "P4S Homepage",
                         },
                         {
-                            src: "p4s/p4s-website-1.png",
-                            alt: "Passion 4 Social Portfolio",
-                        },
-                        {
-                            src: "scf/website.png",
-                            alt: "ProdPad Backlog",
+                            src: "p4s/p4s-website-portfolio.png",
+                            alt: "P4S Portfolio",
                         },
                     ],
                 },
@@ -230,26 +218,18 @@ export default {
                     title: "Royal Hospital for Children and Young People",
                     logo: "nhs/logo.svg",
                     showDropdown: false,
-                    description: 
-                        `I had the privilege of leading the development of this project, designed to support children, young people, parents, carers, and healthcare professionals across NHS Lothian. 
-                        The platform features: 
-                        – Interactive guides to help children understand hospital procedures, tests, and stays in an approachable, reassuring way.
-                        – Practical resources, from accommodation details to financial assistance and wellbeing support.`,
+                    description: "I led the development of an accessible, user-friendly platform for NHS Lothian, designed to support children, young people, parents, carers, and healthcare professionals. The site features interactive guides to help children understand hospital procedures, along with practical resources like accommodation, financial assistance, and wellbeing support. I ensured a seamless, user-friendly experience, focusing on accessibility, responsiveness, and performance throughout the development lifecycle.",
                     
                     link: "https://children.nhslothian.scot/",
-                    skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
-                    tools: ["WordPress CMS", "ACF PRO", "VS Code", "GitHub", "Google PageSpeed", ""],
+                    skills: ["PHP", "HTML & CSS", "jQuery", "Responsive Design", "Website deployment & maintenance"],
+                    tools: ["WordPress", "Genesis Framework", "Local by Flywheel", "Beanstalk", "FileZilla (SFTP)"],
                     images: [
                         {
-                            src: "nhs/nhs-website.png",
-                            alt: "NHS Website",
+                            src: "nhs/nhs-landing-page.png",
+                            alt: "NHS Landing Page",
                         },
                         {
                             src: "nhs/nhs-website-children.png",
-                            alt: "Royal Hospital for Children and Young People",
-                        },
-                        {
-                            src: "nhs/nhs-website-young-people.png",
                             alt: "Royal Hospital for Children and Young People",
                         },
                     ],
@@ -481,9 +461,12 @@ export default {
 
 
     .group-cards {
-        display: grid;
-        grid-template-rows: repeat(2, 1fr); // aligns the cards with the image column
-        gap: 1.5rem;
+        // display: grid;
+        // grid-template-rows: repeat(2, 1fr); // aligns the cards with the image column
+        // gap: 1.5rem;
+        flex: 1;
+        justify-content: center;
+        text-align: left;
     }
 
     /* Bento Grid Full width */
@@ -584,39 +567,52 @@ export default {
         }
 
 
-        &.tools, &.skills {
+        .tools, .skills {
             grid-column: span 1;
             display: flex;
             flex-direction: column;
             align-items: center;
 
-            &__logos {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 1rem;
-            }
-
-            .tools__logo {
-                width: 30px;
-                height: 30px;
+            @include breakpoint-up(lg) {
+                flex-direction: row;
+                justify-content: start;
+                align-items: flex-start;
+                text-align: left;
+                gap: $padding-large;
+                h4 {
+                    flex: 0 0 33%;
+                }
+                .skills__tags {
+                    flex: 1;
+                }
             }
 
             .skills__tags {
-                display: flex;
-                flex-wrap: wrap;
+                // display: flex;
+                // flex-direction: column;
+                // flex-wrap: wrap;
+                // white-space:
                 list-style: none;
                 padding: 0;
                 margin: 0;
                 width: 100%;
+                // gap: 8px;
             }
 
             .skills__tag {
-                width: fit-content;
-                padding: $spacing-xs;
-                margin: $spacing-xs;
-                background: #f0f0f0;
-                border-radius: 12px;
+                display: list-item;
+                // width: fit-content;
+                // padding: $spacing-xs;
+                // // margin: $spacing-xs;
+                // background: #f0f0f0;
+                // border-radius: 12px;
+                &::before {
+                    content: "✔️";
+                    text-align: center;
+                    color: transparent;
+                    text-shadow: 0 0 $rosemary;
+                    margin-right: $spacing-xs;
+                }
             }
         }
 
