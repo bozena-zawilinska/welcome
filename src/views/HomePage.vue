@@ -1,7 +1,7 @@
 <template>
   <div class="home page page--home">
     <section id="hello" class="section--welcome">
-      <div class="shade--wisteria"></div>
+      <div class="shade shade--wisteria"></div>
       <div class="hero-content">
 
         <div class="hero-image">

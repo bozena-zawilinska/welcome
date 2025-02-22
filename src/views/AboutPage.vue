@@ -17,7 +17,7 @@
       </a>
       <!-- <button class="button button--primary button--confetti" @click="navigateToWork">View My Work</button> -->
     </div>
-    <div class="shade--lavender"></div>
+    <div class="shade shade--lavender"></div>
   </section>
 </template>
 
