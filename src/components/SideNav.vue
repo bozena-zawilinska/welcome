@@ -94,8 +94,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .side-nav__container {
-    background: white;
-    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
+    // background: white;
+    // box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
     width: 100%;
     position: fixed;
     height: 24px;

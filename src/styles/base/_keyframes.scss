@@ -1,6 +1,16 @@
 /* 
 * KEYFRAMES 
 */
+// @media (prefers-reduced-motion: no-preference) {
+//   .bento-grid {
+//     & > .bento-item {
+//       animation: slide-in-from-right linear both;
+//       animation-timeline: view();
+//       animation-range: entry 0% entry 100% entry 200%;
+//     }
+//   }
+// }
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -83,4 +93,28 @@
        from {
            transform: scaleY(0);
        }
+   }
+
+   // Parallax Effect
+   // Base styles for text elements
+   .parallax-text {
+       position: relative;
+       transform: translateY(50px);
+       opacity: 0;
+       transition: transform 1s ease-out, opacity 1s ease-out;
+   }
+
+   // When in view, reveal the text
+   .parallax-visible {
+       transform: translateY(0);
+       opacity: 1;
+   }
+
+   // Additional parallax speed variations
+   [data-speed="slow"] {
+       transition-duration: 1.5s;
+   }
+
+   [data-speed="fast"] {
+       transition-duration: 0.5s;
    }

@@ -1,86 +1,43 @@
 /* 
 * SHADES & BACKGROUNDS 
 */
-.shade--wisteria {
+.shade {
     position: absolute;
-    width: 75vw;
-    height: 75vw;
-    border-radius: 75vw;
-    background: rgba(209, 160, 216, 0.7); // wisteria
+    width: 500px;
+    height: 500px;
+    border-radius: 500px;
     filter: blur(300px);
     transform: translate3d(0, 0, 0);
     z-index: -1;
     pointer-events: none;
-
-    left: -25vw;
-    top: -25vw;
-
-    @include breakpoint-up(sm) {}
-
-    @include breakpoint-up(md) {}
-
-    @include breakpoint-up(lg) {}
-
-    @include breakpoint-up(xl) {
-        left: -40vw;
-        top: -40vw;
+    
+    left: -150px;
+    top: -150px;
+    &--wisteria {
+            background: rgba(209, 160, 216, 0.7); // wisteria
     }
-}
-
-.shade--lavender {
-    position: absolute;
-    width: 50vw;
-    height: 80vw;
-    border-radius: 75vw;
-    background: rgba(181, 160, 216); // lavender
-    filter: blur(200px);
-    transform: translate3d(0, 0, 0);
-    z-index: -1;
-    pointer-events: none;
-
-    bottom: -15vw;
-    right: 0;
-
-    @include breakpoint-up(sm) {
-        bottom: -50vw;
-        right: -25vw;
+    &--lavender {
+        background: rgba(181, 160, 216, 0.7); // lavender
     }
-
-    @include breakpoint-up(md) {}
-
-    @include breakpoint-up(lg) {}
-
-    @include breakpoint-up(xl) {
-        right: -30vw;
-        bottom: -60vw;
+    &--blue-bell {
+        background: rgba(160, 167, 216, 0.7); // blue-bell
     }
-}
-
-.shade--blue-bell {
-    position: absolute;
-    width: 50vw;
-    height: 80vw;
-    border-radius: 75vw;
-    background: rgba(160, 167, 216); // blue-bell
-    filter: blur(200px);
-    transform: translate3d(0, 0, 0);
-    z-index: -1;
-    pointer-events: none;
-
-    bottom: -15vw;
-    right: 0;
-
-    @include breakpoint-up(sm) {
-        bottom: -50vw;
-        right: -25vw;
+    &--grayish-red {
+        background: rgba(215, 189, 193, 0.7); // grayish-red
     }
-
-    @include breakpoint-up(md) {}
-
-    @include breakpoint-up(lg) {}
-
-    @include breakpoint-up(xl) {
-        right: -30vw;
-        bottom: -60vw;
+    &--grayish-blue {
+        background: rgba(189, 206, 215, 0.7); // grayish-blue
+    }
+    &--green-white {
+        background: rgba(250, 252, 252, 0.7); // green-white
+    }
+    &--grayish-cyan {
+        background: rgba(189, 215, 211, 0.7); // grayish-cyan
+    }
+    &--sage {
+        background: rgba(154, 184, 158, 0.7); // sage
+    }
+    &--rosemary {
+        background: rgba(71, 117, 110, 0.7); // rosemary
     }
 }

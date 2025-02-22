@@ -23,7 +23,7 @@ export default {
     },
     speed: {
       type: Number,
-      default: 100, // Typing speed in ms
+      default: 150, // Typing speed in ms
     },
     wrapperElement: {
       type: String,

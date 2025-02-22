@@ -11,44 +11,53 @@
          <TypingAnimation
           class="header animated-heading"
           text="Hello, I'm Bozena!"
-          :speed="100"
+          :speed="80"
           wrapperElement="h1"
           customCursorClass="heading"
           @typingFinished="onFirstAnimationFinished"
         />
-        <TypingAnimation 
+        <!-- <TypingAnimation 
           class="description animated-heading"
           text="A passionate Front-end and Website Developer with a knack for building web experiences that are not only visually captivating but also optimized for accessibility and performance. 🚀"
           :startDelay="2000"
-          :speed="100"
+          :speed="80"
           wrapperElement="p"
-        />
+        /> -->
+        <p class="parallax-text" data-speed="fast">
+          A passionate Front-end and Website Developer with a knack for building web experiences that are not only visually captivating but also optimized for accessibility and performance. 🚀
+        </p>
         </div>
+        <a href="#portfolio" class="scroll-arrow" aria-label="Scroll to Portfolio">
+          ↓
+        </a>
       </div>
       <!-- Scroll Arrow -->
-      <a href="#portfolio" class="scroll-arrow" aria-label="Scroll to Portfolio">
-        ↓
-      </a>
     </section>
     
       <!-- Portfolio Projects -->
       <section id="portfolio" class="section--projects">
-        <div class="project" v-for="project in projects" :key="project.id">
-          <video autoplay loop muted playsinline>
-            <source :src="project.video" type="video/mp4" />
-          </video>
-          <div class="overlay">
-            <h3>{{ project.title }}</h3>
-            <p>{{ project.description }}</p>
-            <ul>
-              <li v-for="tool in project.tools" :key="tool">{{ tool }}</li>
-            </ul>
-            <div class="view-project">
-              <a :href="project.liveLink" target="_blank">View Live</a>
-              <a :href="project.githubLink" target="_blank">GitHub</a>
-            </div>
-          </div>
+        <div class="">
+          <h2 class="parallax-text" data-speed="slow">Building Engaging & Scalable Websites</h2>
+          <p class="parallax-text" data-speed="slow">
+            I specialize in creating high-performance, accessible websites with custom WordPress solutions. 
+            From crafting intuitive Gutenberg blocks to optimizing UX/UI, my work empowers teams to manage 
+            content effortlessly.
+          </p>
+
+          <p class="parallax-text" data-speed="slow">See two of my Custom Gutenberg Blocks in action</p>
         </div>
+          <div class="video-container">
+            <video autoplay loop muted class="rounded-lg shadow-lg max-w-full">
+              <source src="@/assets/projects/prodpad/prodpad-custom-gutenberg-blocks.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <div class="">
+            <a href="/work" class="button button--primary">
+              View My Work
+            </a>
+          </div>
+        <!-- </div> -->
       </section>
 
       <!-- About Me -->
@@ -95,24 +104,25 @@ export default {
 </script>
 <style lang="scss" scoped>
 .section {
+
+  position: relative;
   &--welcome {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     position: relative;
 
-      height: 90dvh;
-      @include breakpoint-up(md) {
+      @include breakpoint-up(lg) {
          height: 95dvh;
       }
    
     .hero-content {
       display: flex;
       align-items: center;
+      justify-content: flex-end;
       flex: 1 1 50%;
       flex-direction: column-reverse;
-      margin-top: $spacing-lg * 2;
-      // height: 90dvh;
+
       h1 {
         ::v-deep .typing .cursor {
           height: $font-size-heading !important; // Use more specificity with the class
@@ -122,16 +132,21 @@ export default {
 
       @include breakpoint-up(md) {
         flex-direction: row;
+        align-items: flex-start;
       }
 
       .hero-image {
         img {
           aspect-ratio: 9/16;
           object-fit: scale-down;
-          max-width: 30dvw;
+          max-width: 40dvw;
           height: auto;
+          @include breakpoint-up(md) {
+            max-width: 30dvw;
+          }
         }
       }
+
       .hero-text {
         text-align: left;
         position: relative;
@@ -143,11 +158,28 @@ export default {
       }
     }
   }
+
+  &--projects {
+    display: flex;
+    gap: $spacing-lg;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: $spacing-lg * 2 auto;
+
+    @include breakpoint-up(lg) {
+      margin: $spacing-lg * 4 auto;
+    }
+  }
 }
 
 .scroll-arrow {
-  display: block;
-  margin: 0 auto $spacing-lg;
+  position: absolute;
+  bottom: $spacing-lg;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
   text-align: center;
   font-size: 2rem;
   text-decoration: none;
@@ -157,6 +189,9 @@ export default {
 
   &:hover {
     transform: scale(1.1);
+  }
+  @include breakpoint-up(lg) {
+    display: block;
   }
 }
 

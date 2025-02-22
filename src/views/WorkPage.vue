@@ -1,15 +1,15 @@
 <template>
     <div class="page page--work">
         <header class="page__header">
-            <h1 class="page__title">Crafting Pixel-Perfect Experiences</h1>
-            <p class="page__subtitle">
+            <h1 class="page__title parallax-text" data-speed="slow">Crafting Pixel-Perfect Experiences</h1>
+            <p class="page__subtitle parallax-text" data-speed="slow">
                 Front End Developer • Accessibility Advocate • Performance Enthusiast
             </p>
         </header>
 
         <section class="work__intro">
-            <h2 class="work__heading">What I Bring to the Table</h2>
-            <p> 
+            <h2 class="work__heading parallax-text" data-speed="slow">What I Bring to the Table</h2>
+            <p class="parallax-text" data-speed="slow"> 
                 With over 3 years of expertise in Vue.js and 5+ years mastering WordPress, 
                 I specialize in crafting customized templates and Gutenberg blocks that meet the unique needs of each project.
 
@@ -19,7 +19,7 @@
                 With an eye for detail and a passion for clean code, I transform designs into seamless
                 user experiences that stand out. -->
             </p>
-            <p>
+            <p class="parallax-text" data-speed="slow">
                 With an eye for detail and a passion for clean code, I transform designs into seamless user experiences that stand out.
                 <strong>My mission?</strong> To create digital solutions that are fast, functional, and future-proof. 
                 Whether you’re looking for seamless performance, inclusive design, or tailored web functionality, I’m here to bring your vision to life.
@@ -27,7 +27,7 @@
         </section>
 
         <section class="work__portfolio">
-            <h2 class="work__heading">Featured Projects</h2>
+            <h2 class="work__heading parallax-text" data-speed="slow">Featured Projects</h2>
             
             <div class="bento-grid bento-grid--70-30">
                 <div 
@@ -44,7 +44,7 @@
                     >
                         <header class="project__header">
                             <img class="project__logo" :src="getProjectPath(project.logo)" :alt="`${project.title} logo`" />
-                            <h3 class="project__title text--supporting">{{ project.title }}</h3>
+                            <h3 class="project__title text--supporting parallax-text" data-speed="fast">{{ project.title }}</h3>
                         </header>
                         <div></div>
                     </div>
@@ -60,17 +60,17 @@
                         <div class="group-cards bento__card">
                             <!-- Card 3: Skills -->
                             <div class="skills">
-                                <h4 class="skills__heading text--base">Skills:</h4>
+                                <h4 class="skills__heading text--base parallax-text" data-speed="fast">Skills:</h4>
                                 <ul class="skills__tags text--small">
-                                    <li v-for="skill in project.skills" :key="skill" class="skills__tag">{{ skill }}</li>
+                                    <li v-for="skill in project.skills" :key="skill" class="skills__tag parallax-text" data-speed="fast">{{ skill }}</li>
                                 </ul>
                             </div>
                             
                             <!-- Card 2: Tools -->
                             <div class="tools">
-                                <h4 class="tools__heading text--base">Tools:</h4>
+                                <h4 class="tools__heading text--base parallax-text" data-speed="fast">Tools:</h4>
                                 <ul class="skills__tags text--small">
-                                    <li v-for="tool in project.tools" :key="tool" class="skills__tag">{{ tool }}</li>
+                                    <li v-for="tool in project.tools" :key="tool" class="skills__tag parallax-text" data-speed="fast">{{ tool }}</li>
                                 </ul>
                             </div>
                         </div>
@@ -78,7 +78,7 @@
                     <div id="row-3" class="row row--project">
                         <!-- Card 2: Project -->
                         <article class="bento__card project">
-                            <p v-for="(line, index) in project.description.split('\n')" :key="index" class="project__description">
+                            <p v-for="(line, index) in project.description.split('\n')" :key="index" class="project__description parallax-text" data-speed="fast">
                                 {{ line }}
                             </p>
                             <a class="button button--primary" :href="project.link" target="_blank" rel="noopener noreferrer">
@@ -110,7 +110,7 @@
 
                         <!-- Overlay Description -->
                         <div class="overlay" :class="{ 'show': project.showDetails }">
-                        <p v-for="(line, index) in project.description.split('\n')" :key="index">
+                        <p v-for="(line, index) in project.description.split('\n')" :key="index" class="parallax-text" data-speed="slow">
                             {{ line }}
                         </p>
                         <button class="button button--secondary" @click.stop="toggleDetails(project.id)">
@@ -133,13 +133,13 @@
         </section>
 
         <footer class="work__footer">
-            <h2 class="footer__heading">Let’s Build Something Amazing</h2>
-            <p>
+            <h2 class="footer__heading parallax-text" data-speed="slow">Let’s Build Something Amazing</h2>
+            <p class="parallax-text" data-speed="fast">
                 Have an idea or project in mind? I’d love to collaborate!
                 Whether it’s optimising an existing site or crafting something from scratch,
                 let’s create experiences your users will love.
             </p>
-            <a href="mailto:your-email@example.com" class="footer__contact-btn">Get in Touch</a>
+            <a href="/contact" class="footer__contact-btn">Get in Touch</a>
         </footer>
     </div>
 </template>
