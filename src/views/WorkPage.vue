@@ -159,7 +159,7 @@ export default {
                     
                     link: "https://www.prodpad.com/sandbox/",
                     skills: ["VUE 3", "HTML 5", "Sassy CSS", "JavaScript", "RESTful APIs"],
-                    tools: ["Git", "npm", "Vite", "ESLint", "DevTools", ],
+                    tools: ["Git", "npm", "Vite", "ESLint", "Figma" ],
                     images: [
                         {
                             src: "prodpad/prodpad-app-dashboard.png",
@@ -180,7 +180,7 @@ export default {
                     
                     link: "https://www.prodpad.com/",
                     skills: ["PHP", "HTML & SCSS", "JavaScript", "Webpack", "WordPress (custom themes & blocks)"],
-                    tools: ["ACF PRO", "PageSpeed", "BrowserStack", "GitHub"],
+                    tools: ["ACF PRO", "BrowserStack", "GitHub", "Figma"],
                     images: [
                         {
                             src: "prodpad/prodpad-homepage.png",
