@@ -8,5 +8,8 @@ main,
 #app {
     margin: 0;
     max-width: 100dvw;
-    // overflow: hidden; // need scroll for longer pages
+}
+
+html {
+    scroll-padding-top: 100px;
 }

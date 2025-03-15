@@ -143,11 +143,13 @@ export default {
           height: auto;
           @include breakpoint-up(md) {
             max-width: 30dvw;
+            // height: 700px;
           }
         }
       }
 
       .hero-text {
+        background: $red-background;
         text-align: left;
         position: relative;
         width: 80%;
@@ -165,11 +167,12 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
+    // text-align: center;
     margin: $spacing-lg * 2 auto;
 
     @include breakpoint-up(lg) {
       margin: $spacing-lg * 4 auto;
+      padding: $spacing-lg * 4 auto;
     }
   }
 }

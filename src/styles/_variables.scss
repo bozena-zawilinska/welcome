@@ -8,6 +8,12 @@ $lavender: #b5a0d8;
 $wisteria: #d1a0d8;
 $blue-bell: #a0a7d8;
 
+$soft-red: #EF8D9C;
+$pale-orange: #FFC39E;
+
+$soft-green: #B0DB7D;
+$soft-cyan: #99DBB4;
+
 // Old - remove?
 $grayish-red: #d7bdc1;
 $grayish-blue: #bdced7;
@@ -17,12 +23,16 @@ $sage: #9ab89e;
 $rosemary: #47756e;
 
 // Text
-$font-dark: #362d45;
+$font-dark: #000000;
+// $font-dark: #362d45;
 $font-grey: #626f89;
 $dark-gunmetal: #333e61; // Used for side nav background and tooltip text
 
 // Gradients
-$green-background: linear-gradient(135deg, $green-white, $grayish-cyan, $grayish-blue);
+// $green-background: linear-gradient(135deg, $green-white, $grayish-cyan, $grayish-blue);
+$red-background: linear-gradient(to bottom left, $soft-red 40%, $pale-orange 100%);
+$green-background: linear-gradient(to bottom right, $soft-green 40%, $soft-cyan 100%);
+
 
 // Font Sizes
 $font-size-small: 0.833rem;

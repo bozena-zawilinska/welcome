@@ -1,33 +1,34 @@
 <template>
     <div class="page page--work">
-        <header class="page__header">
-            <h1 class="page__title parallax-text" data-speed="slow">Crafting Pixel-Perfect Experiences</h1>
-            <p class="page__subtitle parallax-text" data-speed="slow">
-                Front End Developer • Accessibility Advocate • Performance Enthusiast
-            </p>
-        </header>
-
+        <h1 class="visually-hidden">My Work</h1>
         <section class="work__intro">
-            <h2 class="work__heading parallax-text" data-speed="slow">What I Bring to the Table</h2>
-            <p class="parallax-text" data-speed="slow"> 
-                With over 3 years of expertise in Vue.js and 5+ years mastering WordPress, 
-                I specialize in crafting customized templates and Gutenberg blocks that meet the unique needs of each project.
+            <div class="work__image">
+                <img src="@/assets/avatar-bz-3.png" alt="" />
+                <div class="shadow"></div>
+            </div>
+            <div class="container work__text-group">
+                <h2 class="work__heading">What I Bring to the Table</h2>
+                <p> 
+                    With over 3 years of expertise in Vue.js and 5+ years mastering WordPress, 
+                    I specialize in crafting customized templates and Gutenberg blocks that meet the unique needs of each project.
+    
+                    As the sole web developer in my current role, I've taken full ownership of building, and optimizing ProdPad website, 
+                    achieving near-perfect PageSpeed scores for both desktop and mobile. 
+                    <!-- I specialise in building interactive, accessible, and high-performing web applications.
+                    With an eye for detail and a passion for clean code, I transform designs into seamless
+                    user experiences that stand out. -->
+                </p>
+                <p>
+                    With an eye for detail and a passion for clean code, I transform designs into seamless user experiences that stand out.
+                    <strong>My mission?</strong> To create digital solutions that are fast, functional, and future-proof. 
+                    Whether you’re looking for seamless performance, inclusive design, or tailored web functionality, I’m here to bring your vision to life.
+                </p>
+            </div>
 
-                As the sole web developer in my current role, I've taken full ownership of building, and optimizing ProdPad website, 
-                achieving near-perfect PageSpeed scores for both desktop and mobile. 
-                <!-- I specialise in building interactive, accessible, and high-performing web applications.
-                With an eye for detail and a passion for clean code, I transform designs into seamless
-                user experiences that stand out. -->
-            </p>
-            <p class="parallax-text" data-speed="slow">
-                With an eye for detail and a passion for clean code, I transform designs into seamless user experiences that stand out.
-                <strong>My mission?</strong> To create digital solutions that are fast, functional, and future-proof. 
-                Whether you’re looking for seamless performance, inclusive design, or tailored web functionality, I’m here to bring your vision to life.
-            </p>
         </section>
 
         <section class="work__portfolio">
-            <h2 class="work__heading parallax-text" data-speed="slow">Featured Projects</h2>
+            <h2 class="work__heading">Featured Projects</h2>
             
             <div class="bento-grid bento-grid--70-30">
                 <div 
@@ -158,7 +159,7 @@ export default {
                     description: "As a Front-end Developer at ProdPad, I collaborated closely with the Product and Design teams to enhance UI/UX, develop new features and improve accessibility. My work focused on building reusable components, maintaining clean and well-documented code, and ensuring consistency using ESLint for formatting and best practices. I frequently interacted with backend APIs, handling data fetching for users and accounts to deliver seamless product experiences.",
                     
                     link: "https://www.prodpad.com/sandbox/",
-                    skills: ["VUE 3", "HTML 5", "Sassy CSS", "JavaScript", "RESTful APIs"],
+                    skills: ["VUE 3", "HTML 5", "Sassy CSS 💅", "JavaScript", "RESTful APIs"],
                     tools: ["Git", "npm", "Vite", "ESLint", "Figma" ],
                     images: [
                         {
@@ -410,7 +411,82 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.work {
+    &__intro {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        position: relative;
+        margin-bottom: 5rem;
+        flex-direction: column;
+        @include breakpoint-up(lg) {    
+            align-items: center;
+            flex-direction: row;
+        }
+    }
+    &__image {
+        flex: 1;
+        max-width: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;  
+        margin-top: 160px; 
+        @include breakpoint-up(lg) {    
+            margin-top: 0;
+        } 
 
+        img {
+            position: absolute;
+            margin-right: -1rem;
+            height: 400px;
+            width: auto;
+            filter: drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.3));
+            z-index: -1;
+            left: 10%;
+            @include breakpoint-up(lg) {    
+                left: unset;
+                z-index: 1;
+            }
+        }
+
+        .shadow {
+            position: absolute;
+            width: 160px;
+            height: 65px;
+            background: rgba(157, 157, 157, 0.5);
+            filter: blur(16px);
+            border-radius: 50%;
+            z-index: -1;
+            display: none;
+            @include breakpoint-up(lg) {    
+                display: block;
+                bottom: -1vh;
+                left: 15%;
+            }
+            @include breakpoint-up(xl) {    
+                bottom: -3vh;
+                // left: 5vw;
+            }
+        }
+    }
+    &__text-group {
+        flex: 2;
+        background: $red-background;
+        border-radius: 20px;
+        box-shadow: 5px 5px 20px rgba(#CBCDD3, 10%);
+        perspective: 40px;
+
+
+
+        // .work__heading {
+        //     color: white;
+        // }
+    }  
+
+    &__portfolio {
+
+    }
+}
 
 .bento-grid {
     display: grid;
