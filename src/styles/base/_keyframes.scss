@@ -103,6 +103,12 @@
        opacity: 0;
        transition: transform 1s ease-out, opacity 1s ease-out;
    }
+   // Option for users who prefer minimal animations
+   @media (prefers-reduced-motion: reduce) {
+       .parallax-text {
+           transform: none !important;
+       }
+   }
 
    // When in view, reveal the text
    .parallax-visible {

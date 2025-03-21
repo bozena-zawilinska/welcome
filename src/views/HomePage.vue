@@ -24,7 +24,7 @@
           wrapperElement="p"
         /> -->
         <p class="parallax-text" data-speed="fast">
-          A passionate Front-end and Website Developer with a knack for building web experiences that are not only visually captivating but also optimized for accessibility and performance. 🚀
+          A passionate <strong>Front-end and Website Developer</strong> with a knack for building web experiences that are not only visually captivating but also optimized for accessibility and performance. 🚀
         </p>
         </div>
         <a href="#portfolio" class="scroll-arrow" aria-label="Scroll to Portfolio">
@@ -37,67 +37,108 @@
       <!-- Portfolio Projects -->
       <section id="portfolio" class="section--projects">
         <div class="">
-          <h2 class="parallax-text" data-speed="slow">Building Engaging & Scalable Websites</h2>
+          <h2 class="parallax-text" data-speed="slow">Crafting Seamless & Scalable Web Experiences</h2>
           <p class="parallax-text" data-speed="slow">
-            I specialize in creating high-performance, accessible websites with custom WordPress solutions. 
-            From crafting intuitive Gutenberg blocks to optimizing UX/UI, my work empowers teams to manage 
-            content effortlessly.
+            I build <strong>pixel-perfect, high-performance websites</strong> that empower teams to create stunning pages with minimal effort.  
+            My custom Gutenberg blocks are designed for maximum flexibility, allowing marketing teams to manage content effortlessly—without touching a line of code.
           </p>
 
-          <p class="parallax-text" data-speed="slow">See two of my Custom Gutenberg Blocks in action</p>
-        </div>
-          <div class="video-container">
-            <video autoplay loop muted class="rounded-lg shadow-lg max-w-full">
-              <source src="@/assets/projects/prodpad/prodpad-custom-gutenberg-blocks.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-          <div class="">
-            <a href="/work" class="button button--primary">
-              View My Work
-            </a>
-          </div>
-        <!-- </div> -->
-      </section>
+          <p class="parallax-text" data-speed="slow">
+            🚀 <strong>Smart. Responsive. Effortless.</strong>
+          </p>
 
-      <!-- About Me -->
-      <section id="about" class="section--about">
-        <h2>About Me 🌸</h2>
-        <p>Hello again! Thanks for scrolling this far! 🤗</p>
-        <p>
-          Other than coding, I spend most of my free time playing games or reading.
-          Feel free to recommend books!
-        </p>
-        <ul class="skills">
-          <li v-for="skill in skills" :key="skill.name">
-            <img :src="skill.icon" :alt="skill.name" /> {{ skill.name }}
-          </li>
-        </ul>
+          <p class="parallax-text" data-speed="slow">
+            The video below showcases two of my bespoke Gutenberg blocks in action:
+          </p>
+
+          <ul class="parallax-text no-markers" data-speed="slow">
+            <li>✨ <strong>Hero Section</strong> – A versatile, fully responsive hero section with dynamic light/dark mode, flexible typography, and built-in CTA options, including HubSpot-integrated signup form.</li>
+            <li>🎬 <strong>Auto Image Swiper</strong> – A sleek, hands-free image slider that cycles through visuals with a built-in animated progress bar and description.</li>
+          </ul>
+
+          <p class="parallax-text" data-speed="slow">
+            These blocks (and many more) are built for seamless editing, ensuring every WordPress site looks and performs flawlessly.
+          </p>
+        </div>
+        <GutenbergVideo />
       </section>
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App" /> -->
+      <section id="cta" class="section--cta">
+        <h2>🌟 Let's bring your vision to life!</h2>
+        <p>Whether you need a custom-built solution, a performance boost, or a more accessible website, I’m here to help.</p>
+          <div class="button-group">
+            <button href="/contact" class="button button--secondary">Get in Touch</button>
+            <button onclick="location.href='/work'" class="button button--primary">Explore My Work</button>
+          </div>
+      </section>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
 import TypingAnimation from "@/components/TypingAnimation.vue";
+import GutenbergVideo from "@/components/GutenbergVideo.vue";
 
 export default {
   name: "HomePage",
   components: {
-    // HelloWorld,
     TypingAnimation,
+    GutenbergVideo,
   },
   data() {
     return {
       secondAnimationDelay: 0, // Dynamic delay for the second animation
+      lastScrollY: window.scrollY, // Track last scroll position
+      isMobile: window.innerWidth < 992, // Check if device is mobile
     };
+  },
+  watch: {
+    isMobile(newVal) {
+      if (newVal) {
+        window.removeEventListener("scroll", this.handleScroll);
+      } else {
+        window.addEventListener("scroll", this.handleScroll);
+      }
+    }
+  },
+  created() {
+    window.addEventListener("resize", this.updateIsMobile);
+  },
+  mounted() {
+      if (!this.isMobile) {
+        window.addEventListener("scroll", this.handleScroll);
+      }
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.updateIsMobile);
+    window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
     onFirstAnimationFinished(totalDuration) {
       console.log("First animation finished. Total duration:", totalDuration);
       this.secondAnimationDelay = totalDuration; // Update delay for the second animation
+    },
+    handleScroll() {
+      const scrollArrow = document.querySelector(".scroll-arrow");
+      const portfolioSection = document.getElementById("portfolio");
+      const heroSection = document.getElementById("hello");
+
+      if (!scrollArrow || !portfolioSection || !heroSection) return;
+
+      const arrowRect = scrollArrow.getBoundingClientRect();
+      const portfolioRect = portfolioSection.getBoundingClientRect();
+      const scrollDirection = window.scrollY > this.lastScrollY ? "down" : "up";
+
+      if (scrollDirection === "down" && arrowRect.top >= 0 && arrowRect.bottom <= window.innerHeight) {
+        // Scroll down to Portfolio
+        this.smoothScrollTo(portfolioSection);
+      } else if (scrollDirection === "up" && portfolioRect.top >= 0 && portfolioRect.top < 100) {
+        // Scroll up back to Hero
+        this.smoothScrollTo(heroSection);
+      }
+
+      this.lastScrollY = window.scrollY; // Update last scroll position
+    },
+    smoothScrollTo(section) {
+      section.scrollIntoView({ behavior: "smooth" });
     },
   },
 };
@@ -167,7 +208,6 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    // text-align: center;
     margin: $spacing-lg * 2 auto;
 
     @include breakpoint-up(lg) {

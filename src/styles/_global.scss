@@ -41,25 +41,25 @@
 
 }
 
-.video-container {
-    box-shadow: $box-shadow-soft;
-    border-radius: 16px;
-    position: relative;
-    width: 100%;
-    margin: 0 auto;
-    padding-top: 56.25%; // 16:9 aspect ratio (9 / 16 = 0.5625)
-    overflow: hidden;
-    video {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover; // Ensures video fills the container completely
-        object-position: center;
-        clip-path: inset(8px 8px); // Crops 1px from all sides to remove borders
-    }
-}
+// .video-container {
+//     box-shadow: $box-shadow-soft;
+//     border-radius: 16px;
+//     position: relative;
+//     width: 100%;
+//     margin: 0 auto;
+//     padding-top: 56.25%; // 16:9 aspect ratio (9 / 16 = 0.5625)
+//     overflow: hidden;
+//     video {
+//         position: absolute;
+//         top: 0;
+//         left: 0;
+//         width: 100%;
+//         height: 100%;
+//         object-fit: cover; // Ensures video fills the container completely
+//         object-position: center;
+//         clip-path: inset(8px 8px); // Crops 1px from all sides to remove borders
+//     }
+// }
 
 .description {
     animation: fadeIn 0.6s ease-in-out;
@@ -113,4 +113,16 @@
     clip: rect(0, 0, 0, 0) !important;
     white-space: nowrap !important;
     border: 0 !important;
+}
+
+// Screen readers only
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
 }

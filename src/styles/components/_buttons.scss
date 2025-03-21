@@ -86,3 +86,11 @@
         }
     }
 }
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: $spacing-lg;
+    margin: 0 auto;
+    max-width: 300px;
+    width: 100%;
+}

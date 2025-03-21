@@ -17,7 +17,7 @@
 
             <button class="button button--primary button--toggle" @click="toggleNav">
                 <!-- <i :class="isCollapsed ? 'fas fa-arrow-left' : 'fas fa-arrow-right'" v-tooltip="isCollapsed ? '[ to expand' : '[ to collapse'">]</i> -->
-                <span v-html="isCollapsed ? '&lt;&lt;' : 'Hide &gt;&gt;'" v-tooltip="isCollapsed ? 'Use [ to expand' : 'Use [ to hide'" />
+                <span v-html="isCollapsed ? '&lt;&lt;' : 'Hide &gt;&gt;'" v-tooltip.auto="isCollapsed ? 'Use [ to expand' : 'Use [ to hide'" />
             </button>
             <ul>
                 <li 
@@ -28,7 +28,7 @@
                     @mouseleave="hoverItem = null" 
                     v-float="isCollapsed && hoverItem === index ? item.title : ''"
                     v-bind:title="isCollapsed && hoverItem === index ? item.title : ''" 
-                    v-tooltip="isCollapsed && hoverItem === index ? item.title : ''"
+                    v-tooltip.auto="isCollapsed && hoverItem === index ? item.title : ''"
                 >
                     <a 
                         :href="item.link"
@@ -220,5 +220,5 @@ export default {
         display: none;
     }
 }
-@import "@/styles/vendors/floating-vue.scss";
+// @import "../styles/vendors/floating-vue.scss";
 </style>

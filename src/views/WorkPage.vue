@@ -28,8 +28,8 @@
         </section>
 
         <section class="work__portfolio">
-            <h2 class="work__heading">Featured Projects</h2>
             
+            <h2 class="work__heading">Featured Projects</h2>
             <div class="bento-grid bento-grid--70-30">
                 <div 
                     v-for="project in projects.slice(0, 4)" 
@@ -95,6 +95,7 @@
             </div>
 
             <!-- Other Projects -->
+            <h2 class="work__heading">Other Projects</h2>
             <div class="bento-grid bento-grid--100">
                 <div 
                     v-for="(project, index) in projects.slice(4)" 
@@ -140,6 +141,7 @@
                 Whether it’s optimising an existing site or crafting something from scratch,
                 let’s create experiences your users will love.
             </p>
+            <p>My approach ensures that every website is not only visually stunning but also <strong>accessible</strong>, providing an inclusive experience for all users—because great design should work for everyone.</p>
             <a href="/contact" class="footer__contact-btn">Get in Touch</a>
         </footer>
     </div>
