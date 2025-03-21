@@ -27,119 +27,54 @@
 
         </section>
         <section class="work__resume">
-            <div 
-                v-for="project in projects.slice(0, 4)" 
-                :key="project.id" 
-                class="container resume-card"
-            >
-                <header class="card__header">
-                    <h3 class="card__title parallax-text" data-speed="fast">{{ project.title }}</h3>
-                    <img class="card__logo" :src="getProjectPath(project.logo)" :alt="`${project.title} logo`" />
-                </header>
-                <!-- <h1 class="animated-heading">About Me</h1> -->
-                <h4 class="card__subtitle text--base">
-                    {{ project.role }}
-                </h4>
-                <p class="card__summary" :class="{ 'hide': project.showDetails }" >
-                    {{ project.summary }}
-                </p>
 
-                <!-- Full Description -->
-                <div class="card__details" :class="{ 'show': project.showDetails }" aria-expanded="true">
-                    <p v-for="(line, index) in project.description.split('\n')" :key="index">
-                        {{ line }}
+            <h2 class="work__heading">Featured Projects</h2>
+            <div class="resume-container">
+                <div 
+                    v-for="project in projects.slice(0, 4)" 
+                    :key="project.id" 
+                    class="container resume-card"
+                >
+                    <header class="card__header">
+                        <h3 class="card__title parallax-text" data-speed="fast">{{ project.title }}</h3>
+                        <img class="card__logo" :src="getProjectPath(project.logo)" :alt="`${project.title} logo`" />
+                    </header>
+                    <!-- <h1 class="animated-heading">About Me</h1> -->
+                    <h4 class="card__subtitle text--base">
+                        {{ project.role }}
+                    </h4>
+                    <p class="card__summary" :class="{ 'hide': project.showDetails }" >
+                        {{ project.summary }}
                     </p>
-                        <div class="tablet-frame">
-                            <div class="image-container">
-                                <img class="project__image" :src="getProjectPath(project.images[0].src)" :alt="project.images[0].alt" />
+
+                    <!-- Full Description -->
+                    <div class="card__details" :class="{ 'show': project.showDetails }" aria-expanded="true">
+                        <p v-for="(line, index) in project.description.split('\n')" :key="index">
+                            {{ line }}
+                        </p>
+                            <div class="tablet-frame">
+                                <div class="image-container">
+                                    <img class="project__image" :src="getProjectPath(project.images[0].src)" :alt="project.images[0].alt" />
+                                </div>
                             </div>
-                        </div>
-                </div>
-                <div class="group-buttons">
-                    <button class="link-underline" @click.stop="toggleDetails(project)" :aria-expanded="project.showDetails">
-                        {{ project.showDetails ? 'Show less' : 'Show more' }}
-                        <i class="fa" :class="project.showDetails ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
-                    </button>
-    
-                    <button class="button button--primary" :href="project.link" target="_blank" rel="noopener noreferrer">
-                        <span class="project__footer-text">View live </span>
-                        <font-awesome-icon icon="arrow-up-right-from-square" />
-                    </button>
+                    </div>
+                    <div class="group-buttons">
+                        <button class="link-underline" @click.stop="toggleDetails(project)" :aria-expanded="project.showDetails">
+                            {{ project.showDetails ? 'Show less' : 'Show more' }}
+                            <i class="fa" :class="project.showDetails ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
+                        </button>
+        
+                        <button class="button button--primary" :href="project.link" target="_blank" rel="noopener noreferrer">
+                            <span class="project__footer-text">View live </span>
+                            <font-awesome-icon icon="arrow-up-right-from-square" />
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section class="work__portfolio">
             
-            <h2 class="work__heading">Featured Projects</h2>
-            <div class="bento-grid bento-grid--70-30">
-                <div 
-                    v-for="project in projects.slice(0, 4)" 
-                    :key="project.id" 
-                    class="bento-item"
-                    :class="{ 'is-visible': project.isVisible }"
-                    :style="{ '--delay': index * 0.15 + 's' }"
-                    ref="bentoItems"
-                >
-                    <div 
-                        id="row-1" 
-                        class="row row--project"
-                    >
-                        <header class="project__header">
-                            <img class="project__logo" :src="getProjectPath(project.logo)" :alt="`${project.title} logo`" />
-                            <h3 class="project__title text--supporting parallax-text" data-speed="fast">{{ project.title }}</h3>
-                        </header>
-                        <div>
-
-                        </div>
-                    </div>
-                    <div 
-                        id="row-2" 
-                        class="row row--project"
-                    >
-                        <!-- Card 5: Image -->
-                        <div class="bento__card image no-padding">
-                            <img v-if="project.images[0]" class="project__image" :src="getProjectPath(project.images[0].src)" :alt="project.images[0].alt" />
-                            <!-- <img v-if="project.images[2]" :src="project.images[2].src" :alt="project.images[2].alt" /> -->
-                        </div>
-                        <div class="group-cards bento__card">
-                            <!-- Card 3: Skills -->
-                            <div class="skills">
-                                <h4 class="skills__heading text--base parallax-text" data-speed="fast">Skills:</h4>
-                                <ul class="skills__tags text--small">
-                                    <li v-for="skill in project.skills" :key="skill" class="skills__tag parallax-text" data-speed="fast">{{ skill }}</li>
-                                </ul>
-                            </div>
-                            
-                            <!-- Card 2: Tools -->
-                            <div class="tools">
-                                <h4 class="tools__heading text--base parallax-text" data-speed="fast">Tools:</h4>
-                                <ul class="skills__tags text--small">
-                                    <li v-for="tool in project.tools" :key="tool" class="skills__tag parallax-text" data-speed="fast">{{ tool }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="row-3" class="row row--project">
-                        <!-- Card 2: Project -->
-                        <article class="bento__card project">
-                            <p v-for="(line, index) in project.description.split('\n')" :key="index" class="project__description parallax-text" data-speed="fast">
-                                {{ line }}
-                            </p>
-                        </article>
-                        <div class="bento__card no-bg no-padding">
-                            <img v-if="project.images[1]" class="project__image" :src="getProjectPath(project.images[1].src)" :alt="project.images[1].alt" />
-                        </div>
-                    </div>
-                    <footer class="project__footer">
-
-                            <a class="button button--primary" :href="project.link" target="_blank" rel="noopener noreferrer">
-                                <span class="project__footer-text">View live </span>
-                                <font-awesome-icon icon="arrow-up-right-from-square" />
-                            </a>
-                            </footer>
-                </div>
-            </div>
             <div class="shade shade--pale-orange"></div>
             <!-- Other Projects -->
             <h2 class="work__heading">Other Projects</h2>
@@ -154,7 +89,7 @@
                 >
 
                     <!-- Image Card with Overlay -->
-                    <div class="bento__card image-container" @click="toggleDetails(project.id)">
+                    <div class="bento__card image-container" @click="showDetails(project.id)">
                         <img class="project__image" :src="getProjectPath(project.images[0].src)" :alt="project.images[0].alt" />
 
                         <!-- Overlay Description -->
@@ -162,7 +97,7 @@
                         <p v-for="(line, index) in project.description.split('\n')" :key="index" class="parallax-text" data-speed="slow">
                             {{ line }}
                         </p>
-                        <button class="button button--secondary" @click.stop="toggleDetails(project.id)">
+                        <button class="button button--secondary" @click.stop="showDetails(project.id)">
                             Hide Details
                         </button>
                         </div>
@@ -170,7 +105,7 @@
 
                     <!-- Action Buttons -->
                     <div class="bento__actions">
-                        <button class="button button--secondary" @click="toggleDetails(project.id)">
+                        <button class="button button--secondary" @click="showDetails(project.id)">
                         Show Details
                         </button>
                         <button class="button button--primary" :href="project.link" target="_blank" rel="noopener noreferrer">
@@ -453,11 +388,11 @@ export default {
         toggleDetails(project) {
             project.showDetails = !project.showDetails;
         },
-        // toggleDetails(id) {
-        //     this.projects = this.projects.map(project =>
-        //         project.id === id ? { ...project, showDetails: !project.showDetails } : project
-        //     );
-        // },
+        showDetails(id) {
+            this.projects = this.projects.map(project =>
+                project.id === id ? { ...project, showDetails: !project.showDetails } : project
+            );
+        },
         observeBentoItems() {
             const options = {
                 root: null,
@@ -612,7 +547,10 @@ export default {
     /* Bento Grid Full width */
     &--100 {
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        @include breakpoint-up(lg) {
+        @include breakpoint-up(md) {
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        }
+        @include breakpoint-up(xl) {
             grid-template-columns: repeat(2, minmax(400px, 1fr));
         }
 
@@ -876,11 +814,13 @@ export default {
 </style>
 <style lang="scss" scoped>
 @import "../styles/components/media";
-.work__resume {
+.resume-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: $spacing-lg;
+    width: 100%;
+    // min-width: 100%;
 }
 
 .resume-card {
@@ -893,6 +833,11 @@ export default {
     flex-direction: column;
     position: relative;
     // max-width: none;
+
+    @include breakpoint-up(xl) {
+        max-width: calc(50% - #{$spacing-lg*2});
+        flex: 1;
+    }
 
     .group-buttons {
         justify-content: space-between;
