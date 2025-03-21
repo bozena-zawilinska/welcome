@@ -102,11 +102,13 @@
        transform: translateY(50px);
        opacity: 0;
        transition: transform 1s ease-out, opacity 1s ease-out;
+       display: block;
    }
    // Option for users who prefer minimal animations
    @media (prefers-reduced-motion: reduce) {
        .parallax-text {
-           transform: none !important;
+            transform: none !important;
+            opacity: 1
        }
    }
 

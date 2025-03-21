@@ -1,29 +1,31 @@
 <template>
-  <div class="video-container" @mouseenter="showButton = true" @mouseleave="hideButton">
-    <!-- Video Element -->
-    <video ref="gutenbergVideo" @click="toggleVideoPlayback" @play="isPlaying = true" @pause="isPlaying = false">
-      <source src="@/assets/projects/prodpad/prodpad-custom-gutenberg-blocks.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
+    <div class="tablet-frame">
+        <div class="video-container" @mouseenter="showButton = true" @mouseleave="hideButton">
+            <!-- Video Element -->
+            <video ref="gutenbergVideo" @click="toggleVideoPlayback" @play="isPlaying = true" @pause="isPlaying = false">
+            <source src="@/assets/projects/prodpad/prodpad-custom-gutenberg-blocks.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+            </video>
 
-    <!-- Play/Pause Button (Centered) -->
-    <button
-      id="play"
-      v-show="showButton"
-      @click="toggleVideoPlayback"
-      :aria-label="isPlaying ? 'Pause video' : 'Play video'"
-      :class="{ toggle: isPlaying }"
-    >
-      <div id="me"></div>
-    </button>
+            <!-- Play/Pause Button (Centered) -->
+            <button
+            id="play"
+            v-show="showButton"
+            @click="toggleVideoPlayback"
+            :aria-label="isPlaying ? 'Pause video' : 'Play video'"
+            :class="{ toggle: isPlaying }"
+            >
+            <div id="me"></div>
+            </button>
 
-    <!-- Video Description for Screen Readers -->
-    <p class="sr-only">
-      This video demonstrates two of my custom Gutenberg blocks.  
-      1️⃣ The **Hero Section Block** allows users to change the background, set a supportive title, adjust letter case, and customize a headline, tagline, and CTA button.  
-      2️⃣ The **Auto Image Swiper** lets users add four images with descriptions. The block displays one image at a time with an automatic loading bar indicating when the next image will appear.
-    </p>
-  </div>
+            <!-- Video Description for Screen Readers -->
+            <p class="sr-only">
+            This video demonstrates two of my custom Gutenberg blocks.  
+            1️⃣ The **Hero Section Block** allows users to change the background, set a supportive title, adjust letter case, and customize a headline, tagline, and CTA button.  
+            2️⃣ The **Auto Image Swiper** lets users add four images with descriptions. The block displays one image at a time with an automatic loading bar indicating when the next image will appear.
+            </p>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -60,26 +62,31 @@ export default {
 
 <style scoped lang="scss">
 @import "../styles/_variables.scss";
+@import "../styles/components/media";
 
-.video-container {
-  box-shadow: $box-shadow-soft;
-  border-radius: 16px;
-  position: relative;
-  width: 100%;
-  margin: 0 auto;
-  padding-top: 56.25%; // 16:9 aspect ratio
-  overflow: hidden;
-  video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    clip-path: inset(8px 8px);
-    cursor: pointer;
-  }
-}
+// .video-container {
+//   box-shadow: $box-shadow-soft;
+//   border-radius: 16px;
+//   position: relative;
+//   width: 100%;
+//   margin: 0 auto;
+//   padding-top: 56.25%; // 16:9 aspect ratio
+//   overflow: hidden;
+//   background-color: $lavender;
+//   video {
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     width: 100%;
+//     height: 100%;
+//     margin: auto;
+//     object-fit: cover;
+//     clip-path: inset(8px 8px);
+//     cursor: pointer;
+//   }
+// }
+
+
 
 #play {
   appearance: none;

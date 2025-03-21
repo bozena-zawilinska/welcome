@@ -97,21 +97,24 @@ export default {
     // background: white;
     // box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
     width: 100%;
+    max-width: 100vw;
     position: fixed;
+    top: 0;
     height: 24px;
     padding: 16px 0;
     z-index: 1;
-    @include breakpoint-up(md) {
-        background: none;
-        height: 0;
-        padding: 0;
-        width: 0;
-    }
+    // @include breakpoint-up(md) {
+    //     background: none;
+    //     height: 0;
+    //     padding: 0;
+    //     width: 0;
+    // }
 }
+
 /* Hamburger Menu Button (Mobile Only) */
 .hamburger-btn {
     display: none;
-    position: fixed;
+    position: absolute;
     top: 16px;
     right: 16px;
     z-index: 20;
@@ -136,19 +139,24 @@ export default {
     box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
     transition: width 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+
 
     position: fixed;
     right: 0;
     top: 0;
     height: 100vh;
     width: 100%;
+    // max-width: 100vw;
     z-index: 10;
 
     opacity: 1;
     visibility: visible;
+
+    @include breakpoint-up(md) {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
 
     &.collapsed {
         opacity: 0;
@@ -157,7 +165,7 @@ export default {
     }
 
     .button--toggle {
-        display: inline-block;
+        // display: inline-block;
         transition: all 0.3s ease;
         margin: $spacing-lg;
     }
@@ -199,8 +207,8 @@ export default {
 }
 
 /* Media Query for Desktop View */
+.side-nav {
 @include breakpoint-up(md) {
-    .side-nav {
         display: flex;
         width: 200px;
 

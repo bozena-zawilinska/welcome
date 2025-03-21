@@ -43,16 +43,16 @@
             My custom Gutenberg blocks are designed for maximum flexibility, allowing marketing teams to manage content effortlessly—without touching a line of code.
           </p>
 
-          <p class="parallax-text" data-speed="slow">
+          <h3 class="parallax-text" data-speed="slow">
             🚀 <strong>Smart. Responsive. Effortless.</strong>
-          </p>
+          </h3>
 
           <p class="parallax-text" data-speed="slow">
             The video below showcases two of my bespoke Gutenberg blocks in action:
           </p>
 
           <ul class="parallax-text no-markers" data-speed="slow">
-            <li>✨ <strong>Hero Section</strong> – A versatile, fully responsive hero section with dynamic light/dark mode, flexible typography, and built-in CTA options, including HubSpot-integrated signup form.</li>
+            <li>🖼 <strong>Hero Section</strong> – A versatile, fully responsive hero section with dynamic light/dark mode, flexible typography, and built-in CTA options, including HubSpot-integrated signup form.</li>
             <li>🎬 <strong>Auto Image Swiper</strong> – A sleek, hands-free image slider that cycles through visuals with a built-in animated progress bar and description.</li>
           </ul>
 
@@ -61,11 +61,12 @@
           </p>
         </div>
         <GutenbergVideo />
+          <div class="shade shade--lavender"></div>
       </section>
       <section id="cta" class="section--cta">
-        <h2>🌟 Let's bring your vision to life!</h2>
+        <h2>🌱 Let's bring your vision to life!</h2>
         <p>Whether you need a custom-built solution, a performance boost, or a more accessible website, I’m here to help.</p>
-          <div class="button-group">
+          <div class="group-buttons">
             <button href="/contact" class="button button--secondary">Get in Touch</button>
             <button onclick="location.href='/work'" class="button button--primary">Explore My Work</button>
           </div>
@@ -87,7 +88,7 @@ export default {
     return {
       secondAnimationDelay: 0, // Dynamic delay for the second animation
       lastScrollY: window.scrollY, // Track last scroll position
-      isMobile: window.innerWidth < 992, // Check if device is mobile
+      isMobile: window.innerWidth < 1024, // Check if device is mobile
     };
   },
   watch: {
@@ -144,9 +145,28 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+section {
+  position: relative;
+    display: flex;
+    gap: $spacing-lg;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: $spacing-lg * 2 auto;
+
+    @include breakpoint-up(lg) {
+      margin: $spacing-lg * 4 auto;
+      // padding: $spacing-lg * 4 auto;
+      max-width: 1000px;
+    }
+}
 .section {
 
-  position: relative;
+   @include breakpoint-up(md) {
+        flex-direction: row;
+        align-items: flex-start;
+  }
+
   &--welcome {
     display: flex;
     flex-direction: column;
@@ -180,10 +200,10 @@ export default {
         img {
           aspect-ratio: 9/16;
           object-fit: scale-down;
-          max-width: 40dvw;
+          max-width: 40vw;
           height: auto;
           @include breakpoint-up(md) {
-            max-width: 30dvw;
+            max-width: 30vw;
             // height: 700px;
           }
         }
@@ -203,17 +223,37 @@ export default {
   }
 
   &--projects {
-    display: flex;
-    gap: $spacing-lg;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: $spacing-lg * 2 auto;
+    // display: flex;
+    // gap: $spacing-lg;
+    // flex-direction: column;
+    // justify-content: center;
+    // align-items: center;
+    // margin: $spacing-lg * 2 auto;
 
-    @include breakpoint-up(lg) {
-      margin: $spacing-lg * 4 auto;
-      padding: $spacing-lg * 4 auto;
+    // @include breakpoint-up(lg) {
+    //   margin: $spacing-lg * 4 auto;
+    //   // padding: $spacing-lg * 4 auto;
+    //   max-width: 1000px;
+    // }
+
+  .shade {
+      top: 40%;
+      left: 80%;
+      position: absolute;
+      // filter: blur(100px);
+      width: 1000px;
+      height: 1000px;
+      @include breakpoint-up(lg) {
+        top: 100%;
+      }
     }
+
+  }
+  &--cta {
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
 }
 

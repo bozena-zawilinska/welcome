@@ -7,12 +7,12 @@
 * GLOBAL CLASSES
 */
 .page {
-    max-width: 90dvw;
+    max-width: 90vw;
     margin: $spacing-lg *2 auto;
 
     @include breakpoint-up(md) {
         padding-right: $padding-large * 4 ;
-        max-width: 80dvw;
+        max-width: 80vw;
     }
     @include breakpoint-up(lg) {
         max-width: 1200px;
@@ -67,6 +67,8 @@
 }
 
 .link-underline {
+    all: unset;
+    cursor: pointer;
     display: inline-flex;
     align-items: center;
     color: $font-grey;

@@ -13,7 +13,7 @@
         // background: linear-gradient(165deg, $white, $grayish-red, $lavender);
         // background: rgba(209, 160, 216, 0.75); // wisteria
         background: $red-background;
-        box-shadow: 4px 4px 8px rgba(215, 189, 193, 0.1), 4px 4px 2px #ffffff;
+        // box-shadow: 4px 4px 8px rgba(215, 189, 193, 0.1), 4px 4px 2px #ffffff;
         border: none;
         // color: white;
         // span, p {
@@ -86,11 +86,17 @@
         }
     }
 }
-.button-group {
+.group-buttons {
     display: flex;
-    justify-content: space-between;
-    gap: $spacing-lg;
-    margin: 0 auto;
-    max-width: 300px;
+    justify-content: flex-start;
+    gap: $spacing-xs;
     width: 100%;
+    button, .button {
+        flex: 1;
+    }
+    @include breakpoint-up(lg) {
+        justify-content: space-evenly;
+        margin: 0 auto;
+        max-width: 500px;
+    }
 }

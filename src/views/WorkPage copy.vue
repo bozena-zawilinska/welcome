@@ -26,48 +26,6 @@
             </div>
 
         </section>
-        <section class="work__resume">
-            <div 
-                v-for="project in projects.slice(0, 4)" 
-                :key="project.id" 
-                class="container resume-card"
-            >
-                <header class="card__header">
-                    <h3 class="card__title parallax-text" data-speed="fast">{{ project.title }}</h3>
-                    <img class="card__logo" :src="getProjectPath(project.logo)" :alt="`${project.title} logo`" />
-                </header>
-                <!-- <h1 class="animated-heading">About Me</h1> -->
-                <h4 class="card__subtitle text--base">
-                    {{ project.role }}
-                </h4>
-                <p class="card__summary" :class="{ 'hide': project.showDetails }" >
-                    {{ project.summary }}
-                </p>
-
-                <!-- Full Description -->
-                <div class="card__details" :class="{ 'show': project.showDetails }" aria-expanded="true">
-                    <p v-for="(line, index) in project.description.split('\n')" :key="index">
-                        {{ line }}
-                    </p>
-                        <div class="tablet-frame">
-                            <div class="image-container">
-                                <img class="project__image" :src="getProjectPath(project.images[0].src)" :alt="project.images[0].alt" />
-                            </div>
-                        </div>
-                </div>
-                <div class="group-buttons">
-                    <button class="link-underline" @click.stop="toggleDetails(project)" :aria-expanded="project.showDetails">
-                        {{ project.showDetails ? 'Show less' : 'Show more' }}
-                        <i class="fa" :class="project.showDetails ? 'fa-arrow-up' : 'fa-arrow-down'"></i>
-                    </button>
-    
-                    <button class="button button--primary" :href="project.link" target="_blank" rel="noopener noreferrer">
-                        <span class="project__footer-text">View live </span>
-                        <font-awesome-icon icon="arrow-up-right-from-square" />
-                    </button>
-                </div>
-            </div>
-        </section>
 
         <section class="work__portfolio">
             
@@ -89,9 +47,7 @@
                             <img class="project__logo" :src="getProjectPath(project.logo)" :alt="`${project.title} logo`" />
                             <h3 class="project__title text--supporting parallax-text" data-speed="fast">{{ project.title }}</h3>
                         </header>
-                        <div>
-
-                        </div>
+                        <div></div>
                     </div>
                     <div 
                         id="row-2" 
@@ -204,9 +160,7 @@ export default {
                     id: 1,
                     title: "ProdPad - SaaS Platform",
                     logo: "prodpad/logo.png",
-                    role: "Frontend Developer",
-                    summary: "Short description of the project.",
-                    showDetails: false,
+                    showDropdown: false,
                     description: "As a Front-end Developer at ProdPad, I collaborated closely with the Product and Design teams to enhance UI/UX, develop new features and improve accessibility. My work focused on building reusable components, maintaining clean and well-documented code, and ensuring consistency using ESLint for formatting and best practices. I frequently interacted with backend APIs, handling data fetching for users and accounts to deliver seamless product experiences.",
                     
                     link: "https://www.prodpad.com/sandbox/",
@@ -227,9 +181,7 @@ export default {
                     id: 2,
                     title: "ProdPad - Marketing Website",
                     logo: "prodpad/logo.png",
-                    role: "WordPress Developer",
-                    summary: "Short description of the project.",
-                    showDetails: false,
+                    showDropdown: false,
                     description: "As the sole Website Developer at ProdPad, I developed a library of 20+ custom Gutenberg blocks, enabling the Marketing team to build flexible and engaging pages with ease. The project prioritized SEO, performance, and accessibility to enhance user experience and search rankings. My work contributed to a modern, high-performing website aligned with brand and business goals.",
                     
                     link: "https://www.prodpad.com/",
@@ -250,9 +202,7 @@ export default {
                     id: 3,
                     title: "Passion4Social",
                     logo: "p4s/logo.png",
-                    role: "Website Developer",
-                    summary: "Short description of the project.",
-                    showDetails: false,
+                    showDropdown: false,
                     description: "As Lead Web Developer at Passion4Social, I built high-quality, accessible WordPress websites, transforming designs into performant, client-ready sites. I managed the full development lifecycle, from setup on 20i hosting to local development with Local by Flywheel and final deployment. My role included site migrations, performance optimization, and maintaining high coding standards.",
                     
                     link: "https://passion4social.com/",
@@ -273,9 +223,7 @@ export default {
                     id: 4,
                     title: "Royal Hospital for Children and Young People",
                     logo: "nhs/logo.svg",
-                    role: "Website Developer",
-                    summary: "Short description of the project.",
-                    showDetails: false,
+                    showDropdown: false,
                     description: "I led the development of an accessible, user-friendly platform for NHS Lothian, designed to support children, young people, parents, carers, and healthcare professionals. The site features interactive guides to help children understand hospital procedures, along with practical resources like accommodation, financial assistance, and wellbeing support. I ensured a seamless, user-friendly experience, focusing on accessibility, responsiveness, and performance throughout the development lifecycle.",
                     
                     link: "https://children.nhslothian.scot/",
@@ -296,9 +244,7 @@ export default {
                     id: 5,
                     title: "Just Enterprise",
                     logo: "just-enterprise/logo.png",
-                    role: "Website Developer",
-                    summary: "Short description of the project.",
-                    showDetails: false,
+                    showDropdown: false,
                     description: "Website for a Business Support for Social Enterprises in Scotland.",
                     link: "https://justenterprise.org/",
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
@@ -314,9 +260,7 @@ export default {
                     id: 6,
                     title: "Cerebral Palsy Scotland",
                     logo: "cps/logo.svg",
-                    role: "Website Developer",
-                    summary: "Short description of the project.",
-                    showDetails: false,
+                    showDropdown: false,
                     description: "Non-profit organization supporting people with cerebral palsy in building skills and confidence.",
                     link: "https://cerebralpalsyscotland.org.uk/",
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
@@ -332,9 +276,7 @@ export default {
                     id: 7,
                     title: "Bytzari",
                     logo: "tzari/logo.svg",
-                    role: "Website Developer",
-                    summary: "Short description of the project.",
-                    showDetails: false,
+                    showDropdown: false,
                     description: "E-commerce platform for sustainable, ethical, and purposeful bespoke clothing.",
                     link: "https://bytzari.com/",
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
@@ -350,9 +292,7 @@ export default {
                     id: 8,
                     title: "ABZ Works",
                     logo: "abz-works/logo.svg",
-                    role: "Website Developer",
-                    summary: "Short description of the project.",
-                    showDetails: false,
+                    showDropdown: false,
                     description: "Website for Aberdeen City Council's employability team to support skills and training.",
                     link: "https://abzworks.co.uk/",
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
@@ -368,9 +308,7 @@ export default {
                     id: 9,
                     title: "Environmental Key Fund",
                     logo: "ekf/logo.svg",
-                    role: "Website Developer",
-                    summary: "Short description of the project.",
-                    showDetails: false,
+                    showDropdown: false,
                     description: "Grant platform for North Lanarkshire focused on environmental initiatives.",
                     link: "https://environmentalkeyfund.com/",
                     skills: ["Vue 3", "TailwindCSS", "WCAG Compliance", "Performance Optimization"],
@@ -386,9 +324,7 @@ export default {
                     id: 10,
                     title: "Scottish Communities Finance",
                     logo: "scf/logo.svg",
-                    role: "Website Developer",
-                    summary: "Short description of the project.",
-                    showDetails: false,
+                    showDropdown: false,
                     description: "Website enabling reinvestment into local Scottish communities.",
                     link: "https://scotcomfinance.scot/",
                     skills: ["HTML", "CSS", "PHP", "WordPress", "Genesis Framework", "ACF"],
@@ -442,22 +378,19 @@ export default {
     },
     methods: {
         getProjectPath(project) {
-            // console.log(project);
+            console.log(project);
             return require(`@/assets/projects/${project}`);
         },
         toggleDropdown(id) {
             this.projects.forEach((project) => {
-                project.showDetails = project.id === id ? !project.showDetails : false;
+                project.showDropdown = project.id === id ? !project.showDropdown : false;
             });
         },
-        toggleDetails(project) {
-            project.showDetails = !project.showDetails;
+        toggleDetails(id) {
+            this.projects = this.projects.map(project =>
+                project.id === id ? { ...project, showDetails: !project.showDetails } : project
+            );
         },
-        // toggleDetails(id) {
-        //     this.projects = this.projects.map(project =>
-        //         project.id === id ? { ...project, showDetails: !project.showDetails } : project
-        //     );
-        // },
         observeBentoItems() {
             const options = {
                 root: null,
@@ -574,8 +507,7 @@ export default {
             gap: 1.5rem;
             flex-direction: column;
 
-            // background: rgb(245, 245, 247);
-            background: #f4f4f7;
+            background: #5a5757;
             // background-color: $green-white;
             border-radius: 12px;
             overflow: hidden;
@@ -786,8 +718,6 @@ export default {
 
                 border-radius: 12px;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-
             }
         }
 
@@ -870,82 +800,6 @@ export default {
                 opacity: 1;
                 transform: translateX(0) scale(1);
             }
-        }
-    }
-}
-</style>
-<style lang="scss" scoped>
-@import "../styles/components/media";
-.work__resume {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: $spacing-lg;
-}
-
-.resume-card {
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    // max-width: none;
-
-    .group-buttons {
-        justify-content: space-between;
-        margin: 0;
-        max-width: 100%;
-        button {
-            max-width: fit-content;
-        }
-    }
-}
-
-.card {
-    /* Header: Title & Logo */
-    &__header {
-        display: flex;
-        justify-content: space-between;
-        position: relative;
-        word-wrap: break-word;
-        gap: $spacing-sm;
-
-        .card__title {
-            width: calc(100% - 100px);
-        }
-
-        .card__logo {
-            width: 50px;
-            height: auto;
-            position: absolute;
-            right: 0;
-            @include breakpoint-up(md) {
-                width: 70px;
-            }
-        }
-    }
-
-    &__summary {
-        transition: max-height 0.3s ease-out;
-        // max-height: fit-content;
-        overflow: hidden;
-        &.hide {
-            max-height: 0;
-            
-        }
-    }
-
-    /* Collapsible Details */
-    &__details {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease-out;
-        &.show {
-            max-height: fit-content;
-            margin-bottom: $spacing-lg;
         }
     }
 }
