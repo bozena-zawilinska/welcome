@@ -1,9 +1,10 @@
 .tablet-frame {
     width: 320px; // Adjust to resemble a tablet
-    height: 480px;
+    height: 180px;
     background: #222; // Dark background for tablet body
     border-radius: 30px; // Rounded corners
-    padding: 12px;
+    padding: 8px;
+    margin: auto;
     box-shadow: $box-shadow-soft; // Soft shadow
     position: relative;
     display: flex;
@@ -11,12 +12,9 @@
     justify-content: center;
 
     @include breakpoint-up(md) {
-        width: 480px; // Adjust to resemble a tablet
-        height: 720px;
-    }
-    @include breakpoint-up(lg) {
-        width: 720px; // Adjust to resemble a tablet
-        height: 480px;
+        width: 500px; 
+        height: 281px;
+        padding: 10px;
     }
 }
 

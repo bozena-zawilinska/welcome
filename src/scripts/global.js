@@ -1,1 +1,1 @@
-import parallax from './parallax';
+// import parallax from './parallax';

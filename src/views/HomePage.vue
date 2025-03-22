@@ -16,18 +16,11 @@
           customCursorClass="heading"
           @typingFinished="onFirstAnimationFinished"
         />
-        <!-- <TypingAnimation 
-          class="description animated-heading"
-          text="A passionate Front-end and Website Developer with a knack for building web experiences that are not only visually captivating but also optimized for accessibility and performance. 🚀"
-          :startDelay="2000"
-          :speed="80"
-          wrapperElement="p"
-        /> -->
-        <p class="parallax-text" data-speed="fast">
+        <p>
           A passionate <strong>Front-end and Website Developer</strong> with a knack for building web experiences that are not only visually captivating but also optimized for accessibility and performance. 🚀
         </p>
         </div>
-        <a href="#portfolio" class="scroll-arrow" aria-label="Scroll to Portfolio">
+        <a href="#portfolio" class="scroll-arrow" aria-label="Scroll to Portfolio" @click.prevent="scrollToSection('portfolio')">
           ↓
         </a>
       </div>
@@ -37,26 +30,26 @@
       <!-- Portfolio Projects -->
       <section id="portfolio" class="section--projects">
         <div class="">
-          <h2 class="parallax-text" data-speed="slow">Crafting Seamless & Scalable Web Experiences</h2>
-          <p class="parallax-text" data-speed="slow">
+          <h2>Crafting Seamless & Scalable Web Experiences</h2>
+          <p>
             I build <strong>pixel-perfect, high-performance websites</strong> that empower teams to create stunning pages with minimal effort.  
             My custom Gutenberg blocks are designed for maximum flexibility, allowing marketing teams to manage content effortlessly—without touching a line of code.
           </p>
 
-          <h3 class="parallax-text" data-speed="slow">
+          <h3>
             🚀 <strong>Smart. Responsive. Effortless.</strong>
           </h3>
 
-          <p class="parallax-text" data-speed="slow">
+          <p>
             The video below showcases two of my bespoke Gutenberg blocks in action:
           </p>
 
-          <ul class="parallax-text no-markers" data-speed="slow">
+          <ul class="no-markers">
             <li>🖼 <strong>Hero Section</strong> – A versatile, fully responsive hero section with dynamic light/dark mode, flexible typography, and built-in CTA options, including HubSpot-integrated signup form.</li>
             <li>🎬 <strong>Auto Image Swiper</strong> – A sleek, hands-free image slider that cycles through visuals with a built-in animated progress bar and description.</li>
           </ul>
 
-          <p class="parallax-text" data-speed="slow">
+          <p>
             These blocks (and many more) are built for seamless editing, ensuring every WordPress site looks and performs flawlessly.
           </p>
         </div>
@@ -87,79 +80,29 @@ export default {
   data() {
     return {
       secondAnimationDelay: 0, // Dynamic delay for the second animation
-      lastScrollY: window.scrollY, // Track last scroll position
-      isMobile: window.innerWidth < 1024, // Check if device is mobile
     };
-  },
-  watch: {
-    isMobile(newVal) {
-      if (newVal) {
-        window.removeEventListener("scroll", this.handleScroll);
-      } else {
-        window.addEventListener("scroll", this.handleScroll);
-      }
-    }
   },
   created() {
     window.addEventListener("resize", this.updateIsMobile);
   },
   mounted() {
-      if (!this.isMobile) {
-        window.addEventListener("scroll", this.handleScroll);
-      }
-  },
-  beforeUnmount() {
-    window.removeEventListener("resize", this.updateIsMobile);
-    window.removeEventListener("scroll", this.handleScroll);
+      document.documentElement.style.scrollBehavior = 'smooth';
   },
   methods: {
-    onFirstAnimationFinished(totalDuration) {
-      console.log("First animation finished. Total duration:", totalDuration);
-      this.secondAnimationDelay = totalDuration; // Update delay for the second animation
-    },
-    handleScroll() {
-      const scrollArrow = document.querySelector(".scroll-arrow");
-      const portfolioSection = document.getElementById("portfolio");
-      const heroSection = document.getElementById("hello");
-
-      if (!scrollArrow || !portfolioSection || !heroSection) return;
-
-      const arrowRect = scrollArrow.getBoundingClientRect();
-      const portfolioRect = portfolioSection.getBoundingClientRect();
-      const scrollDirection = window.scrollY > this.lastScrollY ? "down" : "up";
-
-      if (scrollDirection === "down" && arrowRect.top >= 0 && arrowRect.bottom <= window.innerHeight) {
-        // Scroll down to Portfolio
-        this.smoothScrollTo(portfolioSection);
-      } else if (scrollDirection === "up" && portfolioRect.top >= 0 && portfolioRect.top < 100) {
-        // Scroll up back to Hero
-        this.smoothScrollTo(heroSection);
+    // onFirstAnimationFinished(totalDuration) {
+    //   console.log("First animation finished. Total duration:", totalDuration);
+    //   this.secondAnimationDelay = totalDuration; // Update delay for the second animation
+    // },
+    scrollToSection(id) {
+      const section = document.getElementById(id);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
       }
-
-      this.lastScrollY = window.scrollY; // Update last scroll position
-    },
-    smoothScrollTo(section) {
-      section.scrollIntoView({ behavior: "smooth" });
     },
   },
 };
 </script>
 <style lang="scss" scoped>
-section {
-  position: relative;
-    display: flex;
-    gap: $spacing-lg;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: $spacing-lg * 2 auto;
-
-    @include breakpoint-up(lg) {
-      margin: $spacing-lg * 4 auto;
-      // padding: $spacing-lg * 4 auto;
-      max-width: 1000px;
-    }
-}
 .section {
 
    @include breakpoint-up(md) {
@@ -223,20 +166,20 @@ section {
   }
 
   &--projects {
-    // display: flex;
-    // gap: $spacing-lg;
-    // flex-direction: column;
-    // justify-content: center;
-    // align-items: center;
-    // margin: $spacing-lg * 2 auto;
+    display: flex;
+    gap: $spacing-lg;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: $spacing-lg * 2 auto;
 
-    // @include breakpoint-up(lg) {
-    //   margin: $spacing-lg * 4 auto;
-    //   // padding: $spacing-lg * 4 auto;
-    //   max-width: 1000px;
-    // }
+    @include breakpoint-up(lg) {
+      margin: $spacing-lg * 4 auto;
+      // padding: $spacing-lg * 4 auto;
+      max-width: 1000px;
+    }
 
-  .shade {
+  .shade--lavender {
       top: 40%;
       left: 80%;
       position: absolute;

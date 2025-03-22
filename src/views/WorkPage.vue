@@ -36,7 +36,7 @@
                     class="container resume-card"
                 >
                     <header class="card__header">
-                        <h3 class="card__title parallax-text" data-speed="fast">{{ project.title }}</h3>
+                        <h3 class="card__title">{{ project.title }}</h3>
                         <img class="card__logo" :src="getProjectPath(project.logo)" :alt="`${project.title} logo`" />
                     </header>
                     <!-- <h1 class="animated-heading">About Me</h1> -->
@@ -54,7 +54,7 @@
                         </p>
                             <div class="tablet-frame">
                                 <div class="image-container">
-                                    <img class="project__image" :src="getProjectPath(project.images[0].src)" :alt="project.images[0].alt" />
+                                    <img class="project__image" :src="getProjectPath(project.images[0].src)" :alt="project.images[0].alt" width="500" height="281"/>
                                 </div>
                             </div>
                     </div>
@@ -75,7 +75,7 @@
 
         <section class="work__portfolio">
             
-            <div class="shade shade--pale-orange"></div>
+            <div class="shade shade--soft-red"></div>
             <!-- Other Projects -->
             <h2 class="work__heading">Other Projects</h2>
             <div class="bento-grid bento-grid--100">
@@ -89,12 +89,12 @@
                 >
 
                     <!-- Image Card with Overlay -->
-                    <div class="bento__card image-container" @click="showDetails(project.id)">
+                    <div class="bento__card image-container">
                         <img class="project__image" :src="getProjectPath(project.images[0].src)" :alt="project.images[0].alt" />
 
                         <!-- Overlay Description -->
                         <div class="overlay" :class="{ 'show': project.showDetails }">
-                        <p v-for="(line, index) in project.description.split('\n')" :key="index" class="parallax-text" data-speed="slow">
+                        <p v-for="(line, index) in project.description.split('\n')" :key="index">
                             {{ line }}
                         </p>
                         <button class="button button--secondary" @click.stop="showDetails(project.id)">
@@ -117,8 +117,8 @@
         </section>
 
         <footer class="work__footer">
-            <h2 class="footer__heading parallax-text" data-speed="slow">Let’s Build Something Amazing</h2>
-            <p class="parallax-text" data-speed="fast">
+            <h2 class="footer__heading">Let’s Build Something Amazing</h2>
+            <p>
                 Have an idea or project in mind? I’d love to collaborate!
                 Whether it’s optimising an existing site or crafting something from scratch,
                 let’s create experiences your users will love.
@@ -502,47 +502,47 @@ export default {
     gap: 3rem;
     margin: 3rem 0;
 
-    &--70-30 {
+    // &--70-30 {
 
-        .bento-item {
-            display: flex;
-            gap: 1.5rem;
-            flex-direction: column;
+    //     .bento-item {
+    //         display: flex;
+    //         gap: 1.5rem;
+    //         flex-direction: column;
 
-            // background: rgb(245, 245, 247);
-            background: #f4f4f7;
-            // background-color: $green-white;
-            border-radius: 12px;
-            overflow: hidden;
-            padding: $padding-large;
+    //         // background: rgb(245, 245, 247);
+    //         background: #f4f4f7;
+    //         // background-color: $green-white;
+    //         border-radius: 12px;
+    //         overflow: hidden;
+    //         padding: $padding-large;
     
-            .row {
-                display: flex;
-                flex-direction: column;
-                flex: 1;
-                gap: 1.5rem;
-            }
+    //         .row {
+    //             display: flex;
+    //             flex-direction: column;
+    //             flex: 1;
+    //             gap: 1.5rem;
+    //         }
     
     
-            @include breakpoint-up(xl) {    
-                .row {
-                    flex-direction: row;
-                    max-height: 320px; // required to align the cards with the image column
-                }
+    //         @include breakpoint-up(xl) {    
+    //             .row {
+    //                 flex-direction: row;
+    //                 max-height: 320px; // required to align the cards with the image column
+    //             }
     
-                #row-2 {
-                    .bento__card.image {
-                        flex: 0 0 66.66%;
-                    }
-                }
-                #row-3 {
-                    .bento__card.project {
-                        flex: 0 0 33.33%;
-                    }
-                }
-            }
-        }
-    }
+    //             #row-2 {
+    //                 .bento__card.image {
+    //                     flex: 0 0 66.66%;
+    //                 }
+    //             }
+    //             #row-3 {
+    //                 .bento__card.project {
+    //                     flex: 0 0 33.33%;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
     /* Bento Grid Full width */
     &--100 {
@@ -557,11 +557,15 @@ export default {
         /* Bento Item */
         .bento-item {
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
             display: flex;
             flex-direction: column;
             justify-content: space-evenly;
             transition: transform 0.2s ease;
-            padding: $padding-large;
+            padding: 1.5rem;
+            gap: 1.5rem;
+            position: relative;
+            overflow: hidden;
 
             &:hover {
                 transform: translateY(-5px);
@@ -570,7 +574,7 @@ export default {
             /* Image Container */
             .image-container {
                 overflow: hidden;
-                cursor: pointer;
+                // cursor: pointer;
                 box-shadow: none;
 
                 .project__image {
@@ -614,13 +618,16 @@ export default {
 
     .bento__card {
         background-color: #fff;
-        border-radius: 12px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        padding: $padding-large;
+        border-radius: 16px;
+        // overflow: hidden;
+        // padding: $padding-large;
         display: flex;
         flex-direction: column;
         gap: $padding-large;
+        position: relative;
+        filter: drop-shadow(4px 4px 4px rgba(233, 240, 243, 0.5));
+        border: 4px solid rgba(233, 240, 243, 0.5);
+        // box-shadow: 0 5px 5px 0 rgba(233, 240, 243, 0.5), 0 0 0 1px #E6ECF8;
 
         &.no-padding {
             padding: 0;
@@ -645,93 +652,85 @@ export default {
         }
 
         &.group-cards {
-        // display: grid;
-        // grid-template-rows: repeat(2, 1fr); // aligns the cards with the image column
-        // gap: 1.5rem;
             flex: 1;
             justify-content: center;
             text-align: left;
-
-            // flex-direction: row;
-            // @include breakpoint-up(xl) {
-            //     flex-direction: column;
-            // }
         }
 
 
-        .tools, .skills {
-            grid-column: span 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        // .tools, .skills {
+        //     grid-column: span 1;
+        //     display: flex;
+        //     flex-direction: column;
+        //     align-items: center;
 
-            @include breakpoint-up(lg) {
-                flex-direction: row;
-                justify-content: start;
-                align-items: flex-start;
-                text-align: left;
-                gap: $padding-large;
-                h4 {
-                    flex: 0 0 33%;
-                }
-                .skills__tags {
-                    flex: 1;
-                }
-            }
+        //     @include breakpoint-up(lg) {
+        //         flex-direction: row;
+        //         justify-content: start;
+        //         align-items: flex-start;
+        //         text-align: left;
+        //         gap: $padding-large;
+        //         h4 {
+        //             flex: 0 0 33%;
+        //         }
+        //         .skills__tags {
+        //             flex: 1;
+        //         }
+        //     }
 
-            .skills__tags {
-                // display: flex;
-                // flex-direction: column;
-                // flex-wrap: wrap;
-                // white-space:
-                list-style: none;
-                padding: 0;
-                margin: 0;
-                width: 100%;
-                // gap: 8px;
-            }
+        //     .skills__tags {
+        //         // display: flex;
+        //         // flex-direction: column;
+        //         // flex-wrap: wrap;
+        //         // white-space:
+        //         list-style: none;
+        //         padding: 0;
+        //         margin: 0;
+        //         width: 100%;
+        //         // gap: 8px;
+        //     }
 
-            .skills__tag {
-                display: list-item;
-                // width: fit-content;
-                // padding: $spacing-xs;
-                // // margin: $spacing-xs;
-                // background: #f0f0f0;
-                // border-radius: 12px;
-                &::before {
-                    content: "✔️";
-                    text-align: center;
-                    color: transparent;
-                    text-shadow: 0 0 $rosemary;
-                    margin-right: $spacing-xs;
-                }
-            }
-        }
+        //     .skills__tag {
+        //         display: list-item;
+        //         // width: fit-content;
+        //         // padding: $spacing-xs;
+        //         // // margin: $spacing-xs;
+        //         // background: #f0f0f0;
+        //         // border-radius: 12px;
+        //         &::before {
+        //             content: "✔️";
+        //             text-align: center;
+        //             color: transparent;
+        //             text-shadow: 0 0 $rosemary;
+        //             margin-right: $spacing-xs;
+        //         }
+        //     }
+        // }
 
         
 
-        &.image {
-            grid-column: span 1;
+        // &.image {
+        //     grid-column: span 1;
 
-            img {
-                flex: 1;
-                width: 100%;
-                height: auto;
-                aspect-ratio: 16 / 9;
-                // object-fit: scale-down;
-                object-fit: cover;
-                display: block;
+        //     img {
+        //         flex: 1;
+        //         width: 100%;
+        //         height: auto;
+        //         aspect-ratio: 16 / 9;
+        //         // object-fit: scale-down;
+        //         object-fit: cover;
+        //         display: block;
 
-                border-radius: 12px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        //         border-radius: 12px;
+        //         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
 
-            }
-        }
+        //     }
+        // }
 
         /* Overlay Description */
         .overlay {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -739,13 +738,15 @@ export default {
             background: rgba(0, 0, 0, 0.8);
             color: white;
             display: flex;
+            align-items: center;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            padding: $spacing-xs;
+            // padding: 1.5rem;
             opacity: 0;
             transform: translateY(100%);
             transition: opacity 0.3s ease, transform 0.3s ease;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
         }
 
         .overlay.show {
@@ -774,19 +775,19 @@ export default {
 // Animations
 @media (prefers-reduced-motion: no-preference) {
     .bento-grid {
-        &--70-30 {
-            .bento-item {
-                opacity: 0;
-                transform: translateY(50px) scale(0.95);
-                transition: opacity 0.6s ease-out, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-                transition-delay: var(--delay, 0s);
-                }
+        // &--70-30 {
+        //     .bento-item {
+        //         opacity: 0;
+        //         transform: translateY(50px) scale(0.95);
+        //         transition: opacity 0.6s ease-out, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        //         transition-delay: var(--delay, 0s);
+        //         }
 
-            .bento-item.is-visible {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
+        //     .bento-item.is-visible {
+        //         opacity: 1;
+        //         transform: translateY(0) scale(1);
+        //     }
+        // }
 
         &--100 {
             .bento-item {
@@ -832,11 +833,11 @@ export default {
     display: flex;
     flex-direction: column;
     position: relative;
-    // max-width: none;
+    max-width: none;
 
     @include breakpoint-up(xl) {
-        max-width: calc(50% - #{$spacing-lg*2});
-        flex: 1;
+        // max-width: calc(50% - #{$spacing-lg*2});
+        // flex: 1;
     }
 
     .group-buttons {

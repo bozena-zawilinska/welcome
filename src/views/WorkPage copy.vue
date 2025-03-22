@@ -45,7 +45,7 @@
                     >
                         <header class="project__header">
                             <img class="project__logo" :src="getProjectPath(project.logo)" :alt="`${project.title} logo`" />
-                            <h3 class="project__title text--supporting parallax-text" data-speed="fast">{{ project.title }}</h3>
+                            <h3 class="project__title text--supporting">{{ project.title }}</h3>
                         </header>
                         <div></div>
                     </div>
@@ -61,17 +61,17 @@
                         <div class="group-cards bento__card">
                             <!-- Card 3: Skills -->
                             <div class="skills">
-                                <h4 class="skills__heading text--base parallax-text" data-speed="fast">Skills:</h4>
+                                <h4 class="skills__heading text--base">Skills:</h4>
                                 <ul class="skills__tags text--small">
-                                    <li v-for="skill in project.skills" :key="skill" class="skills__tag parallax-text" data-speed="fast">{{ skill }}</li>
+                                    <li v-for="skill in project.skills" :key="skill" class="skills__tag">{{ skill }}</li>
                                 </ul>
                             </div>
                             
                             <!-- Card 2: Tools -->
                             <div class="tools">
-                                <h4 class="tools__heading text--base parallax-text" data-speed="fast">Tools:</h4>
+                                <h4 class="tools__heading text--base">Tools:</h4>
                                 <ul class="skills__tags text--small">
-                                    <li v-for="tool in project.tools" :key="tool" class="skills__tag parallax-text" data-speed="fast">{{ tool }}</li>
+                                    <li v-for="tool in project.tools" :key="tool" class="skills__tag">{{ tool }}</li>
                                 </ul>
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                     <div id="row-3" class="row row--project">
                         <!-- Card 2: Project -->
                         <article class="bento__card project">
-                            <p v-for="(line, index) in project.description.split('\n')" :key="index" class="project__description parallax-text" data-speed="fast">
+                            <p v-for="(line, index) in project.description.split('\n')" :key="index" class="project__description">
                                 {{ line }}
                             </p>
                         </article>
@@ -138,8 +138,8 @@
         </section>
 
         <footer class="work__footer">
-            <h2 class="footer__heading parallax-text" data-speed="slow">Let’s Build Something Amazing</h2>
-            <p class="parallax-text" data-speed="fast">
+            <h2 class="footer__heading" data-speed="slow">Let’s Build Something Amazing</h2>
+            <p class="parallax-text">
                 Have an idea or project in mind? I’d love to collaborate!
                 Whether it’s optimising an existing site or crafting something from scratch,
                 let’s create experiences your users will love.
