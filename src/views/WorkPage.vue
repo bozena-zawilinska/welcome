@@ -756,6 +756,7 @@ export default {
 
         .overlay p {
             color: white;
+            max-width: 80%;
         }
 
        

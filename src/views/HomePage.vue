@@ -143,11 +143,14 @@ export default {
         img {
           aspect-ratio: 9/16;
           object-fit: scale-down;
-          max-width: 40vw;
-          height: auto;
+          // max-width: 40vw;
+          // height: auto;
+          max-height: 60vh;
+          width: auto;
           @include breakpoint-up(md) {
-            max-width: 30vw;
+            // max-width: 25vw;
             // height: 700px;
+            max-height: 80vh;
           }
         }
       }

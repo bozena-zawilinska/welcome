@@ -44,6 +44,11 @@
         background: rgb(255, 195, 158, 0.7); // pale-orange
     }
     &--soft-red {
-        background: rgb(239, 141, 156, 0.7); // soft-red
+        background: rgb(239, 141, 156, 1); // soft-red
+            @supports (-moz-appearance: none) {
+            // Firefox-specific fix
+            filter: blur(600px); // Slightly adjust blur for better balance
+            background: rgba(209, 160, 216, 0.5); // Reduce opacity a bit more
+        }
     }
 }
