@@ -2,18 +2,26 @@
     <div class="tablet-frame">
         <div class="video-container" @mouseenter="showButton = true" @mouseleave="hideButton">
             <!-- Video Element -->
-            <video ref="gutenbergVideo" @click="toggleVideoPlayback" @play="isPlaying = true" @pause="isPlaying = false">
-            <source src="@/assets/projects/prodpad/prodpad-custom-gutenberg-blocks.mp4" type="video/mp4" />
+            <video 
+              ref="gutenbergVideo" 
+              @click="toggleVideoPlayback" 
+              @play="isPlaying = true" 
+              @pause="isPlaying = false"
+              loading="lazy"
+              preload="none"
+              :poster="require('@/assets/projects/prodpad/gutenberg-blocks-video-poster.png')"
+            >
+            <source src="@/assets/projects/prodpad/gutenberg-blocks-video.mp4" type="video/mp4" />
             Your browser does not support the video tag.
             </video>
 
             <!-- Play/Pause Button (Centered) -->
             <button
-            id="play"
-            v-show="showButton"
-            @click="toggleVideoPlayback"
-            :aria-label="isPlaying ? 'Pause video' : 'Play video'"
-            :class="{ toggle: isPlaying }"
+              id="play"
+              v-show="showButton"
+              @click="toggleVideoPlayback"
+              :aria-label="isPlaying ? 'Pause video' : 'Play video'"
+              :class="{ toggle: isPlaying }"
             >
             <div id="me"></div>
             </button>

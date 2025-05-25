@@ -1,7 +1,17 @@
 <template>
   <div class="typing">
-    <component :is="wrapperElement">{{ displayedText }}</component>
-    <span :class="['cursor', customCursorClass]"   v-show="isTyping">|</span>
+    <component 
+      :is="wrapperElement"
+      :aria-label="text"
+      :class="{ 'visually-hidden': !displayedText }"
+    >
+      {{ displayedText }}
+    </component>
+    <span 
+      :class="['cursor', customCursorClass]"   
+      v-show="isTyping"
+      aria-hidden="true"
+    >|</span>
   </div>
 </template>
 

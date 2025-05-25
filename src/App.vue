@@ -21,8 +21,8 @@ export default {
 <style lang="scss">
 
 :focus {
-  outline: 2px solid $dark-gunmetal;
-  /* Custom focus styling */
+  outline: 3px solid $dark-gunmetal;
+  outline-offset: 2px;
 }
 
 /* Skip Link */
@@ -35,13 +35,14 @@ export default {
   overflow: hidden;
 
   &:focus {
-    left: 0;
-    top: 0;
     width: auto;
     height: auto;
-    background: #000;
-    color: #fff;
-    padding: 0.5rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 1rem;
+    background: $white;
+    z-index: 999;
   }
 }
 </style>

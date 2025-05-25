@@ -8,11 +8,11 @@ $lavender: #b5a0d8;
 $wisteria: #d1a0d8;
 $blue-bell: #a0a7d8;
 
-$soft-red: #EF8D9C;
-$pale-orange: #FFC39E;
+$soft-red: #ef8d9c;
+$pale-orange: #ffc39e;
 
-$soft-green: #B0DB7D;
-$soft-cyan: #99DBB4;
+$soft-green: #b0db7d;
+$soft-cyan: #99dbb4;
 
 // Old - remove?
 $grayish-red: #d7bdc1;
@@ -30,9 +30,16 @@ $dark-gunmetal: #333e61; // Used for side nav background and tooltip text
 
 // Gradients
 // $green-background: linear-gradient(135deg, $green-white, $grayish-cyan, $grayish-blue);
-$red-background: linear-gradient(to bottom left, $soft-red 40%, $pale-orange 100%);
-$green-background: linear-gradient(to bottom right, $soft-green 40%, $soft-cyan 100%);
-
+$red-background: linear-gradient(
+  to bottom left,
+  $soft-red 40%,
+  $pale-orange 100%
+);
+$green-background: linear-gradient(
+  to bottom right,
+  $soft-green 40%,
+  $soft-cyan 100%
+);
 
 // Font Sizes
 $font-size-small: 0.833rem;
@@ -56,27 +63,25 @@ $font-size-h4-mobile: 1.266rem;
 $font-size-h5: 1.2rem;
 $font-size-h5-mobile: 1.1rem;
 
-
 // Box Shadows
 $box-shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.15);
 $box-shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.15);
-$box-shadow-light: 24px 24px 48px #e1e1e1,
-    -24px -24px 48px #ffffff;
+$box-shadow-light: 24px 24px 48px #e1e1e1, -24px -24px 48px #ffffff;
 
 // Transition
 $transition: all 0.3s ease-in-out;
 
 // Gradient Mixins
 @mixin gradient-background($color1, $color2) {
-    background: linear-gradient(135deg, $color1, $color2);
+  background: linear-gradient(135deg, $color1, $color2);
 }
 @mixin gradient-background-three($color1, $color2, $color3) {
-    background: linear-gradient(135deg, $color1, $color2, $color3);
+  background: linear-gradient(135deg, $color1, $color2, $color3);
 }
 
 // Flex Centre
 @mixin flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
