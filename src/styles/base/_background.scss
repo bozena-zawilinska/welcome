@@ -1,0 +1,58 @@
+/* 
+* SHADES & BACKGROUNDS 
+*/
+.shade {
+  display: none;
+  @include breakpoint-up(md) {
+    display: block;
+  }
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 500px;
+  filter: blur(300px);
+  transform: translate3d(0, 0, 0);
+  z-index: -1;
+  pointer-events: none;
+
+  left: -150px;
+  top: -150px;
+  &--wisteria {
+    background: rgba(209, 160, 216, 0.7); // wisteria
+  }
+  &--lavender {
+    background: rgba(181, 160, 216, 0.7); // lavender
+  }
+  &--blue-bell {
+    background: rgba(160, 167, 216, 0.7); // blue-bell
+  }
+  &--grayish-red {
+    background: rgba(215, 189, 193, 0.7); // grayish-red
+  }
+  &--grayish-blue {
+    background: rgba(189, 206, 215, 0.7); // grayish-blue
+  }
+  &--green-white {
+    background: rgba(250, 252, 252, 0.7); // green-white
+  }
+  &--grayish-cyan {
+    background: rgba(189, 215, 211, 0.7); // grayish-cyan
+  }
+  &--sage {
+    background: rgba(154, 184, 158, 0.7); // sage
+  }
+  &--rosemary {
+    background: rgba(71, 117, 110, 0.7); // rosemary
+  }
+  &--pale-orange {
+    background: rgb(255, 195, 158, 0.7); // pale-orange
+  }
+  &--soft-red {
+    background: rgb(239, 141, 156, 1); // soft-red
+    @supports (-moz-appearance: none) {
+      // Firefox-specific fix
+      filter: blur(600px); // Slightly adjust blur for better balance
+      background: rgba(209, 160, 216, 0.5); // Reduce opacity a bit more
+    }
+  }
+}

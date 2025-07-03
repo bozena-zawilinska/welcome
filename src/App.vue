@@ -1,36 +1,27 @@
 <template>
-  <div id="app">
+  <div class="app__container">
     <a href="#main-content" class="skip-link">Skip to content</a>
     <SideNav />
-    <main id="main-content">
+    <main id="main-content" class="main__container">
       <router-view />
     </main>
   </div>
 </template>
 
 <script>
-import SideNav from './components/SideNav.vue';
+import SideNav from './components/SideNav.vue'
 
 export default {
   components: {
     SideNav,
   },
-};
+}
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  text-wrap: pretty;
-  color: $dark;
-}
-
 :focus {
-  outline: 2px solid #ff9900;
-  /* Custom focus styling */
+  outline: 2px solid $color-selected;
+  outline-offset: 1px;
 }
 
 /* Skip Link */
@@ -43,13 +34,14 @@ export default {
   overflow: hidden;
 
   &:focus {
-    left: 0;
-    top: 0;
     width: auto;
     height: auto;
-    background: #000;
-    color: #fff;
-    padding: 0.5rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 1rem;
+    background: $white;
+    z-index: 999;
   }
 }
 </style>

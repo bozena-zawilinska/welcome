@@ -11,8 +11,13 @@
         Over the years, I've refined my skills in front-end development, WordPress, and performance optimisation.
         My mission is to deliver inclusive, fast, and impactful web solutions.
       </p>
-      <button class="button" @click="navigateToWork">View My Work</button>
+      <a class="link-underline" href="/work">
+        View My Work
+        <i class="fa fa-arrow-right"></i>
+      </a>
+      <!-- <button class="button button--primary button--confetti" @click="navigateToWork">View My Work</button> -->
     </div>
+    <div class="shade shade--lavender"></div>
   </section>
 </template>
 
@@ -28,29 +33,14 @@ export default {
 
 <style lang="scss">
 .page--about {
-  @include gradient-background($lavender, $rosemary);
+  // @include gradient-background($green-white, $grayish-cyan, $grayish-blue);
+  // background: $green-background;
   min-height: 100vh;
   padding: 3rem;
   color: $white;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  .container {
-    max-width: 800px;
-    text-align: center;
-    box-shadow: $box-shadow-soft;
-    padding: 2rem;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 12px;
-
-    .description {
-      font-size: $font-base;
-      margin: 1rem 0;
-      color: $dark;
-      animation: fadeIn 1s ease-in-out;
-    }
-  }
 }
 </style>
 
