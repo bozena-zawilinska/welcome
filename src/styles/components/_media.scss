@@ -1,0 +1,50 @@
+.tablet-frame {
+  width: 100%;
+  max-width: 900px; // Increased max-width
+  aspect-ratio: 16/9; // Maintain aspect ratio
+  background: #222;
+  border-radius: clamp(16px, 3vw, 30px);
+  padding: clamp(8px, 1vw, 16px);
+  margin: 0 auto;
+  box-shadow: $box-shadow-soft;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 1075px) {
+    width: 90%;
+    padding: clamp(4px, 0.5vw, 8px);
+  }
+
+  // Tablet notch
+  &::before {
+    content: '';
+    width: clamp(40px, 8%, 80px);
+    height: clamp(4px, 1vw, 8px);
+    background: #000;
+    position: absolute;
+    top: clamp(3px, 0.5vw, 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: clamp(4px, 1vw, 8px);
+  }
+}
+
+.image-container,
+.video-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  border-radius: clamp(12px, 2vw, 24px);
+}
+
+img,
+picture,
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

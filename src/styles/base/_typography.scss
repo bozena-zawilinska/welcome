@@ -1,0 +1,132 @@
+/* 
+* TYPOGRAPHY 
+*/
+#app {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  // text-align: center;
+  text-wrap: pretty;
+  color: $font-dark;
+  line-height: 1.55;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.heading,
+.subheading {
+  color: $font-dark;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  //   margin: 0 0 $margin-base 0;
+  margin: 0;
+}
+
+h1,
+.heading {
+  font-size: $font-size-heading-mobile;
+  @include breakpoint-up(lg) {
+    font-size: $font-size-heading;
+  }
+}
+h2,
+.subheading {
+  font-size: $font-size-subheading-mobile;
+  @include breakpoint-up(lg) {
+    font-size: $font-size-subheading;
+  }
+}
+
+h3,
+.h3 {
+  font-size: $font-size-h3-mobile;
+  @include breakpoint-up(lg) {
+    font-size: $font-size-h3;
+  }
+}
+
+h4,
+.h4 {
+  font-size: $font-size-h4-mobile;
+  @include breakpoint-up(lg) {
+    font-size: $font-size-h4;
+  }
+}
+
+h5,
+.h5 {
+  font-size: $font-size-h5-mobile;
+  @include breakpoint-up(lg) {
+    font-size: $font-size-h5;
+  }
+}
+
+p,
+span,
+.text--base {
+  color: $font-dark;
+  font-size: $font-size-base-mobile;
+  margin: 0;
+  @include breakpoint-up(lg) {
+    font-size: $font-size-base;
+  }
+}
+
+.text--small {
+  font-size: $font-size-small-mobile;
+  @include breakpoint-up(lg) {
+    font-size: $font-size-small;
+  }
+}
+
+p.text--supporting,
+.text--supporting {
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.button {
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  font-weight: 700;
+}
+
+a {
+  color: $font-dark;
+  text-decoration: wavy;
+  &:hover,
+  &:link,
+  &:active,
+  &:focus,
+  &:visited {
+    color: $font-grey;
+  }
+  &.button {
+    color: $font-dark;
+  }
+}
+
+ul.no-markers {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.group--text {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  width: 100%;
+  @include breakpoint-up(lg) {
+    gap: $spacing-sm;
+  }
+}

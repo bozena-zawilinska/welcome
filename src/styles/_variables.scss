@@ -1,32 +1,87 @@
-// Colour Palette
-$green-white: #e1e1d0; // Used for .container and tooltip background
-$lavender: #b5a0d8;
-$sage: #9ab89e;
-$rosemary: #738e7b;
+/*
+* COLOR PALETTE
+*/
+
+$color-selected: #1772f3; // Selected state color for active elements
+
+// Backgrounds
 $white: #ffffff;
-$dark: #333333;
-$dark-gunmetal: #1e1e2f; // Used for side nav background and tooltip text
+$lavender: #b5a0d8;
+$wisteria: #d1a0d8;
+$blue-bell: #a0a7d8;
+
+$soft-red: #ef8d9c;
+$pale-orange: #ffc39e;
+
+$soft-green: #b0db7d;
+$soft-cyan: #99dbb4;
+
+// Old - remove?
+$grayish-red: #d7bdc1;
+$grayish-blue: #bdced7;
+$green-white: #fafcfc; // Used for .container and tooltip background
+$grayish-cyan: #bdd7d3;
+$sage: #9ab89e;
+$rosemary: #47756e;
+
+// Text
+$font-dark: #000000;
+$font-grey: #626f89;
+$dark-gunmetal: #333e61; // Used for side nav background and tooltip text
+
+// Gradients
+$red-background: linear-gradient(
+  to bottom left,
+  $soft-red 40%,
+  $pale-orange 100%
+);
+$green-background: linear-gradient(
+  to bottom right,
+  $soft-green 40%,
+  $soft-cyan 100%
+);
 
 // Font Sizes
-$font-small: 14px;
-$font-base: 16px;
-$font-large: 24px;
+$font-size-small: 0.833rem;
+$font-size-small-mobile: 0.833rem;
+
+$font-size-base: 1rem;
+$font-size-base-mobile: 1rem;
+
+$font-size-heading: 2.488rem;
+$font-size-heading-mobile: 1.802rem;
+
+$font-size-subheading: 2.074rem;
+$font-size-subheading-mobile: 1.602rem;
+
+$font-size-h3: 1.728rem;
+$font-size-h3-mobile: 1.424rem;
+
+$font-size-h4: 1.44rem;
+$font-size-h4-mobile: 1.266rem;
+
+$font-size-h5: 1.2rem;
+$font-size-h5-mobile: 1.1rem;
 
 // Box Shadows
-$box-shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.1);
+$box-shadow-soft: 0 4px 6px rgba(0, 0, 0, 0.15);
 $box-shadow-hover: 0 6px 12px rgba(0, 0, 0, 0.15);
+$box-shadow-light: 24px 24px 48px #e1e1e1, -24px -24px 48px #ffffff;
 
 // Transition
 $transition: all 0.3s ease-in-out;
 
 // Gradient Mixins
 @mixin gradient-background($color1, $color2) {
-    background: linear-gradient(135deg, $color1, $color2);
+  background: linear-gradient(135deg, $color1, $color2);
+}
+@mixin gradient-background-three($color1, $color2, $color3) {
+  background: linear-gradient(135deg, $color1, $color2, $color3);
 }
 
 // Flex Centre
 @mixin flex-center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
