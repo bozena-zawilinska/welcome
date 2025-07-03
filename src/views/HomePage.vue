@@ -58,7 +58,10 @@
       </div>
 
       <div class="group--buttons">
-        <button href="/contact" class="button button--secondary">
+        <button
+          @click="$router.push('/contact')"
+          class="button button--secondary"
+        >
           Get in Touch
         </button>
         <button @click="$router.push('/work')" class="button button--primary">
