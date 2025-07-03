@@ -2,6 +2,8 @@
 * COLOR PALETTE
 */
 
+$color-selected: #1772f3; // Selected state color for active elements
+
 // Backgrounds
 $white: #ffffff;
 $lavender: #b5a0d8;
@@ -24,12 +26,10 @@ $rosemary: #47756e;
 
 // Text
 $font-dark: #000000;
-// $font-dark: #362d45;
 $font-grey: #626f89;
 $dark-gunmetal: #333e61; // Used for side nav background and tooltip text
 
 // Gradients
-// $green-background: linear-gradient(135deg, $green-white, $grayish-cyan, $grayish-blue);
 $red-background: linear-gradient(
   to bottom left,
   $soft-red 40%,

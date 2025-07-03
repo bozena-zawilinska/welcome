@@ -9,20 +9,19 @@
 </template>
 
 <script>
-import SideNav from './components/SideNav.vue';
+import SideNav from './components/SideNav.vue'
 
 export default {
   components: {
     SideNav,
   },
-};
+}
 </script>
 
 <style lang="scss">
-
 :focus {
-  outline: 3px solid $dark-gunmetal;
-  outline-offset: 2px;
+  outline: 2px solid $color-selected;
+  outline-offset: 1px;
 }
 
 /* Skip Link */
