@@ -124,7 +124,7 @@ export default {
     // Listen for the '[' key to toggle the navigation
     window.addEventListener('keydown', this.handleKeyDown)
   },
-  beforeDestroy() {
+  beforeUnmount() {
     // Clean up the event listener
     window.removeEventListener('resize', this.updateIsMobile)
     // Remove the event listener when the component is destroyed

@@ -61,7 +61,7 @@
         <button href="/contact" class="button button--secondary">
           Get in Touch
         </button>
-        <button onclick="location.href='/work'" class="button button--primary">
+        <button @click="$router.push('/work')" class="button button--primary">
           Explore My Work
         </button>
       </div>
