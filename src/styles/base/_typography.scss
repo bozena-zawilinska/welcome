@@ -101,17 +101,67 @@ p.text--supporting,
 }
 
 a {
-  color: $font-dark;
+  color: $color-link;
   text-decoration: wavy;
-  &:hover,
+  transition: color 0.2s ease;
+  &:hover {
+    color: $color-link-hover;
+  }
+
   &:link,
   &:active,
   &:focus,
   &:visited {
-    color: $font-grey;
+    color: $color-link-active;
   }
   &.button {
-    color: $font-dark;
+    color: $color-link;
+  }
+}
+
+.link-underline {
+  all: unset;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  color: $color-link;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.2s ease;
+  margin: $margin-base 0;
+  // gap: $spacing-xs;
+
+  svg {
+    margin-left: $spacing-xs;
+    transition: transform 0.3s ease;
+  }
+
+  &::after {
+    background: $color-link;
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    height: 1px;
+    width: 0;
+    max-width: calc(100% - 20px);
+    transition: width 0.3s linear;
+  }
+
+  &:hover {
+    color: $color-link-hover;
+    svg {
+      transform: translateX(4px);
+      stroke: $color-link-hover;
+    }
+
+    &::after {
+      width: 100%;
+    }
+  }
+
+  &:hover::after {
+    background: $color-link-hover;
   }
 }
 

@@ -94,10 +94,8 @@
               :aria-controls="'project-' + project.id"
             >
               {{ project.showDetails ? 'Show less' : 'Show more' }}
-              <i
-                class="fa"
-                :class="project.showDetails ? 'fa-arrow-up' : 'fa-arrow-down'"
-              ></i>
+              <ChevronUpIcon v-if="project.showDetails" class="hero-icon" />
+              <ChevronDownIcon v-else class="hero-icon" />
             </button>
 
             <button
@@ -107,7 +105,7 @@
               rel="noopener noreferrer"
             >
               <span class="project__footer-text">View live </span>
-              <font-awesome-icon icon="arrow-up-right-from-square" />
+              <ArrowTopRightOnSquareIcon class="hero-icon" />
             </button>
           </div>
         </div>
@@ -165,7 +163,7 @@
               rel="noopener noreferrer"
             >
               Visit website
-              <font-awesome-icon icon="arrow-up-right-from-square" />
+              <ArrowTopRightOnSquareIcon class="hero-icon" />
             </button>
           </div>
         </div>
@@ -188,8 +186,19 @@
 </template>
 
 <script>
+import {
+  ChevronUpIcon,
+  ChevronDownIcon,
+  ArrowTopRightOnSquareIcon,
+} from '@heroicons/vue/24/outline'
+
 export default {
   name: 'ProjectsShowcase',
+  components: {
+    ChevronUpIcon,
+    ChevronDownIcon,
+    ArrowTopRightOnSquareIcon,
+  },
   data() {
     return {
       projects: [
@@ -864,7 +873,7 @@ export default {
       width: 100%;
       height: 100%;
       background: rgba(0, 0, 0, 0.8);
-      color: white;
+      color: $white;
       display: flex;
       align-items: center;
       flex-direction: column;
@@ -883,7 +892,7 @@ export default {
     }
 
     .overlay p {
-      color: white;
+      color: $white;
       max-width: 80%;
     }
   }

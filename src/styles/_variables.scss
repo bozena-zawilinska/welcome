@@ -2,6 +2,33 @@
 * COLOR PALETTE
 */
 
+// Accessibility Colors
+// $color-primary: #1772f3; // Primary color for links and buttons
+// $color-secondary: #f3f3f3; // Secondary color for backgrounds and borders
+$color-link: #1772f3; // Link color for text links and interactive elements
+$color-link-hover: #155ab6; // Hover state color for links
+$color-link-active: #0f4d8b; // Active / Focus / Visited state color for links
+// $color-accent: #f3f3f3; // Accent color for highlights and emphasis
+// $color-muted: #626f89; // Muted color for less important text and elements
+$color-danger: #ef8d9c; // Danger color for error messages and alerts
+
+$color-error: #dc2626; // Error color for form validation and error messages
+$color-error-bg: #fee2e2; // Background color for error messages and alerts
+$color-error-border: #fecaca; // Border color for error messages and form validation
+
+$color-success: #166534; // Success color for success messages and confirmations
+$color-success-bg: #dcfce7; // Background color for success messages and confirmations
+$color-success-border: #bbf7d0; // Border color for success messages and
+
+$color-warning: #ffc39e; // Warning color for caution messages and alerts
+$color-info: #6b7280; // Info color for informational messages and tooltips
+$color-disabled: #6b7280; // Disabled state color for inactive elements
+$color-disabled-border: #d1d5db; // Border color for disabled elements
+// $color-hover: #1772f3; // Hover state color for interactive elements
+// $color-active: #1772f3; // Active state color for buttons and links
+// $color-focus: #1772f3; // Focus state color for form elements and interactive elements
+$color-border: #e5e7eb; // Border color for form elements
+
 $color-selected: #1772f3; // Selected state color for active elements
 
 // Backgrounds
@@ -26,7 +53,7 @@ $rosemary: #47756e;
 
 // Text
 $font-dark: #000000;
-$font-grey: #626f89;
+$font-grey: #374151; // Used for text in side nav and tooltip
 $dark-gunmetal: #333e61; // Used for side nav background and tooltip text
 
 // Gradients
@@ -39,6 +66,16 @@ $green-background: linear-gradient(
   to bottom right,
   $soft-green 40%,
   $soft-cyan 100%
+);
+$blue-background: linear-gradient(
+  to bottom right,
+  $blue-bell 40%,
+  $lavender 100%
+);
+$purple-background: linear-gradient(
+  to bottom right,
+  $lavender 40%,
+  $wisteria 100%
 );
 
 // Font Sizes

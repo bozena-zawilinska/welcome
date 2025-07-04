@@ -1,103 +1,772 @@
 <template>
-    <section class="page page--contact">
-        <div class="row">
-            <div class="col col--left">                    
-                <img src="@/assets/contact-bz.jpg" alt="Bozena's avatar" width="662" height="883" />
-            </div>
-            <div class="col col--right container">
-                <div class="group-text">
-                    <h1>Let's work together!</h1>
-                    <p>
-                        Have an exciting project or idea? Let’s collaborate to create something amazing!
-                        I’m always open to discussing new opportunities or connecting with like-minded professionals.
-                    </p>
-                </div>
-                <form @submit.prevent="submitForm">
-                    <label for="name">Your Name</label>
-                    <input type="text" id="name" v-model="form.name" required />
-
-                    <label for="email">Your Email</label>
-                    <input type="email" id="email" v-model="form.email" required />
-
-                    <label for="message">Your Message</label>
-                    <textarea id="message" v-model="form.message" required></textarea>
-
-                    <button type="submit">Send Message</button>
-                </form>
-                <div class="group-connect">
-                    <h2>Connect with me!</h2>
-                    LinkedIn..
-                    x
-                    GitHub
-                    email
-                </div>
-            </div>
+  <section class="page page--contact">
+    <div class="row">
+      <div class="col col--left">
+        <img
+          src="@/assets/contact-bz.jpg"
+          alt="Bozena's avatar"
+          width="662"
+          height="883"
+        />
+      </div>
+      <div class="col col--right container">
+        <div class="group-text">
+          <h1>Let's work together!</h1>
+          <p>
+            Have an exciting project or idea? Let’s collaborate to create
+            something amazing! I’m always open to discussing new opportunities
+            or connecting with like-minded professionals.
+          </p>
         </div>
-    </section>
+
+        <!-- Success Message (shown after successful submission) -->
+        <div
+          v-if="isFormSubmitted"
+          class="success-container"
+          role="status"
+          aria-live="polite"
+        >
+          <div class="success-message">
+            <div class="success-icon" aria-hidden="true">✅</div>
+            <h2>Thank you!</h2>
+            <p>
+              Your message has been sent successfully. I'll get back to you
+              soon!
+            </p>
+            <button @click="resetForm" class="button button--secondary">
+              Send Another Message
+            </button>
+          </div>
+        </div>
+
+        <!-- Contact Form (hidden after successful submission) -->
+        <form
+          v-else
+          @submit.prevent="submitForm"
+          class="contact-form"
+          novalidate
+        >
+          <div class="form-group">
+            <label for="name">Your Name *</label>
+            <input
+              type="text"
+              id="name"
+              v-model="form.name"
+              :disabled="isSubmitting"
+              :aria-describedby="
+                validationErrors.name
+                  ? 'name-error'
+                  : hasError
+                  ? 'form-error'
+                  : null
+              "
+              :aria-invalid="validationErrors.name ? 'true' : 'false'"
+              required
+              aria-required="true"
+              :class="{ error: validationErrors.name }"
+              @focus="clearFieldError('name')"
+              @input="clearFieldError('name')"
+            />
+            <div
+              v-if="validationErrors.name"
+              class="field-error"
+              id="name-error"
+              role="alert"
+            >
+              {{ validationErrors.name }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Your Email *</label>
+            <input
+              type="email"
+              id="email"
+              v-model="form.email"
+              :disabled="isSubmitting"
+              :aria-describedby="
+                validationErrors.email
+                  ? 'email-error'
+                  : hasError
+                  ? 'form-error'
+                  : null
+              "
+              :aria-invalid="validationErrors.email ? 'true' : 'false'"
+              required
+              aria-required="true"
+              :class="{ error: validationErrors.email }"
+              @focus="clearFieldError('email')"
+              @input="clearFieldError('email')"
+            />
+            <div
+              v-if="validationErrors.email"
+              class="field-error"
+              id="email-error"
+              role="alert"
+            >
+              {{ validationErrors.email }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject *</label>
+            <input
+              type="text"
+              id="subject"
+              v-model="form.subject"
+              :disabled="isSubmitting"
+              :aria-describedby="
+                validationErrors.subject
+                  ? 'subject-error'
+                  : hasError
+                  ? 'form-error'
+                  : null
+              "
+              :aria-invalid="validationErrors.subject ? 'true' : 'false'"
+              required
+              aria-required="true"
+              :class="{ error: validationErrors.subject }"
+              @focus="clearFieldError('subject')"
+              @input="clearFieldError('subject')"
+            />
+            <div
+              v-if="validationErrors.subject"
+              class="field-error"
+              id="subject-error"
+              role="alert"
+            >
+              {{ validationErrors.subject }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Your Message *</label>
+            <textarea
+              id="message"
+              v-model="form.message"
+              :disabled="isSubmitting"
+              :aria-describedby="
+                validationErrors.message
+                  ? 'message-error'
+                  : hasError
+                  ? 'form-error'
+                  : null
+              "
+              :aria-invalid="validationErrors.message ? 'true' : 'false'"
+              rows="5"
+              required
+              aria-required="true"
+              :class="{ error: validationErrors.message }"
+              @focus="clearFieldError('message')"
+              @input="clearFieldError('message')"
+            ></textarea>
+            <div
+              v-if="validationErrors.message"
+              class="field-error"
+              id="message-error"
+              role="alert"
+            >
+              {{ validationErrors.message }}
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            :disabled="isSubmitting"
+            :class="[
+              'button',
+              'button--primary',
+              'button--submit',
+              { 'button--loading': isSubmitting },
+            ]"
+            :aria-describedby="isSubmitting ? 'submit-status' : null"
+          >
+            <span v-if="!isSubmitting"> Send Message </span>
+            <span v-else id="submit-status">Sending...</span>
+          </button>
+
+          <div
+            v-if="hasError"
+            class="error-message"
+            role="alert"
+            aria-live="assertive"
+            id="form-error"
+          >
+            Sorry, there was an error sending your message. Please check your
+            information and try again.
+          </div>
+        </form>
+        <div class="group-connect">
+          <h2>Connect with me!</h2>
+          <p>Let's stay in touch and collaborate on exciting projects!</p>
+
+          <div class="social-links">
+            <a
+              href="https://www.linkedin.com/in/zawilinska/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link linkedin"
+              aria-label="Connect with me on LinkedIn"
+            >
+              <svg
+                class="social-icon"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                />
+              </svg>
+              <span>LinkedIn</span>
+            </a>
+
+            <a
+              href="https://github.com/bozena-zawilinska"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link github"
+              aria-label="View my projects on GitHub"
+            >
+              <svg
+                class="social-icon"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                />
+              </svg>
+              <span>GitHub</span>
+            </a>
+
+            <a
+              href="https://x.com/BZawilinska"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link twitter"
+              aria-label="Follow me on X (formerly Twitter)"
+            >
+              <svg
+                class="social-icon"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"
+                />
+              </svg>
+              <span>X (Twitter)</span>
+            </a>
+
+            <button
+              class="social-link email"
+              @click="sendEmail"
+              type="button"
+              aria-label="Send me an email"
+            >
+              <EnvelopeIcon class="social-icon" aria-hidden="true" />
+              <span>Email</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
+import emailjs from '@emailjs/browser'
+import { EnvelopeIcon } from '@heroicons/vue/24/outline'
+
 export default {
-    data() {
-        return {
-            form: {
-                name: "",
-                email: "",
-                message: "",
-            },
-        };
+  components: {
+    EnvelopeIcon,
+  },
+  data() {
+    return {
+      form: {
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+      },
+      isSubmitting: false,
+      isFormSubmitted: false,
+      hasError: false,
+      emailFallbackShown: false,
+      validationErrors: {
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+      },
+    }
+  },
+  mounted() {
+    this.emailFallbackShown = false
+  },
+  methods: {
+    validateForm() {
+      // Reset validation errors
+      this.validationErrors = {
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+      }
+
+      // Validate in order and show only the first error
+
+      // Validate name first
+      if (!this.form.name.trim()) {
+        this.validationErrors.name = 'Name is required'
+        return false
+      }
+
+      // Validate email second
+      if (!this.form.email.trim()) {
+        this.validationErrors.email = 'Email is required'
+        return false
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.form.email)) {
+        this.validationErrors.email = 'Please enter a valid email address'
+        return false
+      }
+
+      // Validate subject third
+      if (!this.form.subject.trim()) {
+        this.validationErrors.subject = 'Subject is required'
+        return false
+      }
+
+      // Validate message last
+      if (!this.form.message.trim()) {
+        this.validationErrors.message = 'Message is required'
+        return false
+      } else if (this.form.message.trim().length < 10) {
+        this.validationErrors.message =
+          'Message must be at least 10 characters long'
+        return false
+      }
+
+      return true
     },
-    methods: {
-        submitForm() {
-            alert("Thank you! Your message has been sent.");
-        },
+
+    clearFieldError(fieldName) {
+      // Clear the error for the specific field
+      if (this.validationErrors[fieldName]) {
+        this.validationErrors[fieldName] = ''
+      }
     },
-};
+
+    async submitForm() {
+      // Reset general error state
+      this.hasError = false
+
+      // Validate form
+      if (!this.validateForm()) {
+        return // Stop submission if validation fails
+      }
+
+      this.isSubmitting = true
+
+      try {
+        await this.sendWithEmailJS()
+
+        // Hide form and show success message
+        this.isFormSubmitted = true
+
+        // Reset form data
+        this.form = {
+          name: '',
+          email: '',
+          subject: '',
+          message: '',
+        }
+      } catch (error) {
+        console.error('Error sending message:', error)
+        this.hasError = true
+      } finally {
+        this.isSubmitting = false
+      }
+    },
+
+    async sendWithEmailJS() {
+      // EmailJS configuration from environment variables
+      const SERVICE_ID = process.env.VUE_APP_EMAILJS_SERVICE_ID
+      const TEMPLATE_ID = process.env.VUE_APP_EMAILJS_TEMPLATE_ID
+      const PUBLIC_KEY = process.env.VUE_APP_EMAILJS_PUBLIC_KEY
+      const TO_EMAIL = process.env.VUE_APP_CONTACT_EMAIL
+
+      // Check if all required environment variables are set
+      if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY || !TO_EMAIL) {
+        console.error('Missing EmailJS configuration in environment variables')
+        throw new Error(
+          'EmailJS configuration is missing. Please check your .env file.'
+        )
+      }
+
+      const templateParams = {
+        from_name: this.form.name,
+        from_email: this.form.email,
+        subject: this.form.subject,
+        message: this.form.message,
+        to_email: TO_EMAIL,
+        reply_to: this.form.email,
+      }
+
+      try {
+        const response = await emailjs.send(
+          SERVICE_ID,
+          TEMPLATE_ID,
+          templateParams,
+          PUBLIC_KEY
+        )
+
+        console.log('Email sent successfully!')
+        return response
+      } catch (error) {
+        console.error('EmailJS error:', error)
+        throw error
+      }
+    },
+
+    resetForm() {
+      // Reset all form states to allow sending another message
+      this.isFormSubmitted = false
+      this.hasError = false
+      this.form = {
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+      }
+      this.validationErrors = {
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+      }
+    },
+
+    sendEmail() {
+      const emailAddress = 'mailto.dev.bz@gmail.com'
+      const subject = 'Hello'
+      const body = 'Just reaching out!'
+      const mailtoUrl = `mailto:${emailAddress}?subject=${encodeURIComponent(
+        subject
+      )}&body=${encodeURIComponent(body)}`
+
+      console.log('Trying to open mail client...')
+      window.location.href = mailtoUrl
+
+      // Prevent fallback from showing multiple times
+      if (this.emailFallbackShown) return
+      this.emailFallbackShown = true
+
+      setTimeout(() => {
+        const fallbackMessage = `If your mail client didn’t open, you can copy my email address to contact me directly.\n\n📧 ${emailAddress}`
+        const wantsToCopy = confirm(fallbackMessage)
+
+        if (wantsToCopy) {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard
+              .writeText(emailAddress)
+              .then(() => {
+                alert(`✅ Email copied to clipboard:\n${emailAddress}`)
+              })
+              .catch(() => {
+                prompt('Copy this email address:', emailAddress)
+              })
+          } else {
+            prompt('Copy this email address:', emailAddress)
+          }
+        }
+      }, 500)
+    },
+  },
+}
 </script>
 
 <style scoped lang="scss">
 .page--contact {
-    .row {
-        display: flex;
-        // flex-direction: column;
-        // gap: -$spacing-lg;
+  .row {
+    display: flex;
+  }
+
+  .col {
+    width: 100%;
+    @include breakpoint-up(md) {
+      width: 50%;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 16px;
+    }
+  }
+
+  .col--left {
+    display: none;
+    @include breakpoint-up(md) {
+      display: block;
+      margin-right: -2.5rem;
+    }
+  }
+
+  .col--right {
+    @include breakpoint-up(md) {
+      margin-top: 2.5rem;
+      margin-bottom: -2.5rem;
     }
 
-    .col {
-        width: 50%;
-        img {
-            width: 100%;
-            height: auto;
-            object-fit: contain;
-            border-radius: 16px;
-        };
+    &.container {
+      background: $white;
+      display: flex;
+      gap: 2.5rem;
+      flex-direction: column;
+    }
+  }
+
+  .group-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .group-connect {
+    h2 {
+      margin-bottom: 0.5rem;
     }
 
-    .col--left {
-        margin-right: -2.5rem;
+    p {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  .social-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+
+    @include breakpoint-up(md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
+    background: none;
+    font-family: inherit;
+    font-size: inherit;
+
+    .social-icon {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
     }
 
-    .col--right {
-        margin-top: 2.5rem;
-        margin-bottom: -2.5rem;
-
-        &.container {
-            background: white;
-            display: flex;
-            gap: 2.5rem;
-            flex-direction: column;
-        }
+    span {
+      font-size: 14px;
     }
 
-    .group-text {
-        display: flex;
-        flex-direction: column;
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
+
+    &.linkedin {
+      background: linear-gradient(135deg, #0077b5 0%, #005885 100%);
+      color: $white;
+      span {
+        color: $white;
+      }
+
+      &:hover {
+        background: linear-gradient(135deg, #005885 0%, #0077b5 100%);
+      }
+    }
+
+    &.github {
+      background: linear-gradient(135deg, #333 0%, #24292e 100%);
+      color: $white;
+      span {
+        color: $white;
+      }
+
+      &:hover {
+        background: linear-gradient(135deg, #24292e 0%, #333 100%);
+      }
+    }
+
+    &.twitter {
+      background: linear-gradient(135deg, #1da1f2 0%, #0d8bd9 100%);
+      color: $white;
+      span {
+        color: $white;
+      }
+
+      &:hover {
+        background: linear-gradient(135deg, #0d8bd9 0%, #1da1f2 100%);
+      }
+    }
+
+    &.email {
+      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+      color: #374151;
+      border-color: #d1d5db;
+
+      &:hover {
+        background: linear-gradient(135deg, #e5e7eb 0%, #f3f4f6 100%);
+        border-color: #9ca3af;
+      }
+    }
+  }
 }
 
 form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contact-form {
+  .form-group {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.5rem;
+
+    label {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    input,
+    textarea {
+      padding: 12px 16px;
+      border: 2px solid $color-border;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+      &.error {
+        border-color: #dc2626;
+        background-color: #fef2f2;
+      }
+
+      &.error:focus {
+        border-color: #dc2626;
+        box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+      }
+
+      &:disabled {
+        background-color: $color-disabled;
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+    }
+
+    .field-error {
+      color: #dc2626;
+      font-size: 12px;
+      font-weight: 500;
+      margin-top: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+
+      &::before {
+        content: '🙀';
+        font-size: 16px;
+      }
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+      font-family: inherit;
+    }
+  }
+
+  .error-message {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    margin-top: 1rem;
+    background-color: $color-error-bg;
+    color: $color-error;
+    border: 1px solid $color-error-border;
+  }
+}
+
+.success-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  padding: 2rem;
+
+  .success-message {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, #dcfce7 0%, #f0fdf4 100%);
+    border-radius: 16px;
+    border: 2px solid $color-success-border;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 10px 25px rgba(34, 197, 94, 0.1);
+    color: $color-success;
+
+    .success-icon {
+      font-size: 3rem;
+      //   margin-bottom: 1rem;
+      animation: bounce 0.6s ease-in-out;
+    }
+
+    h2 {
+      color: $color-success;
+      //   font-size: 2rem;
+      //   margin-bottom: 1rem;
+      //   font-weight: 700;
+    }
+
+    p {
+      color: $color-success;
+      //   font-size: 1.1rem;
+      margin-bottom: 2rem;
+      //   line-height: 1.6;
+    }
+  }
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  53%,
+  80%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  40%,
+  43% {
+    transform: translate3d(0, -20px, 0);
+  }
+  70% {
+    transform: translate3d(0, -10px, 0);
+  }
+  90% {
+    transform: translate3d(0, -4px, 0);
+  }
 }
 </style>
