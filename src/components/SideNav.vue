@@ -34,7 +34,6 @@
         </li>
       </ul>
       <a class="button button--toggle" @click="toggleNav">
-        <!-- <i :class="isCollapsed ? 'fas fa-arrow-left' : 'fas fa-arrow-right'" v-tooltip="isCollapsed ? '[ to expand' : '[ to collapse'">]</i> -->
         <ChevronDoubleLeftIcon
           v-if="isCollapsed"
           class="toggle-icon"
@@ -173,7 +172,7 @@ export default {
 
 /* Side Navigation */
 .side-nav {
-  background: white;
+  background: $white;
   box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
   transition: width 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
 
@@ -219,6 +218,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: none;
 
     .toggle-icon {
       width: 24px;
@@ -272,7 +272,10 @@ export default {
         padding: $spacing-sm;
         border-radius: 8px;
         transition: $transition;
-        // transition: background $transition;
+
+        @include breakpoint-up(md) {
+          justify-content: center;
+        }
 
         &:hover {
           background: rgba(255, 255, 255, 0.1);
