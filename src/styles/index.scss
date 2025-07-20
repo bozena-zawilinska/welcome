@@ -2,13 +2,17 @@
 @import 'responsive.scss';
 @import 'global.scss';
 @import 'base/index.scss';
+@import 'components/light-theme.scss';
 
 body,
 main,
 #app {
   margin: 0;
   max-width: 100vw;
-  //   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  background: $background-primary;
+  color: $text-primary;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 html {

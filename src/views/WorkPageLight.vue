@@ -51,7 +51,7 @@
       <!-- Featured Projects -->
       <section class="work__featured" aria-labelledby="featured-projects">
         <h2 id="featured-projects" class="section-title">Featured Projects</h2>
-        <div class="featured-grid">
+        <div class="featured-projects-grid">
           <div
             v-for="project in projects.slice(0, 4)"
             :key="project.id"
@@ -80,38 +80,40 @@
               :class="{ show: project.showDetails }"
               :aria-expanded="project.showDetails"
             >
-              <p
-                v-for="(line, index) in project.description.split('\n')"
-                :key="index"
-                class="details__text"
-              >
-                {{ line }}
-              </p>
-              <div
-                class="image-showcase"
-                v-if="project.images && project.images[0]"
-              >
-                <img
-                  :src="getProjectPath(project.images[0].src)"
-                  :alt="project.images[0].alt"
-                />
-              </div>
-              <!-- Skills badges -->
-              <div class="skill-badges" v-if="project.skills">
-                <span
-                  v-for="skill in project.skills"
-                  :key="skill"
-                  class="skill-badge"
-                  @mouseenter="animateSkill"
+              <div class="details__content">
+                <p
+                  v-for="(line, index) in project.description.split('\n')"
+                  :key="index"
+                  class="details__text"
                 >
-                  {{ skill }}
-                </span>
+                  {{ line }}
+                </p>
+                <div
+                  class="image-showcase"
+                  v-if="project.images && project.images[0]"
+                >
+                  <img
+                    :src="getProjectPath(project.images[0].src)"
+                    :alt="project.images[0].alt"
+                  />
+                </div>
+                <!-- Skills badges -->
+                <div class="skill-badges" v-if="project.skills">
+                  <span
+                    v-for="skill in project.skills"
+                    :key="skill"
+                    class="skill-badge"
+                    @mouseenter="animateSkill"
+                  >
+                    {{ skill }}
+                  </span>
+                </div>
               </div>
             </div>
 
             <div class="card__actions">
               <button
-                class="btn btn--ghost"
+                class="btn btn--secondary"
                 @click="toggleDetails(project)"
                 :aria-expanded="project.showDetails"
                 :aria-controls="'project-' + project.id"
@@ -248,7 +250,7 @@ export default {
             'Enhanced user experience and accessibility for a product management SaaS platform, building reusable Vue.js components and integrating with RESTful APIs.',
           showDetails: false,
           description:
-            'As a Frontend Developer at ProdPad, I collaborated closely with Product and Design teams to enhance UI/UX, develop new features, and improve accessibility across the platform. I built reusable Vue.js components following best practices, maintained clean and well-documented code, and ensured consistency using ESLint. My work involved integrating multiple third-party APIs including Recurly for payment processing and subscription management, HubSpot API for CRM integration, and analytics platforms like Segment, Mixpanel, and PostHog for comprehensive user tracking.',
+            'Working closely with the Product and Design teams, I focused on making the platform more intuitive and accessible for all users. I built a library of reusable Vue.js components that made development faster and more consistent across the app.\n\nOne of the exciting parts was integrating various third-party services - from Recurly for handling payments and subscriptions, to HubSpot for managing customer relationships. I also worked with analytics platforms like Segment, Mixpanel, and PostHog to help the team understand how users interact with the product.\n\nThroughout it all, I maintained clean, well-documented code and used ESLint to keep everything consistent. It was rewarding to see how these improvements made the platform easier to use and more reliable for our customers.',
           link: 'https://www.prodpad.com/sandbox/',
           skills: [
             'VUE 3',
@@ -278,7 +280,7 @@ export default {
             'Developed 20+ custom Gutenberg blocks and optimized website performance, achieving 95+ PageSpeed scores while enabling flexible content management for marketing teams.',
           showDetails: false,
           description:
-            'As the sole Website Developer at ProdPad, I architected and developed a comprehensive library of 20+ custom Gutenberg blocks, empowering the Marketing team to create flexible, engaging pages without developer dependency. I integrated multiple marketing and analytics platforms including HubSpot API for seamless form submission and lead capture, LinkedIn advertising pixels for targeted campaign tracking, Google Analytics for comprehensive website performance monitoring.',
+            'As the sole website developer, I created a comprehensive library of over 20 custom Gutenberg blocks that completely transformed how our marketing team works. Instead of waiting for developer help, they can now build engaging, professional pages on their own.\n\nI integrated essential marketing tools like HubSpot for seamless form submissions and lead capture, LinkedIn advertising pixels for targeted campaigns, and Google Analytics for detailed performance insights. The best part? I managed to achieve 95+ PageSpeed scores on both desktop and mobile.\n\nSeeing the marketing team go from feeling limited to being completely autonomous in creating beautiful, high-performing pages was incredibly satisfying. They can now focus on strategy and creativity rather than technical constraints.',
           link: 'https://www.prodpad.com/',
           skills: ['PHP', 'HTML & SCSS', 'JavaScript', 'Webpack', 'WordPress'],
           tools: ['ACF PRO', 'BrowserStack', 'GitHub', 'Figma'],
@@ -302,7 +304,7 @@ export default {
             'Led full-stack WordPress development managing the complete project lifecycle from local development to deployment, delivering high-quality accessible websites for diverse clients.',
           showDetails: false,
           description:
-            'As Lead Web Developer at Passion4Social, I managed the complete website development lifecycle for multiple client projects, from initial setup to final deployment. I built high-quality, accessible WordPress websites using the Genesis Framework, transforming client designs into performant, SEO-optimized sites.',
+            'At Passion4Social, I worked closely with my manager and design team who would assign me projects with PDF designs that needed to be brought to life. Each project was unique, but my approach was always the same: study the design carefully, then transform it into clean, accessible code that matched the vision perfectly.\n\nUsing the Genesis Framework as my foundation, I converted creative PDF designs into fast, SEO-optimized websites that looked great on every device. I handled everything from setting up local development environments to managing deployments and ensuring each site met accessibility standards.\n\nWhat I loved most was the challenge of translating static designs into dynamic, functional websites. Whether it was a small local business or a larger organization, each successful launch felt like a win when the final result perfectly matched the original design vision.',
           link: 'https://passion4social.com/',
           skills: [
             'PHP',
@@ -338,7 +340,7 @@ export default {
             'Developed an accessible, user-friendly healthcare platform for NHS Lothian, featuring interactive guides and comprehensive resources for children, families, and healthcare professionals.',
           showDetails: false,
           description:
-            'I led the development of a comprehensive healthcare platform for NHS Lothian, designed to support children, young people, parents, carers, and healthcare professionals. The site features interactive guides that help children understand hospital procedures, reducing anxiety through clear explanations and visual aids.',
+            'This project was especially meaningful to me - creating a digital space that could help reduce anxiety for children and families during hospital visits. I developed interactive guides that explain medical procedures in child-friendly language, complete with visual aids and reassuring explanations.\n\nThe site serves multiple audiences: children who need age-appropriate information, parents seeking detailed guidance, and healthcare professionals looking for resources. I made sure everything was fully accessible and followed WCAG guidelines, because healthcare information should be available to everyone.\n\nKnowing that this platform might help a scared child feel more prepared for their hospital visit, or give parents the information they need to support their family, made every line of code feel purposeful.',
           link: 'https://children.nhslothian.scot/',
           skills: [
             'PHP',
@@ -372,7 +374,7 @@ export default {
           role: 'Website Developer',
           showDetails: false,
           description:
-            'Provided ongoing website improvements and maintenance for Just Enterprise, a key organization supporting social enterprises across Scotland.',
+            "Provided ongoing website maintenance and performance optimization for Scotland's leading social enterprise support organization.",
           link: 'https://justenterprise.org/',
           skills: [
             'WordPress',
@@ -394,7 +396,7 @@ export default {
           role: 'Website Developer',
           showDetails: false,
           description:
-            'Provided regular website improvements and maintenance for Cerebral Palsy Scotland, a vital charity supporting individuals with cerebral palsy.',
+            'Maintained accessibility-compliant website for vital charity supporting individuals with cerebral palsy and their families.',
           link: 'https://cerebralpalsyscotland.org.uk/',
           skills: ['WordPress', 'PHP', 'HTML & CSS', 'WCAG Compliance'],
           images: [
@@ -411,9 +413,9 @@ export default {
           role: 'Website Developer',
           showDetails: false,
           description:
-            'I developed the complete website from scratch, implementing custom product showcase features, responsive design, and optimized performance for mobile-first shopping experiences.',
+            'Built showcase website for sustainable clothing designer celebrating cultural diversity and challenging fashion industry norms.',
           link: 'https://bytzari.com/',
-          skills: ['WordPress', 'WooCommerce', 'PHP', 'Responsive Design'],
+          skills: ['WordPress', 'Responsive Design', 'PHP', 'Custom Styling'],
           images: [
             {
               src: 'tzari/tzari-website.png',
@@ -428,7 +430,7 @@ export default {
           role: 'Website Developer',
           showDetails: false,
           description:
-            'I built the complete website and trained ABotZ chatbot to give simple answers leading user quickly to the right content on the website.',
+            'Developed comprehensive website with integrated ABotZ chatbot for intelligent user guidance and content discovery.',
           link: 'https://abzworks.co.uk/',
           skills: [
             'WordPress',
@@ -450,7 +452,7 @@ export default {
           role: 'Website Developer',
           showDetails: false,
           description:
-            'Developed a grant application platform for the Environmental Key Fund, North Lanarkshire Councils initiative supporting local environmental projects.',
+            'Created streamlined grant application platform for North Lanarkshire Council supporting local environmental projects.',
           link: 'https://environmentalkeyfund.com/',
           skills: ['WordPress', 'Form Integration', 'Performance Optimization'],
           images: [
@@ -467,7 +469,7 @@ export default {
           role: 'Website Developer',
           showDetails: false,
           description:
-            'Built a community finance platform for Scottish Communities Finance, designed to promote and facilitate reinvestment in local Scottish communities.',
+            'Built community finance platform promoting accessible financial services and reinvestment in local Scottish communities.',
           link: 'https://scotcomfinance.scot/',
           skills: ['WordPress', 'Financial Integration', 'Community Features'],
           images: [
@@ -605,12 +607,20 @@ export default {
 
 // Light theme specific styles for work page
 .page--work {
+  // Global section spacing
+  section {
+    margin-bottom: 3rem;
+
+    @include breakpoint-down(md) {
+      margin-bottom: 2rem;
+    }
+  }
+
   // Intro section specific styling
   .work__intro {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 3rem;
     gap: 2rem;
     flex-direction: column;
 
@@ -646,59 +656,8 @@ export default {
     }
   }
 
-  // Featured projects grid
-  .featured-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    margin-top: 2rem;
-
-    @include breakpoint-up(md) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  .featured-card {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    animation-delay: var(--delay);
-
-    &.is-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    &.is-expanded {
-      border-color: rgba($interactive-primary, 0.3);
-    }
-
-    .card__details {
-      opacity: 0;
-      max-height: 0;
-      overflow: hidden;
-      transition: all 0.5s ease;
-      margin-bottom: 1rem;
-
-      &.show {
-        opacity: 1;
-        max-height: 2000px;
-      }
-
-      .details__text {
-        color: $text-primary;
-        line-height: 1.6;
-        margin-bottom: 0.75rem;
-      }
-    }
-
-    .card__description.hide {
-      opacity: 0;
-      height: 0;
-      overflow: hidden;
-      margin: 0;
-    }
-  }
+  // Featured projects - animation styles are now handled by _light-theme.scss
+  // The enhanced .featured-projects-grid provides better layout without stretching issues
 
   // Portfolio grid
   .portfolio-grid {
@@ -717,6 +676,25 @@ export default {
     &.is-visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    // Image showcase
+    .image-showcase {
+      margin-bottom: 1rem;
+    }
+
+    // Title styling - now direct child of card
+    .card__title {
+      color: $text-primary;
+      font-size: $font-size-h4;
+      font-weight: 600;
+      margin: 0 0 1rem 0;
+      line-height: 1.3;
+    }
+
+    // Actions at the bottom
+    .card__actions {
+      margin-top: auto;
     }
 
     .card__overlay {
@@ -808,10 +786,6 @@ export default {
 // Responsive adjustments
 @include breakpoint-down(md) {
   .page--work {
-    .featured-grid {
-      grid-template-columns: 1fr;
-    }
-
     .portfolio-grid {
       grid-template-columns: 1fr;
     }

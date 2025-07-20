@@ -32,9 +32,9 @@
 }
 
 .container {
-  box-shadow: $box-shadow-soft;
-  background: $white;
-  border-radius: 16px;
+  // box-shadow: $box-shadow-soft;
+  // background: $white;
+  // border-radius: 16px;
 
   max-width: 100%;
   text-align: left;
@@ -45,9 +45,9 @@
     padding: $padding-large * 2;
     // text-align: center;
   }
-  @include breakpoint-up(lg) {
-    background: rgba(255, 255, 255, 0.6);
-  }
+  // @include breakpoint-up(lg) {
+  //   background: rgba(255, 255, 255, 0.6);
+  // }
 
   // Animated heading
   .animated-heading {

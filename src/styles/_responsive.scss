@@ -21,38 +21,53 @@ $margin-large: $spacing-sm;
 
 // Mobile-first approach
 @mixin breakpoint-up($size) {
-    @if $size ==sm {
-        @media (min-width: $breakpoint-sm) {
-            @content;
-        }
+  @if $size ==sm {
+    @media (min-width: $breakpoint-sm) {
+      @content;
     }
+  } @else if $size ==md {
+    @media (min-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $size ==lg {
+    @media (min-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $size ==xl {
+    @media (min-width: $breakpoint-xl) {
+      @content;
+    }
+  }
+}
 
-    @else if $size ==md {
-        @media (min-width: $breakpoint-md) {
-            @content;
-        }
+// Desktop-first approach (max-width)
+@mixin breakpoint-down($size) {
+  @if $size == sm {
+    @media (max-width: #{$breakpoint-sm - 1px}) {
+      @content;
     }
-
-    @else if $size ==lg {
-        @media (min-width: $breakpoint-lg) {
-            @content;
-        }
+  } @else if $size == md {
+    @media (max-width: #{$breakpoint-md - 1px}) {
+      @content;
     }
-
-    @else if $size ==xl {
-        @media (min-width: $breakpoint-xl) {
-            @content;
-        }
+  } @else if $size == lg {
+    @media (max-width: #{$breakpoint-lg - 1px}) {
+      @content;
     }
+  } @else if $size == xl {
+    @media (max-width: #{$breakpoint-xl - 1px}) {
+      @content;
+    }
+  }
 }
 
 // Flexbox mixin for row or column layouts
 @mixin flex-row {
-    @include flex-center;
-    flex-direction: row;
+  @include flex-center;
+  flex-direction: row;
 }
 
 @mixin flex-column {
-    @include flex-center;
-    flex-direction: column;
+  @include flex-center;
+  flex-direction: column;
 }
