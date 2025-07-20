@@ -1,216 +1,261 @@
 <template>
   <div class="page page--work">
-    <h1 class="visually-hidden">My Work</h1>
-    <section class="work__intro" aria-labelledby="intro-heading">
-      <div class="work__image">
-        <img
-          src="@/assets/avatar-bz-3.png"
-          aria-hidden="true"
-          width="400"
-          height="400"
-        />
-        <div class="shadow" aria-hidden="true"></div>
-      </div>
-      <div class="container work__text-group">
-        <h2 id="intro-heading" class="work__heading">
-          What I Bring to the Table
-        </h2>
-        <p>
-          With over 3 years of expertise in Vue.js and 5+ years mastering
-          WordPress, I specialize in crafting customized templates and Gutenberg
-          blocks that meet the unique needs of each project. As the sole web
-          developer in my current role, I've taken full ownership of building,
-          and optimizing ProdPad website, achieving near-perfect PageSpeed
-          scores for both desktop and mobile.
-          <!-- I specialise in building interactive, accessible, and high-performing web applications.
+    <!-- Progress bar -->
+    <div class="progress-bar">
+      <div class="progress-fill" :style="{ width: scrollProgress + '%' }"></div>
+    </div>
+
+    <div class="container">
+      <h1 class="animated-heading">
+        <span class="typing-text">{{ typedText }}</span>
+        <span class="cursor" :class="{ typing: isTyping }">|</span>
+      </h1>
+      <section class="work__intro" aria-labelledby="intro-heading">
+        <div class="work__image">
+          <div class="image-wrapper">
+            <img
+              src="@/assets/avatar-bz-3.png"
+              aria-hidden="true"
+              width="400"
+              height="400"
+              @load="imageLoaded = true"
+            />
+            <div class="image-border" aria-hidden="true"></div>
+          </div>
+          <div class="shadow" aria-hidden="true"></div>
+        </div>
+        <div class="container work__text-group">
+          <h2 id="intro-heading" class="work__heading">
+            What I Bring to the Table
+          </h2>
+          <p>
+            With over 3 years of expertise in Vue.js and 5+ years mastering
+            WordPress, I specialize in crafting customized templates and
+            Gutenberg blocks that meet the unique needs of each project. As the
+            sole web developer in my current role, I've taken full ownership of
+            building, and optimizing ProdPad website, achieving near-perfect
+            PageSpeed scores for both desktop and mobile.
+            <!-- I specialise in building interactive, accessible, and high-performing web applications.
                     With an eye for detail and a passion for clean code, I transform designs into seamless
                     user experiences that stand out. -->
-        </p>
-        <p>
-          With an eye for detail and a passion for clean code, I transform
-          designs into seamless user experiences that stand out.
-          <strong>My mission?</strong> To create digital solutions that are
-          fast, functional, and future-proof. Whether you’re looking for
-          seamless performance, inclusive design, or tailored web functionality,
-          I’m here to bring your vision to life.
-        </p>
-      </div>
-    </section>
-    <section class="work__resume" aria-labelledby="featured-projects">
-      <h2 id="featured-projects" class="work__heading">Featured Projects</h2>
-      <div class="resume-container" role="list">
-        <div
-          v-for="project in projects.slice(0, 4)"
-          :key="project.id"
-          class="container resume-card"
-        >
-          <header class="card__header">
-            <h3 class="card__title">{{ project.title }}</h3>
-            <img
-              class="card__logo"
-              :src="getProjectPath(project.logo)"
-              :alt="`${project.title} logo`"
-            />
-          </header>
-          <div class="group--text">
-            <h4 class="card__subtitle text--base">
-              {{ project.role }}
-            </h4>
-            <p class="card__summary" :class="{ hide: project.showDetails }">
-              {{ project.summary }}
-            </p>
-          </div>
-          <!-- <h1 class="animated-heading">About Me</h1> -->
-
-          <!-- Full Description -->
-          <div
-            class="card__details"
-            :class="{ show: project.showDetails }"
-            aria-expanded="true"
-          >
-            <p
-              v-for="(line, index) in project.description.split('\n')"
-              :key="index"
-            >
-              {{ line }}
-            </p>
-            <div class="tablet-frame">
-              <div class="image-container">
-                <img
-                  class="project__image"
-                  :src="getProjectPath(project.images[0].src)"
-                  :alt="project.images[0].alt"
-                  width="500"
-                  height="281"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="group--buttons">
-            <button
-              class="link-underline"
-              @click.stop="toggleDetails(project)"
-              :aria-expanded="project.showDetails"
-              :aria-controls="'project-' + project.id"
-            >
-              {{ project.showDetails ? 'Show less' : 'Show more' }}
-              <ChevronUpIcon v-if="project.showDetails" class="hero-icon" />
-              <ChevronDownIcon v-else class="hero-icon" />
-            </button>
-
-            <button
-              class="button button--primary"
-              :href="project.link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span class="project__footer-text">View live </span>
-              <ArrowTopRightOnSquareIcon class="hero-icon" />
-            </button>
-          </div>
+          </p>
+          <p>
+            With an eye for detail and a passion for clean code, I transform
+            designs into seamless user experiences that stand out.
+            <strong>My mission?</strong> To create digital solutions that are
+            fast, functional, and future-proof. Whether you’re looking for
+            seamless performance, inclusive design, or tailored web
+            functionality, I’m here to bring your vision to life.
+          </p>
         </div>
-      </div>
-    </section>
+      </section>
+      <section class="work__featured" aria-labelledby="featured-projects">
+        <h2 id="featured-projects" class="section-title">Featured Projects</h2>
+        <div class="featured-grid">
+          <div
+            v-for="project in projects.slice(0, 4)"
+            :key="project.id"
+            :data-project-id="project.id"
+            class="featured-card"
+            :class="{ 'is-expanded': project.showDetails }"
+          >
+            <header class="card__header">
+              <h3 class="card__title">{{ project.title }}</h3>
+              <img
+                class="card__logo"
+                :src="getProjectPath(project.logo)"
+                :alt="`${project.title} logo`"
+              />
+            </header>
 
-    <section class="work__portfolio">
-      <div class="shade shade--soft-red"></div>
-      <!-- Other Projects -->
-      <h2 class="work__heading">Other Projects</h2>
-      <div class="bento-grid bento-grid--100">
-        <div
-          v-for="(project, index) in projects.slice(4)"
-          :key="project.id"
-          class="bento-item"
-          :class="{
-            'is-visible': project.isVisible,
-            'left-col': index % 2 === 0,
-            'right-col': index % 2 !== 0,
-          }"
-          :style="{ '--delay': Math.floor(index / 2) * 0.4 + 's' }"
-          ref="bentoItems"
-        >
-          <!-- Image Card with Overlay -->
-          <div class="bento__card image-container">
-            <img
-              class="project__image"
-              :src="getProjectPath(project.images[0].src)"
-              :alt="project.images[0].alt"
-            />
+            <div class="card__content">
+              <h4 class="card__subtitle">{{ project.role }}</h4>
+              <p class="card__summary" :class="{ hide: project.showDetails }">
+                {{ project.summary }}
+              </p>
+            </div>
 
-            <!-- Overlay Description -->
-            <div class="overlay" :class="{ show: project.showDetails }">
+            <div
+              class="card__details"
+              :class="{ show: project.showDetails }"
+              :aria-expanded="project.showDetails"
+            >
               <p
                 v-for="(line, index) in project.description.split('\n')"
                 :key="index"
+                class="details__text"
               >
                 {{ line }}
               </p>
+              <div class="project__showcase">
+                <div class="showcase__image">
+                  <img
+                    class="project__image"
+                    :src="getProjectPath(project.images[0].src)"
+                    :alt="project.images[0].alt"
+                  />
+                </div>
+                <!-- Skills badges -->
+                <div class="project__skills" v-if="project.skills">
+                  <span
+                    v-for="skill in project.skills"
+                    :key="skill"
+                    class="skill-badge"
+                    @mouseenter="animateSkill"
+                  >
+                    {{ skill }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card__actions">
+              <button
+                class="action-button action-button--toggle"
+                @click="toggleDetails(project)"
+                :aria-expanded="project.showDetails"
+                :aria-controls="'project-' + project.id"
+              >
+                {{ project.showDetails ? 'Show less' : 'Show more' }}
+                <ChevronUpIcon v-if="project.showDetails" class="hero-icon" />
+                <ChevronDownIcon v-else class="hero-icon" />
+              </button>
+
+              <a
+                class="action-button action-button--primary"
+                :href="project.link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View Live
+              </a>
             </div>
           </div>
+        </div>
+      </section>
 
-          <!-- Action Buttons -->
-          <div class="bento__actions">
-            <button
-              class="button button--secondary"
-              @click="showDetails(project.id)"
-            >
-              {{ project.showDetails ? 'Hide' : 'Show' }} Details
-            </button>
-            <button
-              class="button button--primary"
-              :href="project.link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Visit website
-              <ArrowTopRightOnSquareIcon class="hero-icon" />
-            </button>
+      <section class="work__portfolio">
+        <h2 class="section-title">Other Projects</h2>
+        <div class="portfolio-grid">
+          <div
+            v-for="(project, index) in projects.slice(4)"
+            :key="project.id"
+            class="portfolio-card"
+            :class="{ 'is-visible': project.isVisible }"
+            :style="{ '--delay': Math.floor(index / 2) * 0.2 + 's' }"
+            ref="portfolioItems"
+          >
+            <div class="card__image-container">
+              <img
+                class="project__image"
+                :src="getProjectPath(project.images[0].src)"
+                :alt="project.images[0].alt"
+              />
+              <div class="card__overlay" :class="{ show: project.showDetails }">
+                <p
+                  v-for="(line, index) in project.description.split('\n')"
+                  :key="index"
+                  class="overlay__text"
+                >
+                  {{ line }}
+                </p>
+              </div>
+            </div>
+
+            <div class="card__info">
+              <h3 class="card__title">{{ project.title }}</h3>
+              <p class="card__role">{{ project.role }}</p>
+            </div>
+
+            <div class="card__actions">
+              <button
+                class="action-button action-button--secondary"
+                @click="showDetails(project.id)"
+              >
+                {{ project.showDetails ? 'Hide' : 'Show' }} Details
+              </button>
+              <a
+                class="action-button action-button--primary"
+                :href="project.link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Visit Website
+              </a>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <footer class="work__footer">
-      <div class="group--text">
-        <h2 class="footer__heading">🌱 Let's bring your vision to life!</h2>
-        <p>
-          Whether you need a custom-built solution, a performance boost, or a
-          more accessible website,
-          <a href="/contact" class="footer__contact-btn link-underline"
-            >I’m here to help.</a
-          >
-        </p>
+      <div class="work__cta">
+        <div class="cta__content">
+          <h2 class="cta__heading">🌱 Let's bring your vision to life!</h2>
+          <p>
+            Whether you need a custom-built solution, a performance boost, or a
+            more accessible website,
+            <a href="/contact" class="cta__link"> >I’m here to help.</a>
+          </p>
+        </div>
       </div>
-    </footer>
+    </div>
+
+    <div class="shade shade--blue-bell"></div>
+    <div class="shade shade--wisteria shade--secondary"></div>
+    <div class="shade shade--lavender shade--tertiary"></div>
+
+    <!-- Scroll to top button -->
+    <button
+      v-if="showScrollButton"
+      @click="scrollToTop"
+      class="scroll-to-top show"
+      aria-label="Scroll to top"
+    >
+      <svg
+        class="scroll-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M5 15l7-7 7 7"
+        />
+      </svg>
+    </button>
   </div>
 </template>
 
 <script>
-import {
-  ChevronUpIcon,
-  ChevronDownIcon,
-  ArrowTopRightOnSquareIcon,
-} from '@heroicons/vue/24/outline'
+import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/vue/24/outline'
 
 export default {
   name: 'ProjectsShowcase',
   components: {
     ChevronUpIcon,
     ChevronDownIcon,
-    ArrowTopRightOnSquareIcon,
   },
   data() {
     return {
+      imageLoaded: false,
+      typedText: '',
+      isTyping: true,
+      fullText: 'My Work',
+      typingSpeed: 150,
+      showScrollButton: false,
+      scrollProgress: 0,
       projects: [
         {
           id: 1,
           title: 'ProdPad - SaaS Platform',
           logo: 'prodpad/logo.png',
           role: 'Frontend Developer',
-          summary: 'Short description of the project.',
+          summary:
+            'Enhanced user experience and accessibility for a product management SaaS platform, building reusable Vue.js components and integrating with RESTful APIs.',
           showDetails: false,
           description:
-            'As a Front-end Developer at ProdPad, I collaborated closely with the Product and Design teams to enhance UI/UX, develop new features and improve accessibility. My work focused on building reusable components, maintaining clean and well-documented code, and ensuring consistency using ESLint for formatting and best practices. I frequently interacted with backend APIs, handling data fetching for users and accounts to deliver seamless product experiences.',
+            'As a Frontend Developer at ProdPad, I collaborated closely with Product and Design teams to enhance UI/UX, develop new features, and improve accessibility across the platform. I built reusable Vue.js components following best practices, maintained clean and well-documented code, and ensured consistency using ESLint. My work involved integrating multiple third-party APIs including Recurly for payment processing and subscription management, HubSpot API for CRM integration, and analytics platforms like Segment, Mixpanel, and PostHog for comprehensive user tracking. I also integrated Help Scout for seamless customer support functionality. I implemented responsive designs, optimized performance through code splitting and lazy loading, and created intuitive user interfaces that streamlined product management workflows. My contributions led to improved user satisfaction, increased platform adoption, and enhanced data-driven decision making through better analytics integration.',
 
           link: 'https://www.prodpad.com/sandbox/',
           skills: [
@@ -237,10 +282,11 @@ export default {
           title: 'ProdPad - Marketing Website',
           logo: 'prodpad/logo.png',
           role: 'WordPress Developer',
-          summary: 'Short description of the project.',
+          summary:
+            'Developed 20+ custom Gutenberg blocks and optimized website performance, achieving 95+ PageSpeed scores while enabling flexible content management for marketing teams.',
           showDetails: false,
           description:
-            'As the sole Website Developer at ProdPad, I developed a library of 20+ custom Gutenberg blocks, enabling the Marketing team to build flexible and engaging pages with ease. The project prioritized SEO, performance, and accessibility to enhance user experience and search rankings. My work contributed to a modern, high-performing website aligned with brand and business goals.',
+            'As the sole Website Developer at ProdPad, I architected and developed a comprehensive library of 20+ custom Gutenberg blocks, empowering the Marketing team to create flexible, engaging pages without developer dependency. I integrated multiple marketing and analytics platforms including HubSpot API for seamless form submission and lead capture, LinkedIn advertising pixels for targeted campaign tracking, Google Analytics for comprehensive website performance monitoring, Segment for unified customer data collection, and PostHog for advanced user behavior analytics. These integrations provided the marketing team with powerful insights into user journeys, conversion optimization, and campaign effectiveness. I prioritized SEO optimization, performance enhancement, and WCAG accessibility compliance to improve search rankings and user experience. Using modern WordPress development practices, I implemented custom post types, advanced custom fields, and responsive designs. The project resulted in a 40% improvement in page load times, 95+ PageSpeed scores, enhanced marketing attribution accuracy, and significantly reduced content deployment time for marketing campaigns.',
 
           link: 'https://www.prodpad.com/',
           skills: [
@@ -267,10 +313,11 @@ export default {
           title: 'Passion4Social',
           logo: 'p4s/logo.png',
           role: 'Website Developer',
-          summary: 'Short description of the project.',
+          summary:
+            'Led full-stack WordPress development managing the complete project lifecycle from local development to deployment, delivering high-quality accessible websites for diverse clients.',
           showDetails: false,
           description:
-            'As Lead Web Developer at Passion4Social, I built high-quality, accessible WordPress websites, transforming designs into performant, client-ready sites. I managed the full development lifecycle, from setup on 20i hosting to local development with Local by Flywheel and final deployment. My role included site migrations, performance optimization, and maintaining high coding standards.',
+            'As Lead Web Developer at Passion4Social, I managed the complete website development lifecycle for multiple client projects, from initial setup to final deployment. I built high-quality, accessible WordPress websites using the Genesis Framework, transforming client designs into performant, SEO-optimized sites. My responsibilities included local development setup using Local by Flywheel, version control with Beanstalk, and deployment to 20i hosting. I performed site migrations, implemented performance optimizations, and maintained high coding standards across all projects. This role required strong project management skills, client communication, and the ability to deliver pixel-perfect websites on tight deadlines.',
 
           link: 'https://passion4social.com/',
           skills: [
@@ -303,10 +350,11 @@ export default {
           title: 'Royal Hospital for Children and Young People',
           logo: 'nhs/logo.svg',
           role: 'Website Developer',
-          summary: 'Short description of the project.',
+          summary:
+            'Developed an accessible, user-friendly healthcare platform for NHS Lothian, featuring interactive guides and comprehensive resources for children, families, and healthcare professionals.',
           showDetails: false,
           description:
-            'I led the development of an accessible, user-friendly platform for NHS Lothian, designed to support children, young people, parents, carers, and healthcare professionals. The site features interactive guides to help children understand hospital procedures, along with practical resources like accommodation, financial assistance, and wellbeing support. I ensured a seamless, user-friendly experience, focusing on accessibility, responsiveness, and performance throughout the development lifecycle.',
+            'I led the development of a comprehensive healthcare platform for NHS Lothian, designed to support children, young people, parents, carers, and healthcare professionals. The site features interactive guides that help children understand hospital procedures, reducing anxiety through clear explanations and visual aids. I implemented practical resources including accommodation booking, financial assistance information, and wellbeing support tools. The project required strict adherence to NHS accessibility standards and healthcare compliance regulations. I focused on creating an intuitive, child-friendly interface while maintaining professional functionality for healthcare staff, ensuring the platform serves diverse user needs effectively.',
 
           link: 'https://children.nhslothian.scot/',
           skills: [
@@ -339,10 +387,9 @@ export default {
           title: 'Just Enterprise',
           logo: 'just-enterprise/logo.png',
           role: 'Website Developer',
-          summary: 'Short description of the project.',
           showDetails: false,
           description:
-            'Website for a Business Support for Social Enterprises in Scotland.',
+            'Provided ongoing website improvements and maintenance for Just Enterprise, a key organization supporting social enterprises across Scotland. My work included regular updates to content, troubleshooting technical issues, implementing new features, and ensuring optimal website performance.',
           link: 'https://justenterprise.org/',
           skills: [
             'Vue 3',
@@ -370,10 +417,9 @@ export default {
           title: 'Cerebral Palsy Scotland',
           logo: 'cps/logo.svg',
           role: 'Website Developer',
-          summary: 'Short description of the project.',
           showDetails: false,
           description:
-            'Non-profit organization supporting people with cerebral palsy in building skills and confidence.',
+            'Provided regular website improvements and maintenance for Cerebral Palsy Scotland, a vital charity supporting individuals with cerebral palsy. My ongoing work included content updates and technical troubleshooting. I maintained the sites performance and functionality while supporting the organizations mission to better serve their community.',
           link: 'https://cerebralpalsyscotland.org.uk/',
           skills: [
             'Vue 3',
@@ -401,10 +447,9 @@ export default {
           title: 'Bytzari',
           logo: 'tzari/logo.svg',
           role: 'Website Developer',
-          summary: 'Short description of the project.',
           showDetails: false,
           description:
-            'E-commerce platform for sustainable, ethical, and purposeful bespoke clothing.',
+            'I developed the complete website from scratch, implementing custom product showcase features, responsive design, and optimized performance for mobile-first shopping experiences. The platform effectively communicates the brands ethical values while providing a seamless shopping experience that converts visitors into customers.',
           link: 'https://bytzari.com/',
           skills: [
             'Vue 3',
@@ -432,10 +477,9 @@ export default {
           title: 'ABZ Works',
           logo: 'abz-works/logo.svg',
           role: 'Website Developer',
-          summary: 'Short description of the project.',
           showDetails: false,
           description:
-            "Website for Aberdeen City Council's employability team to support skills and training.",
+            'I built the complete website and trained ABotZ chatbot to give simple answers leading user quickly to the right content on the website. The platform is packed with useful guides and content ensuring users receive immediate assistance throughout their employment journey.',
           link: 'https://abzworks.co.uk/',
           skills: [
             'Vue 3',
@@ -463,10 +507,9 @@ export default {
           title: 'Environmental Key Fund',
           logo: 'ekf/logo.svg',
           role: 'Website Developer',
-          summary: 'Short description of the project.',
           showDetails: false,
           description:
-            'Grant platform for North Lanarkshire focused on environmental initiatives.',
+            'Developed a grant application platform for the Environmental Key Fund, North Lanarkshire Councils initiative supporting local environmental projects.',
           link: 'https://environmentalkeyfund.com/',
           skills: [
             'Vue 3',
@@ -494,10 +537,9 @@ export default {
           title: 'Scottish Communities Finance',
           logo: 'scf/logo.svg',
           role: 'Website Developer',
-          summary: 'Short description of the project.',
           showDetails: false,
           description:
-            'Website enabling reinvestment into local Scottish communities.',
+            'Built a community finance platform for Scottish Communities Finance, designed to promote and facilitate reinvestment in local Scottish communities. I implemented project showcase systems, impact reporting tools, and community engagement features that connect investors with local initiatives.',
           link: 'https://scotcomfinance.scot/',
           skills: [
             'HTML',
@@ -560,9 +602,55 @@ export default {
     }
   },
   mounted() {
-    this.observeBentoItems()
+    this.startTypingAnimation()
+    this.observeElements()
+    this.setupScrollListener()
+  },
+
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.handleScroll)
   },
   methods: {
+    startTypingAnimation() {
+      let index = 0
+      const typeCharacter = () => {
+        if (index < this.fullText.length) {
+          this.typedText += this.fullText.charAt(index)
+          index++
+          setTimeout(typeCharacter, this.typingSpeed)
+        } else {
+          this.isTyping = false
+          setTimeout(() => {
+            this.isTyping = true
+          }, 1000)
+        }
+      }
+
+      setTimeout(typeCharacter, 500)
+    },
+
+    setupScrollListener() {
+      window.addEventListener('scroll', this.handleScroll)
+    },
+
+    handleScroll() {
+      this.showScrollButton = window.pageYOffset > 300
+
+      // Calculate scroll progress
+      const scrollTop = window.pageYOffset
+      const documentHeight =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight
+      this.scrollProgress = (scrollTop / documentHeight) * 100
+    },
+
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      })
+    },
+
     getProjectPath(project) {
       // console.log(project);
       return require(`@/assets/projects/${project}`)
@@ -574,6 +662,19 @@ export default {
     },
     toggleDetails(project) {
       project.showDetails = !project.showDetails
+
+      // Add a small delay to make the transition smoother
+      this.$nextTick(() => {
+        const projectElement = this.$el.querySelector(
+          `[data-project-id="${project.id}"]`
+        )
+        if (projectElement) {
+          projectElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+          })
+        }
+      })
     },
     showDetails(id) {
       this.projects = this.projects.map((project) =>
@@ -582,10 +683,11 @@ export default {
           : project
       )
     },
-    observeBentoItems() {
+    observeElements() {
       const options = {
         root: null,
-        threshold: 0.3, // Trigger when 30% of the item is visible
+        rootMargin: '0px',
+        threshold: 0.1,
       }
 
       const observer = new IntersectionObserver((entries) => {
@@ -596,440 +698,1042 @@ export default {
         })
       }, options)
 
+      // Observe featured cards
       this.$nextTick(() => {
-        this.$refs.bentoItems.forEach((item) => {
-          observer.observe(item)
+        const featuredCards = this.$el.querySelectorAll('.featured-card')
+        featuredCards.forEach((card, index) => {
+          card.style.setProperty('--delay', `${index * 0.1}s`)
+          observer.observe(card)
+        })
+
+        // Observe portfolio cards
+        const portfolioCards = this.$el.querySelectorAll('.portfolio-card')
+        portfolioCards.forEach((card, index) => {
+          card.style.setProperty('--delay', `${index * 0.1}s`)
+          observer.observe(card)
         })
       })
+    },
+
+    // Fun skill badge animation
+    animateSkill(event) {
+      const badge = event.target
+      badge.style.transform = 'scale(1.05) rotate(2deg)'
+
+      setTimeout(() => {
+        badge.style.transform = 'scale(1) rotate(0deg)'
+      }, 200)
+
+      // Add a sparkle effect
+      this.createSparkle(badge)
+    },
+
+    // Create sparkle effect
+    createSparkle(element) {
+      const sparkle = document.createElement('div')
+      sparkle.className = 'sparkle'
+      sparkle.style.position = 'absolute'
+      sparkle.style.width = '4px'
+      sparkle.style.height = '4px'
+      sparkle.style.background = '#1772f3'
+      sparkle.style.borderRadius = '50%'
+      sparkle.style.pointerEvents = 'none'
+      sparkle.style.animation = 'sparkleAnimation 0.6s ease-out forwards'
+
+      const rect = element.getBoundingClientRect()
+      sparkle.style.left = rect.left + Math.random() * rect.width + 'px'
+      sparkle.style.top = rect.top + Math.random() * rect.height + 'px'
+
+      document.body.appendChild(sparkle)
+
+      setTimeout(() => {
+        document.body.removeChild(sparkle)
+      }, 600)
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.work {
-  &__intro {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    position: relative;
-    margin-bottom: 5rem;
-    flex-direction: column;
-    @include breakpoint-up(lg) {
-      align-items: center;
-      flex-direction: row;
-    }
-  }
-  &__image {
-    flex: 1;
-    max-width: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-top: 160px;
-    @include breakpoint-up(lg) {
-      margin-top: 0;
-    }
+@import '@/styles/index.scss';
 
-    img {
-      position: absolute;
-      margin-right: -1rem;
-      height: 400px;
-      width: auto;
-      filter: drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.3));
-      z-index: -1;
-      left: 10%;
-      @include breakpoint-up(lg) {
-        left: unset;
-        z-index: 1;
-      }
-    }
+.page--work {
+  min-height: 100vh;
+  padding: 3rem;
+  color: $white;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  position: relative;
+  overflow: hidden;
 
-    .shadow {
-      position: absolute;
-      width: 160px;
-      height: 65px;
-      background: rgba(157, 157, 157, 0.5);
-      filter: blur(16px);
-      border-radius: 50%;
-      z-index: -1;
-      display: none;
-      @include breakpoint-up(lg) {
-        display: block;
-        bottom: -1vh;
-        left: 15%;
-      }
-      @include breakpoint-up(xl) {
-        bottom: -3vh;
-        // left: 5vw;
-      }
-    }
-  }
-  &__text-group {
-    flex: 2;
-    background: $red-background;
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     border-radius: 20px;
-    box-shadow: 5px 5px 20px rgba(#cbcdd3, 10%);
-    perspective: 40px;
+    padding: $padding-large * 2;
+  }
+
+  .animated-heading {
+    color: $white;
+    font-size: $font-size-heading;
+    margin-bottom: $spacing-lg * 2;
+    text-align: center;
+    font-weight: 700;
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.6s ease-in-out;
+
+    .typing-text {
+      background: linear-gradient(45deg, #1772f3, #4a90e2, #1772f3);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 3s ease-in-out infinite;
+    }
+
+    .cursor {
+      animation: blink 1s infinite;
+      color: #1772f3;
+      font-weight: 100;
+
+      &.typing {
+        animation: none;
+        opacity: 1;
+      }
+    }
+  }
+
+  .section-title {
+    color: $white;
+    font-size: $font-size-h3;
+    margin-bottom: $spacing-lg;
+    text-align: center;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   }
 }
 
-.work__heading {
-  margin: $spacing-lg auto;
-}
+.work__intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-lg * 2;
+  gap: $spacing-lg * 2;
+  flex-direction: column;
 
-.bento-grid {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  grid-template-rows: repeat(1, 1fr);
-  gap: 3rem;
-  margin: 3rem 0;
+  @include breakpoint-up(lg) {
+    flex-direction: row;
+  }
 
-  /* Bento Grid Full width */
-  &--100 {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    @include breakpoint-up(md) {
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  .work__image {
+    .image-wrapper {
+      position: relative;
+      display: inline-block;
+
+      img {
+        width: 300px;
+        height: 300px;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: scale(1.02);
+          filter: brightness(1.05) drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+        }
+      }
+
+      .image-border {
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        border: 2px solid transparent;
+        border-radius: 25px;
+        background: linear-gradient(45deg, #1772f3, #4a90e2, #1772f3) border-box;
+        -webkit-mask: linear-gradient(#fff 0 0) padding-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: destination-out;
+        mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+        mask-composite: exclude;
+        opacity: 0;
+        animation: borderGlow 3s ease-in-out infinite;
+      }
     }
-    @include breakpoint-up(xl) {
-      grid-template-columns: repeat(2, minmax(400px, 1fr));
-    }
 
-    /* Bento Item */
-    .bento-item {
-      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-      border-radius: 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      transition: transform 0.2s ease;
-      padding: 1.5rem;
-      gap: 1.5rem;
+    &:hover .image-border {
+      opacity: 1;
+      animation-play-state: paused;
+    }
+  }
+
+  .work__text-group {
+    flex: 2;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: $padding-large;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+
+    .work__heading {
       position: relative;
       overflow: hidden;
 
-      &:hover {
-        transform: translateY(-5px);
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #1772f3, #4a90e2);
+        transition: width 0.5s ease;
       }
 
-      /* Image Container */
-      .image-container {
-        overflow: hidden;
-        // cursor: pointer;
-        box-shadow: none;
-
-        .project__image {
-          transition: transform 0.3s ease-in-out;
-        }
-
-        &:hover .project__image {
-          transform: scale(1.05);
-        }
+      &:hover::after {
+        width: 100%;
       }
+    }
 
-      /* Action Buttons */
-      .bento__actions {
-        display: flex;
-        gap: 1.5rem;
-        justify-content: center;
+    .intro__text {
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.6;
+      margin-bottom: $spacing-md;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+      font-size: $font-size-base;
+
+      strong {
+        position: relative;
+        background: linear-gradient(45deg, #1772f3, #4a90e2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -2px;
+          right: -2px;
+          bottom: 0;
+          background: linear-gradient(45deg, #1772f3, #4a90e2);
+          opacity: 0.1;
+          border-radius: 4px;
+          z-index: -1;
+        }
       }
     }
   }
+}
 
-  .project__header {
+.work__featured {
+  margin-bottom: $spacing-lg * 3;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-lg;
+
+  @include breakpoint-up(md) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.featured-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: $padding-large;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    transition: left 0.5s ease;
+  }
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.12);
+
+    &::before {
+      left: 100%;
+    }
+  }
+
+  &.is-expanded {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .card__header {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-
-    .project__logo {
-      height: 30px;
-      width: auto;
-      margin-right: $margin-large;
-      @include breakpoint-up(lg) {
-        height: 50px;
-      }
-    }
-
-    .project__title {
-      flex-grow: 1;
-      text-align: left;
-      margin: 0;
-    }
-  }
-
-  .bento__card {
-    background-color: #fff;
-    border-radius: 16px;
-    // overflow: hidden;
-    // padding: $padding-large;
-    display: flex;
-    flex-direction: column;
-    gap: $padding-large;
-    position: relative;
-    filter: drop-shadow(4px 4px 4px rgba(233, 240, 243, 0.5));
-    border: 4px solid rgba(233, 240, 243, 0.5);
-    // box-shadow: 0 5px 5px 0 rgba(233, 240, 243, 0.5), 0 0 0 1px #E6ECF8;
-
-    &.no-padding {
-      padding: 0;
-    }
-    &.no-bg {
-      background: none;
-      box-shadow: none;
-    }
-
-    &.project {
-      text-align: left;
-      display: flex;
-      justify-content: space-between;
-      p {
-        line-height: 1.5;
-        margin: 0;
-      }
-      .button {
-        width: fit-content;
-        max-width: 100%;
-      }
-    }
-
-    &.group-cards {
-      flex: 1;
-      justify-content: center;
-      text-align: left;
-    }
-
-    // .tools, .skills {
-    //     grid-column: span 1;
-    //     display: flex;
-    //     flex-direction: column;
-    //     align-items: center;
-
-    //     @include breakpoint-up(lg) {
-    //         flex-direction: row;
-    //         justify-content: start;
-    //         align-items: flex-start;
-    //         text-align: left;
-    //         gap: $padding-large;
-    //         h4 {
-    //             flex: 0 0 33%;
-    //         }
-    //         .skills__tags {
-    //             flex: 1;
-    //         }
-    //     }
-
-    //     .skills__tags {
-    //         // display: flex;
-    //         // flex-direction: column;
-    //         // flex-wrap: wrap;
-    //         // white-space:
-    //         list-style: none;
-    //         padding: 0;
-    //         margin: 0;
-    //         width: 100%;
-    //         // gap: 8px;
-    //     }
-
-    //     .skills__tag {
-    //         display: list-item;
-    //         // width: fit-content;
-    //         // padding: $spacing-xs;
-    //         // // margin: $spacing-xs;
-    //         // background: #f0f0f0;
-    //         // border-radius: 12px;
-    //         &::before {
-    //             content: "✔️";
-    //             text-align: center;
-    //             color: transparent;
-    //             text-shadow: 0 0 $rosemary;
-    //             margin-right: $spacing-xs;
-    //         }
-    //     }
-    // }
-
-    // &.image {
-    //     grid-column: span 1;
-
-    //     img {
-    //         flex: 1;
-    //         width: 100%;
-    //         height: auto;
-    //         aspect-ratio: 16 / 9;
-    //         // object-fit: scale-down;
-    //         object-fit: cover;
-    //         display: block;
-
-    //         border-radius: 12px;
-    //         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-    //     }
-    // }
-
-    /* Overlay Description */
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      color: $white;
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      justify-content: center;
-      // padding: 1.5rem;
-      opacity: 0;
-      transform: translateY(100%);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      overflow-wrap: break-word;
-      word-wrap: break-word;
-    }
-
-    .overlay.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .overlay p {
-      color: $white;
-      max-width: 80%;
-    }
-  }
-}
-
-// @media (prefers-reduced-motion: no-preference) {
-//   .bento-grid {
-//     & > .bento-item {
-//       animation: slide-in-from-right linear both;
-//       animation-timeline: view();
-//       animation-range: entry 0% entry 100% entry 200%;
-//     }
-//   }
-// }
-
-// Animations
-@media (prefers-reduced-motion: no-preference) {
-  .bento-grid {
-    // &--70-30 {
-    //     .bento-item {
-    //         opacity: 0;
-    //         transform: translateY(50px) scale(0.95);
-    //         transition: opacity 0.6s ease-out, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-    //         transition-delay: var(--delay, 0s);
-    //         }
-
-    //     .bento-item.is-visible {
-    //         opacity: 1;
-    //         transform: translateY(0) scale(1);
-    //     }
-    // }
-
-    &--100 {
-      .bento-item {
-        opacity: 0;
-        transform: scale(0.95);
-        transition: opacity 0.8s ease-out,
-          transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-        transition-delay: var(--delay, 0s);
-      }
-
-      .bento-item.left-col {
-        transform: translateX(-50px) scale(0.95);
-      }
-
-      .bento-item.right-col {
-        transform: translateX(50px) scale(0.95);
-      }
-
-      .bento-item.is-visible {
-        opacity: 1;
-        transform: translateX(0) scale(1);
-      }
-    }
-  }
-}
-</style>
-<style lang="scss" scoped>
-@import '../styles/components/media';
-.resume-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: $spacing-lg;
-  width: 100%;
-}
-
-.resume-card {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-  width: 100%;
-  display: flex;
-  gap: $spacing-xs;
-  flex-direction: column;
-  position: relative;
-  max-width: none;
-  @include breakpoint-up(lg) {
-    gap: $spacing-sm;
-  }
-
-  .group--buttons {
     justify-content: space-between;
-    margin: 0;
-    max-width: 100%;
-    button {
-      max-width: fit-content;
-    }
-  }
-}
-
-.card {
-  /* Header: Title & Logo */
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-    word-wrap: break-word;
-    gap: $spacing-sm;
+    margin-bottom: $spacing-md;
 
     .card__title {
-      width: calc(100% - 100px);
+      color: $white;
+      font-size: $font-size-h4;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      margin: 0;
     }
 
     .card__logo {
-      width: 50px;
-      height: auto;
-      position: absolute;
-      right: 0;
-      @include breakpoint-up(md) {
-        width: 70px;
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 8px;
+    }
+  }
+
+  .card__content {
+    margin-bottom: $spacing-md;
+
+    .card__subtitle {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: $font-size-base;
+      margin-bottom: $spacing-sm;
+      font-weight: 500;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    }
+
+    .card__summary {
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.5;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+      transition: opacity 0.3s ease;
+
+      &.hide {
+        opacity: 0;
+        height: 0;
+        overflow: hidden;
       }
     }
   }
 
-  &__summary {
-    transition: max-height 0.3s ease-out;
-    // max-height: fit-content;
+  .card__details {
+    opacity: 0;
+    max-height: 0;
     overflow: hidden;
-    &.hide {
-      max-height: 0;
+    transition: all 0.5s ease;
+    margin-bottom: $spacing-md;
+
+    &.show {
+      opacity: 1;
+      max-height: 1000px;
+    }
+
+    .details__text {
+      color: rgba(255, 255, 255, 0.9);
+      line-height: 1.6;
+      margin-bottom: $spacing-sm;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    }
+
+    .project__showcase {
+      margin-top: $spacing-lg;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+      .showcase__image {
+        position: relative;
+        overflow: hidden;
+
+        .project__image {
+          width: 100%;
+          height: auto;
+          transition: transform 0.3s ease;
+
+          &:hover {
+            transform: scale(1.05);
+          }
+        }
+      }
     }
   }
 
-  /* Collapsible Details */
-  &__details {
+  .card__actions {
     display: flex;
-    flex-direction: column;
-    gap: $spacing-sm;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-out;
-    &.show {
-      max-height: fit-content;
-      margin-bottom: $spacing-lg;
+    gap: $spacing-md;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+}
+
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-sm $spacing-md;
+  border-radius: 8px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-size: $font-size-base;
+
+  .hero-icon {
+    width: 1rem;
+    height: 1rem;
+    transition: transform 0.3s ease;
+  }
+
+  &--toggle {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: $white;
+      transform: translateY(-2px);
     }
+  }
+
+  &--primary {
+    background: linear-gradient(135deg, #1772f3 0%, #155ab6 100%);
+    color: $white;
+    border: 1px solid #1772f3;
+
+    &:hover {
+      background: linear-gradient(135deg, #155ab6 0%, #0f4d8b 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(23, 114, 243, 0.3);
+    }
+  }
+
+  &--secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: $white;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.work__portfolio {
+  margin-bottom: $spacing-lg * 3;
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: $spacing-lg;
+  margin-top: $spacing-lg * 2;
+}
+
+.portfolio-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: $padding-large;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .card__image-container {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+    .project__image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
+    .card__overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      padding: $spacing-md;
+
+      &.show {
+        opacity: 1;
+      }
+
+      .overlay__text {
+        color: $white;
+        text-align: center;
+        line-height: 1.5;
+        font-size: $font-size-small;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+
+  .card__info {
+    .card__title {
+      color: $white;
+      font-size: $font-size-h5;
+      font-weight: 600;
+      margin-bottom: $spacing-xs;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .card__role {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: $font-size-small;
+      margin: 0;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  .card__actions {
+    display: flex;
+    gap: $spacing-sm;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+.work__cta {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: $padding-large * 2;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+
+  .cta__content {
+    position: relative;
+    z-index: 1;
+
+    .cta__heading {
+      color: $white;
+      font-size: $font-size-h3;
+      margin-bottom: $spacing-lg;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      position: relative;
+
+      &::after {
+        content: '✨';
+        position: absolute;
+        right: -40px;
+        top: 50%;
+        transform: translateY(-50%);
+        animation: bounce 2s ease-in-out infinite;
+      }
+    }
+
+    .cta__text {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: $font-size-base;
+      line-height: 1.6;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+      margin: 0;
+
+      .cta__link {
+        color: #1772f3;
+        text-decoration: underline;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: #155ab6;
+        }
+      }
+    }
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle,
+      rgba(23, 114, 243, 0.1) 0%,
+      transparent 70%
+    );
+    animation: rotateBg 20s linear infinite;
+    pointer-events: none;
+  }
+}
+
+@keyframes rotateBg {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(-50%);
+  }
+  40% {
+    transform: translateY(-60%);
+  }
+  60% {
+    transform: translateY(-55%);
+  }
+}
+
+// Typing animation keyframes
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+// Enhanced animated background shades
+.shade {
+  &--secondary {
+    left: 60%;
+    top: 20%;
+    width: 400px;
+    height: 400px;
+    animation: float 8s ease-in-out infinite;
+    animation-delay: -2s;
+  }
+
+  &--tertiary {
+    left: 20%;
+    top: 70%;
+    width: 300px;
+    height: 300px;
+    animation: float 10s ease-in-out infinite;
+    animation-delay: -4s;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+}
+
+// Progress bar
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 1001;
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #1772f3, #4a90e2);
+    transition: width 0.1s ease-out;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 20px;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5));
+      animation: shimmer 2s ease-in-out infinite;
+    }
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+// Small screen adjustments
+@media (max-width: 767px) {
+  .page--work {
+    padding: 2rem 1rem;
+
+    .container {
+      padding: $padding-large;
+    }
+  }
+
+  .featured-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .work__intro {
+    flex-direction: column;
+    gap: $spacing-lg;
+
+    .work__image img {
+      width: 250px;
+      height: 250px;
+    }
+  }
+
+  .card__actions {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+// Scroll to top button
+.scroll-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #1772f3 0%, #4a90e2 100%);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(23, 114, 243, 0.3);
+
+  &:hover {
+    transform: translateY(0px) scale(1.1);
+    box-shadow: 0 6px 25px rgba(23, 114, 243, 0.5);
+  }
+
+  &:active {
+    transform: translateY(0px) scale(0.95);
+  }
+
+  .scroll-icon {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2.5;
+  }
+}
+
+// Show scroll button when needed
+.page--work:has(.scroll-to-top) {
+  .scroll-to-top {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Alternative approach for browsers that don't support :has()
+.scroll-to-top.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+// Final responsive adjustments
+@media (max-width: 767px) {
+  .scroll-to-top {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 45px;
+    height: 45px;
+
+    .scroll-icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+// Skill badges styling
+.project__skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+  margin-top: $spacing-md;
+
+  .skill-badge {
+    display: inline-block;
+    background: linear-gradient(
+      135deg,
+      rgba(23, 114, 243, 0.2),
+      rgba(74, 144, 226, 0.2)
+    );
+    color: rgba(255, 255, 255, 0.9);
+    padding: $spacing-xs $spacing-sm;
+    border-radius: 20px;
+    font-size: $font-size-small;
+    font-weight: 500;
+    border: 1px solid rgba(23, 114, 243, 0.3);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      background: linear-gradient(
+        135deg,
+        rgba(23, 114, 243, 0.3),
+        rgba(74, 144, 226, 0.3)
+      );
+      border-color: rgba(23, 114, 243, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(23, 114, 243, 0.2);
+    }
+  }
+}
+
+// Sparkle animation
+@keyframes sparkleAnimation {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1) rotate(180deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(0) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.sparkle {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+// Enhanced animated cards with staggered entrance
+.featured-card,
+.portfolio-card {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-delay: var(--delay);
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation-delay: var(--delay);
+  }
+}
+
+// Pulse animation for interactive elements
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(23, 114, 243, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(23, 114, 243, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(23, 114, 243, 0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Enhanced card hover effects
+.featured-card:hover,
+.portfolio-card:hover {
+  .card__title {
+    background: linear-gradient(45deg, #1772f3, #4a90e2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .card__logo {
+    transform: scale(1.1) rotate(5deg);
+    transition: all 0.3s ease;
+  }
+}
+
+// Interactive button animations
+.action-button {
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.3s ease;
+  }
+
+  &:hover::after {
+    width: 200px;
+    height: 200px;
+  }
+
+  &:active {
+    transform: translateY(-2px) scale(0.98);
+  }
+
+  &--primary:hover {
+    animation: pulse 2s infinite;
+  }
+}
+
+// Enhanced image showcase animations
+.project__showcase {
+  .showcase__image {
+    .project__image {
+      &:hover {
+        transform: scale(1.05);
+        filter: brightness(1.1) saturate(1.2);
+      }
+    }
+  }
+}
+
+// Card expand animation improvements
+.card__details {
+  transform: scaleY(0);
+  transform-origin: top;
+
+  &.show {
+    transform: scaleY(1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+// Logo hover animations
+.card__logo {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+  }
+}
+
+// Floating animation for background shades
+.shade {
+  animation: floatEnhanced 12s ease-in-out infinite;
+
+  &--secondary {
+    animation-delay: -4s;
+    animation-duration: 16s;
+  }
+
+  &--tertiary {
+    animation-delay: -8s;
+    animation-duration: 20s;
+  }
+}
+
+@keyframes floatEnhanced {
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-20px) translateX(10px) rotate(2deg);
+  }
+  50% {
+    transform: translateY(-10px) translateX(-10px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-30px) translateX(5px) rotate(-2deg);
   }
 }
 </style>
