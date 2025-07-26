@@ -52,12 +52,14 @@
       <section class="work__featured" aria-labelledby="featured-projects">
         <h2 id="featured-projects" class="section-title">Featured Projects</h2>
         <div class="featured-projects-grid">
-          <div
+          <article
             v-for="project in projects.slice(0, 4)"
             :key="project.id"
             :data-project-id="project.id"
             class="card featured-card"
             :class="{ 'is-expanded': project.showDetails }"
+            :aria-expanded="project.showDetails"
+            role="article"
           >
             <header class="card__header">
               <h3 class="card__title">{{ project.title }}</h3>
@@ -65,29 +67,37 @@
                 class="card__logo"
                 :src="getProjectPath(project.logo)"
                 :alt="`${project.title} logo`"
+                loading="lazy"
+                width="60"
+                height="60"
               />
             </header>
 
             <div class="card__content">
-              <h4 class="card__subtitle">{{ project.role }}</h4>
+              <h4 class="card__subtitle" role="text">{{ project.role }}</h4>
               <p class="card__description">
                 {{ project.summary }}
               </p>
             </div>
 
+            <!-- Expandable details with smooth transitions -->
             <div
               class="card__details"
               :class="{ show: project.showDetails }"
               :aria-expanded="project.showDetails"
+              :id="'project-details-' + project.id"
             >
               <div class="details__content">
-                <p
-                  v-for="(line, index) in project.description.split('\n')"
-                  :key="index"
-                  class="details__text"
-                >
-                  {{ line }}
-                </p>
+                <div class="details__text-content">
+                  <p
+                    v-for="(line, index) in project.description.split('\n')"
+                    :key="index"
+                    class="details__text"
+                  >
+                    {{ line }}
+                  </p>
+                </div>
+
                 <div
                   class="image-showcase"
                   v-if="project.images && project.images[0]"
@@ -95,15 +105,29 @@
                   <img
                     :src="getProjectPath(project.images[0].src)"
                     :alt="project.images[0].alt"
+                    loading="lazy"
+                    width="400"
+                    height="300"
                   />
                 </div>
+
                 <!-- Skills badges -->
-                <div class="skill-badges" v-if="project.skills">
+                <div
+                  class="skill-badges"
+                  v-if="project.skills"
+                  role="list"
+                  aria-label="Technologies used"
+                >
                   <span
                     v-for="skill in project.skills"
                     :key="skill"
                     class="skill-badge"
+                    role="listitem"
                     @mouseenter="animateSkill"
+                    @focus="animateSkill"
+                    @keydown="handleSkillKeydown"
+                    tabindex="0"
+                    :aria-label="`Technology: ${skill}`"
                   >
                     {{ skill }}
                   </span>
@@ -112,124 +136,375 @@
             </div>
 
             <div class="card__actions">
-              <button
-                class="btn btn--secondary"
+              <BaseButton
+                variant="secondary"
                 @click="toggleDetails(project)"
                 :aria-expanded="project.showDetails"
-                :aria-controls="'project-' + project.id"
+                :aria-controls="'project-details-' + project.id"
+                :aria-label="`${
+                  project.showDetails ? 'Hide' : 'Show'
+                } details for ${project.title}`"
               >
-                {{ project.showDetails ? 'Show less' : 'Show more' }}
-                <ChevronUpIcon v-if="project.showDetails" class="icon" />
-                <ChevronDownIcon v-else class="icon" />
-              </button>
+                <span class="button-text">{{
+                  project.showDetails ? 'Show less' : 'Show more'
+                }}</span>
+                <span
+                  class="button-icon"
+                  :class="{ rotated: project.showDetails }"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <polyline points="6,9 12,15 18,9"></polyline>
+                  </svg>
+                </span>
+              </BaseButton>
 
-              <a
-                class="btn btn--primary"
+              <BaseButton
+                variant="primary"
                 :href="project.link"
                 target="_blank"
                 rel="noopener noreferrer"
+                :aria-label="`Visit ${project.title} website (opens in new tab)`"
               >
                 View Live
-              </a>
+                <span class="external-link-icon" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="m7 17 10-10"></path>
+                    <path d="M17 7v10"></path>
+                    <path d="M7 7h10"></path>
+                  </svg>
+                </span>
+              </BaseButton>
             </div>
-          </div>
+          </article>
         </div>
       </section>
 
       <!-- Portfolio Grid -->
-      <section class="work__portfolio">
-        <h2 class="section-title">Other Projects</h2>
+      <!-- <section class="work__portfolio" aria-labelledby="portfolio-heading">
+        <h2 id="portfolio-heading" class="section-title">Other Projects</h2>
         <div class="portfolio-grid">
-          <div
+          <article
             v-for="(project, index) in projects.slice(4)"
             :key="project.id"
+            :data-project-id="project.id"
             class="card portfolio-card"
-            :class="{ 'is-visible': project.isVisible }"
+            :class="{
+              'is-visible': project.isVisible,
+              'has-overlay': project.showDetails,
+            }"
             :style="{ '--delay': Math.floor(index / 2) * 0.1 + 's' }"
+            role="article"
           >
             <div class="image-showcase">
               <img
                 :src="getProjectPath(project.images[0].src)"
                 :alt="project.images[0].alt"
+                loading="lazy"
+                width="350"
+                height="250"
               />
-              <div class="card__overlay" :class="{ show: project.showDetails }">
-                <p
-                  v-for="(line, index) in project.description.split('\n')"
-                  :key="index"
-                  class="overlay__text"
-                >
-                  {{ line }}
-                </p>
+              <div
+                class="card__overlay"
+                :class="{ show: project.showDetails }"
+                :aria-hidden="!project.showDetails"
+              >
+                <div class="overlay__content">
+                  <p
+                    v-for="(line, index) in project.description.split('\n')"
+                    :key="index"
+                    class="overlay__text"
+                  >
+                    {{ line }}
+                  </p>
+                </div>
               </div>
             </div>
 
             <h3 class="card__title">{{ project.title }}</h3>
 
             <div class="card__actions">
-              <button
-                class="btn btn--secondary"
+              <BaseButton
+                variant="secondary"
                 @click="showDetails(project.id)"
+                :aria-expanded="project.showDetails"
+                :aria-label="`${
+                  project.showDetails ? 'Hide' : 'Show'
+                } details for ${project.title}`"
               >
                 {{ project.showDetails ? 'Hide' : 'Show' }} Details
-              </button>
-              <a
-                class="btn btn--primary"
+              </BaseButton>
+              <BaseButton
+                variant="primary"
                 :href="project.link"
                 target="_blank"
                 rel="noopener noreferrer"
+                :aria-label="`Visit ${project.title} website (opens in new tab)`"
               >
                 Visit Website
-              </a>
+                <span class="external-link-icon" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="m7 17 10-10"></path>
+                    <path d="M17 7v10"></path>
+                    <path d="M7 7h10"></path>
+                  </svg>
+                </span>
+              </BaseButton>
+            </div>
+          </article>
+        </div>
+      </section> -->
+
+      <!-- Interactive Cards Section -->
+      <section class="project__cards" aria-labelledby="skills-heading">
+        <h2 id="skills-heading" class="section-title">Other Projects</h2>
+        <div class="cards-grid">
+          <div
+            v-for="card in projects.filter((p) => p.id >= 5 && p.id <= 10)"
+            :key="card.id"
+            :data-project-id="card.id"
+            class="card project-card"
+            :class="{ 'is-visible': card.isVisible }"
+            @click="openCardModal(card)"
+            @mouseenter="card.isHovered = true"
+            @mouseleave="card.isHovered = false"
+            @keydown.enter="openCardModal(card)"
+            @keydown.space.prevent="openCardModal(card)"
+            tabindex="0"
+            role="button"
+            :aria-label="`${card.title} - Click to view details`"
+          >
+            <div class="card__header">
+              <h3 class="card__title">{{ card.title }}</h3>
+            </div>
+
+            <div class="card__preview">
+              <p class="card__preview-text">
+                {{ card.description.substring(0, 60) }}...
+              </p>
+              <div class="card__expand-hint">
+                <span>Click to explore</span>
+                <svg
+                  class="expand-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Modal Overlay -->
+        <div
+          v-if="selectedCard"
+          class="card-modal-overlay"
+          @click="closeCardModal"
+          @keydown.escape="closeCardModal"
+          tabindex="0"
+          role="dialog"
+          aria-modal="true"
+          :aria-labelledby="`modal-title-${selectedCard.id}`"
+        >
+          <div class="card-modal" @click.stop>
+            <button
+              class="modal__close"
+              @click="closeCardModal"
+              aria-label="Close modal"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+
+            <div class="modal__content">
+              <div class="modal__header">
+                <img
+                  v-if="selectedCard.images && selectedCard.images[0]"
+                  :src="getProjectPath(selectedCard.images[0].src)"
+                  :alt="selectedCard.images[0].alt"
+                  class="modal__project-image"
+                  style="
+                    max-width: 100%;
+                    height: auto;
+                    margin-bottom: 2rem;
+                    border-radius: 12px;
+                  "
+                />
+                <h3 :id="`modal-title-${selectedCard.id}`" class="modal__title">
+                  {{ selectedCard.title }}
+                </h3>
+              </div>
+
+              <div class="modal__body">
+                <p class="modal__description">
+                  {{ selectedCard.description }}
+                </p>
+                <BaseButton
+                  v-if="selectedCard.link"
+                  variant="primary"
+                  :href="selectedCard.link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  :aria-label="`Visit ${selectedCard.title} website (opens in new tab)`"
+                  style="margin-top: 1.5rem"
+                >
+                  Visit Website
+                  <span
+                    class="external-link-icon"
+                    aria-hidden="true"
+                    style="margin-left: 0.5rem"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="m7 17 10-10"></path>
+                      <path d="M17 7v10"></path>
+                      <path d="M7 7h10"></path>
+                    </svg>
+                  </span>
+                </BaseButton>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       <!-- Call to Action -->
-      <div class="cta-section">
-        <div class="cta-content">
-          <h2 class="cta-heading">🌱 Let's bring your vision to life!</h2>
-          <p class="cta-text">
-            Whether you need a custom-built solution, a performance boost, or a
-            more accessible website,
-            <a href="/contact" class="text-link">I'm here to help.</a>
-          </p>
-        </div>
-      </div>
+      <CallToAction
+        support-text="Building accessible, performant websites that users love"
+      >
+        <template #heading>Let's bring your vision to life!</template>
+        <template #text>
+          Whether you need a custom-built solution, a performance boost, or a
+          more accessible website,
+          <a href="/contact" class="text-link">I'm here to help.</a>
+        </template>
+      </CallToAction>
     </div>
 
     <!-- Scroll to top button -->
-    <button
-      v-if="showScrollButton"
-      @click="scrollToTop"
-      class="scroll-to-top"
-      aria-label="Scroll to top"
-    >
-      <svg
-        class="scroll-icon"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M5 15l7-7 7 7"
-        />
-      </svg>
-    </button>
+    <ScrollToTopButton :visible="showScrollButton" />
   </div>
 </template>
 
 <script>
-import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/vue/24/outline'
+import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
+import BaseButton from '@/components/Button.vue'
+import CallToAction from '@/components/CallToAction.vue'
 
 export default {
   name: 'WorkPage',
   components: {
-    ChevronUpIcon,
-    ChevronDownIcon,
+    ScrollToTopButton,
+    BaseButton,
+    CallToAction,
+  },
+  metaInfo() {
+    return {
+      title:
+        'My Work - Bozena Zawilinska | Vue.js & WordPress Developer Portfolio',
+      meta: [
+        {
+          name: 'description',
+          content:
+            'Explore my portfolio featuring Vue.js applications, WordPress websites, and custom Gutenberg blocks. 5+ years of experience building accessible, high-performance web solutions.',
+        },
+        {
+          name: 'keywords',
+          content:
+            'Vue.js developer, WordPress developer, Gutenberg blocks, frontend development, web development portfolio, accessible websites, performance optimization',
+        },
+        {
+          property: 'og:title',
+          content: 'My Work - Bozena Zawilinska | Vue.js & WordPress Developer',
+        },
+        {
+          property: 'og:description',
+          content:
+            'Explore my portfolio featuring Vue.js applications, WordPress websites, and custom Gutenberg blocks. 5+ years of experience building accessible, high-performance web solutions.',
+        },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:url', content: 'https://bozena-zawilinska.com/work' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        {
+          name: 'twitter:title',
+          content: 'My Work - Bozena Zawilinska | Vue.js & WordPress Developer',
+        },
+        {
+          name: 'twitter:description',
+          content:
+            'Explore my portfolio featuring Vue.js applications, WordPress websites, and custom Gutenberg blocks.',
+        },
+      ],
+      link: [{ rel: 'canonical', href: 'https://bozena-zawilinska.com/work' }],
+      script: [
+        {
+          type: 'application/ld+json',
+          json: {
+            '@context': 'https://schema.org',
+            '@type': 'Portfolio',
+            name: "Bozena Zawilinska's Web Development Portfolio",
+            description:
+              'Portfolio showcasing Vue.js applications, WordPress websites, and custom Gutenberg blocks',
+            url: 'https://bozena-zawilinska.com/work',
+            author: {
+              '@type': 'Person',
+              name: 'Bozena Zawilinska',
+              jobTitle: 'Vue.js & WordPress Developer',
+              url: 'https://bozena-zawilinska.com',
+            },
+            workExample: this.projects.slice(0, 4).map((project) => ({
+              '@type': 'CreativeWork',
+              name: project.title,
+              description: project.summary,
+              url: project.link,
+              creator: {
+                '@type': 'Person',
+                name: 'Bozena Zawilinska',
+              },
+            })),
+          },
+        },
+      ],
+    }
   },
   data() {
     return {
@@ -240,6 +515,8 @@ export default {
       typingSpeed: 150,
       showScrollButton: false,
       scrollProgress: 0,
+      isToggling: false, // Prevent double-clicks
+      selectedCard: null, // For modal system
       projects: [
         {
           id: 1,
@@ -373,6 +650,8 @@ export default {
           logo: 'just-enterprise/logo.png',
           role: 'Website Developer',
           showDetails: false,
+          isHovered: false,
+          isVisible: false,
           description:
             "Provided ongoing website maintenance and performance optimization for Scotland's leading social enterprise support organization.",
           link: 'https://justenterprise.org/',
@@ -395,6 +674,8 @@ export default {
           logo: 'cps/logo.svg',
           role: 'Website Developer',
           showDetails: false,
+          isHovered: false,
+          isVisible: false,
           description:
             'Maintained accessibility-compliant website for vital charity supporting individuals with cerebral palsy and their families.',
           link: 'https://cerebralpalsyscotland.org.uk/',
@@ -412,6 +693,8 @@ export default {
           logo: 'tzari/logo.svg',
           role: 'Website Developer',
           showDetails: false,
+          isHovered: false,
+          isVisible: false,
           description:
             'Built showcase website for sustainable clothing designer celebrating cultural diversity and challenging fashion industry norms.',
           link: 'https://bytzari.com/',
@@ -429,6 +712,8 @@ export default {
           logo: 'abz-works/logo.svg',
           role: 'Website Developer',
           showDetails: false,
+          isHovered: false,
+          isVisible: false,
           description:
             'Developed comprehensive website with integrated ABotZ chatbot for intelligent user guidance and content discovery.',
           link: 'https://abzworks.co.uk/',
@@ -451,6 +736,8 @@ export default {
           logo: 'ekf/logo.svg',
           role: 'Website Developer',
           showDetails: false,
+          isHovered: false,
+          isVisible: false,
           description:
             'Created streamlined grant application platform for North Lanarkshire Council supporting local environmental projects.',
           link: 'https://environmentalkeyfund.com/',
@@ -468,6 +755,8 @@ export default {
           logo: 'scf/logo.svg',
           role: 'Website Developer',
           showDetails: false,
+          isHovered: false,
+          isVisible: false,
           description:
             'Built community finance platform promoting accessible financial services and reinvestment in local Scottish communities.',
           link: 'https://scotcomfinance.scot/',
@@ -527,37 +816,121 @@ export default {
       this.scrollProgress = (scrollTop / documentHeight) * 100
     },
 
-    scrollToTop() {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      })
-    },
-
     getProjectPath(project) {
       return require(`@/assets/projects/${project}`)
     },
 
     toggleDetails(project) {
-      project.showDetails = !project.showDetails
+      if (this.isToggling) {
+        console.log('Toggle prevented - already processing')
+        return
+      }
 
-      this.$nextTick(() => {
-        const projectElement = this.$el.querySelector(
-          `[data-project-id="${project.id}"]`
-        )
-        if (projectElement) {
-          projectElement.scrollIntoView({
-            behavior: 'smooth',
-            block: 'nearest',
-          })
+      this.isToggling = true
+      console.log('toggleDetails called for project:', project.title)
+      console.log('Current showDetails state:', project.showDetails)
+
+      // Store scroll position to minimize jumping
+      const currentScrollY = window.scrollY
+      const projectElement = this.$el.querySelector(
+        `[data-project-id="${project.id}"]`
+      )
+      const projectTop = projectElement?.offsetTop || 0
+
+      // Find the project in the array and update it properly for Vue reactivity
+      const projectIndex = this.projects.findIndex((p) => p.id === project.id)
+      if (projectIndex !== -1) {
+        const newState = !this.projects[projectIndex].showDetails
+
+        // Use Vue.set equivalent for Vue 3 - direct assignment with reactive array
+        this.projects[projectIndex] = {
+          ...this.projects[projectIndex],
+          showDetails: newState,
         }
-      })
+
+        console.log('New showDetails state:', newState)
+
+        // Handle smooth expansion/collapse
+        this.$nextTick(() => {
+          if (projectElement) {
+            const detailsElement =
+              projectElement.querySelector('.card__details')
+            console.log('Details element classes:', detailsElement?.className)
+            console.log(
+              'Has show class:',
+              detailsElement?.classList.contains('show')
+            )
+
+            // If expanding and card is below viewport, scroll to keep it in view
+            if (newState && projectTop < currentScrollY) {
+              const offset = 100 // Add some breathing room
+              window.scrollTo({
+                top: Math.max(0, projectTop - offset),
+                behavior: 'smooth',
+              })
+            }
+
+            // Manage focus for accessibility
+            this.manageFocus(project.id, newState)
+          }
+
+          // Reset toggle lock after animation completes
+          setTimeout(() => {
+            this.isToggling = false
+          }, 500) // Match animation duration
+        })
+      } else {
+        this.isToggling = false
+      }
     },
 
     showDetails(id) {
-      this.projects.forEach((project) => {
-        project.showDetails = project.id === id ? !project.showDetails : false
-      })
+      if (this.isToggling) {
+        console.log('Show details prevented - already processing')
+        return
+      }
+
+      this.isToggling = true
+      console.log('showDetails called for project ID:', id)
+
+      // Find the project and toggle only its showDetails state
+      const projectIndex = this.projects.findIndex((p) => p.id === id)
+      if (projectIndex !== -1) {
+        const newState = !this.projects[projectIndex].showDetails
+
+        // Update only the specific project with proper reactivity
+        this.projects[projectIndex] = {
+          ...this.projects[projectIndex],
+          showDetails: newState,
+        }
+
+        console.log(
+          `Project ${this.projects[projectIndex].title}: showDetails = ${newState}`
+        )
+
+        // Debug: Check if the DOM classes are being applied
+        this.$nextTick(() => {
+          const projectElement = this.$el.querySelector(
+            `[data-project-id="${id}"]`
+          )
+          if (projectElement) {
+            const overlayElement =
+              projectElement.querySelector('.card__overlay')
+            console.log('Overlay element classes:', overlayElement?.className)
+            console.log(
+              'Has show class:',
+              overlayElement?.classList.contains('show')
+            )
+          }
+
+          // Reset toggle lock after animation completes
+          setTimeout(() => {
+            this.isToggling = false
+          }, 400) // Match overlay animation duration
+        })
+      } else {
+        this.isToggling = false
+      }
     },
 
     observeElements() {
@@ -567,10 +940,25 @@ export default {
         threshold: 0.1,
       }
 
+      // const observer = new IntersectionObserver((entries) => {
+      //   entries.forEach((entry) => {
+      //     if (entry.isIntersecting) {
+      //       entry.target.classList.add('is-visible')
+      //     }
+      //   })
+      // }, options)
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible')
+            const id = Number(entry.target.dataset.projectId)
+            const idx = this.projects.findIndex((p) => p.id === id)
+            if (idx !== -1 && !this.projects[idx].isVisible) {
+              // Vue 3: direct assignment is reactive
+              this.projects[idx].isVisible = true
+              // or if you prefer Vue.set in Vue2:
+              // this.$set(this.projects[idx], 'isVisible', true)
+              observer.unobserve(entry.target)
+            }
           }
         })
       }, options)
@@ -587,16 +975,71 @@ export default {
           card.style.setProperty('--delay', `${index * 0.1}s`)
           observer.observe(card)
         })
+
+        const projectCards = this.$el.querySelectorAll('.project-card')
+        projectCards.forEach((card, index) => {
+          card.style.setProperty('--delay', `${index * 0.1}s`)
+          observer.observe(card)
+        })
       })
     },
 
     animateSkill(event) {
       const badge = event.target
+      if (!badge) return
+
+      // Store original transform to avoid conflicts
+      const originalTransform = badge.style.transform
+
+      // Apply animation
       badge.style.transform = 'scale(1.05) rotate(2deg)'
 
+      // Reset after animation
       setTimeout(() => {
-        badge.style.transform = 'scale(1) rotate(0deg)'
+        badge.style.transform = originalTransform || 'scale(1) rotate(0deg)'
       }, 200)
+    },
+
+    // Add keyboard support for skill badges
+    handleSkillKeydown(event) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault()
+        this.animateSkill(event)
+      }
+    },
+
+    // Improve accessibility with focus management
+    manageFocus(projectId, expanding) {
+      this.$nextTick(() => {
+        if (expanding) {
+          // Focus on the first interactive element in the expanded content
+          const projectElement = this.$el.querySelector(
+            `[data-project-id="${projectId}"]`
+          )
+          const firstSkillBadge = projectElement?.querySelector('.skill-badge')
+          if (firstSkillBadge) {
+            firstSkillBadge.focus()
+          }
+        }
+      })
+    },
+
+    openCardModal(card) {
+      this.selectedCard = card
+      // Prevent body scroll when modal is open
+      document.body.style.overflow = 'hidden'
+
+      // Focus management for accessibility
+      this.$nextTick(() => {
+        const modal = this.$el.querySelector('.card-modal-overlay')
+        if (modal) modal.focus()
+      })
+    },
+
+    closeCardModal() {
+      this.selectedCard = null
+      // Restore body scroll
+      document.body.style.overflow = ''
     },
   },
 }
@@ -656,15 +1099,96 @@ export default {
     }
   }
 
-  // Featured projects - animation styles are now handled by _light-theme.scss
-  // The enhanced .featured-projects-grid provides better layout without stretching issues
+  // Featured projects - enhanced UX improvements
+  .featured-card {
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: top center;
 
-  // Portfolio grid
+    // Prevent layout jumping during expansion
+    .card__details {
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      max-height: 0;
+      opacity: 0;
+
+      &.show {
+        max-height: 1000px; // Large enough for content
+        opacity: 1;
+        padding-top: 1rem;
+      }
+
+      .details__content {
+        padding-bottom: 1rem;
+      }
+
+      .details__text-content {
+        margin-bottom: 1.5rem;
+      }
+    }
+
+    // Enhanced button styling
+    .card__actions {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 1.5rem;
+
+      @include breakpoint-down(sm) {
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .btn {
+          width: 100%;
+        }
+      }
+    }
+
+    .button-icon {
+      transition: transform 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      margin-left: 0.5rem;
+
+      &.rotated {
+        transform: rotate(180deg);
+      }
+    }
+
+    .external-link-icon {
+      margin-left: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      opacity: 0.8;
+      transition: opacity 0.3s ease;
+    }
+
+    // Hover effects
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+
+      .external-link-icon {
+        opacity: 1;
+      }
+    }
+  }
+
+  // Portfolio grid improvements
   .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
     margin-top: 2rem;
+
+    @include breakpoint-down(md) {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @include breakpoint-down(sm) {
+      gap: 1rem;
+    }
   }
 
   .portfolio-card {
@@ -672,18 +1196,35 @@ export default {
     transform: translateY(30px);
     transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     animation-delay: var(--delay);
+    position: relative;
 
     &.is-visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    // Image showcase
-    .image-showcase {
-      margin-bottom: 1rem;
+    &.has-overlay {
+      .image-showcase img {
+        transform: scale(1.05);
+      }
     }
 
-    // Title styling - now direct child of card
+    // Enhanced image showcase
+    .image-showcase {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+
+      img {
+        width: 100%;
+        height: auto;
+        transition: transform 0.4s ease;
+        display: block;
+      }
+    }
+
+    // Title styling
     .card__title {
       color: $text-primary;
       font-size: $font-size-h4;
@@ -692,65 +1233,151 @@ export default {
       line-height: 1.3;
     }
 
-    // Actions at the bottom
-    .card__actions {
-      margin-top: auto;
-    }
-
+    // Enhanced overlay
     .card__overlay {
       position: absolute;
       inset: 0;
-      background: rgba($text-primary, 0.9);
+      background: rgba($text-primary, 0.95);
       backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
       justify-content: center;
       opacity: 0;
-      transition: opacity 0.3s ease;
-      padding: 1rem;
-      border-radius: 16px;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 1.5rem;
+      border-radius: 12px;
 
       &.show {
         opacity: 1;
       }
 
+      .overlay__content {
+        text-align: center;
+        max-width: 100%;
+      }
+
       .overlay__text {
         color: $text-inverse;
         text-align: center;
-        line-height: 1.5;
+        line-height: 1.6;
         font-size: $font-size-small;
+        margin-bottom: 0.75rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    // Actions styling
+    .card__actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: auto;
+
+      @include breakpoint-down(sm) {
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .btn {
+          width: 100%;
+        }
+      }
+    }
+
+    // Hover effects
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  // Skill badges improvements
+  .skill-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+
+    .skill-badge {
+      background: linear-gradient(
+        135deg,
+        $interactive-primary,
+        $interactive-hover
+      );
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: $font-size-small;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      user-select: none;
+
+      &:hover,
+      &:focus {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba($interactive-primary, 0.3);
+        outline: none;
+      }
+
+      &:focus-visible {
+        outline: 2px solid $interactive-primary;
+        outline-offset: 2px;
       }
     }
   }
 
-  // Button icons
-  .icon {
-    width: 1rem;
-    height: 1rem;
-    margin-left: 0.5rem;
-    transition: transform 0.3s ease;
+  // Enhanced responsive design
+  @include breakpoint-down(lg) {
+    .featured-projects-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
   }
 
-  // Text link styling
-  .text-link {
-    color: $interactive-primary;
-    text-decoration: none;
-    font-weight: 500;
-    position: relative;
-
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: $gradient-hero;
-      transition: width 0.3s ease;
+  @include breakpoint-down(md) {
+    section {
+      margin-bottom: 2rem;
     }
 
-    &:hover::after {
-      width: 100%;
+    .section-title {
+      font-size: $font-size-subheading-mobile;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  @include breakpoint-down(sm) {
+    .container {
+      padding: 0 1rem;
+    }
+
+    .featured-projects-grid,
+    .portfolio-grid {
+      gap: 1rem;
+    }
+  }
+
+  // Focus management for accessibility
+  .btn:focus-visible,
+  .skill-badge:focus-visible {
+    outline: 2px solid $interactive-primary;
+    outline-offset: 2px;
+  }
+
+  // Reduced motion support
+  @media (prefers-reduced-motion: reduce) {
+    .featured-card,
+    .portfolio-card,
+    .button-icon,
+    .card__overlay,
+    .card__details {
+      transition: none;
+    }
+
+    .featured-card:hover,
+    .portfolio-card:hover {
+      transform: none;
     }
   }
 
@@ -794,6 +1421,260 @@ export default {
       flex-direction: column;
       gap: 1.5rem;
     }
+  }
+}
+
+// Cards section
+.project__cards {
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+
+    // Better spacing for 6 cards
+    @include breakpoint-up(md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include breakpoint-up(lg) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @include breakpoint-up(xl) {
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 1200px;
+      margin: 2rem auto 0;
+    }
+  }
+}
+
+.project-card {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-delay: var(--delay);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  // Focus styles for accessibility
+  &:focus {
+    outline: 2px solid $interactive-primary;
+    outline-offset: 2px;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $interactive-primary;
+    outline-offset: 2px;
+  }
+
+  .card__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 1.5rem;
+
+    .card__title {
+      color: $text-primary;
+      font-size: $font-size-h4;
+      font-weight: 600;
+      margin: 0;
+      line-height: 1.3;
+      height: 60px; // Fixed height for 2 lines of text
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+  }
+
+  .card__preview {
+    min-height: 90px; // Fixed height to align "Click to explore"
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .card__preview-text {
+      color: $text-secondary;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      font-size: $font-size-base;
+      flex-grow: 1;
+    }
+
+    .card__expand-hint {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: $interactive-primary;
+      font-size: $font-size-small;
+      font-weight: 500;
+      opacity: 0.8;
+      transition: opacity 0.3s ease;
+      margin-top: auto; // Push to bottom
+      .expand-icon {
+        width: 1rem;
+        height: 1rem;
+        transition: transform 0.3s ease;
+      }
+    }
+  }
+
+  // Hover effects for icons and hints
+  &:hover {
+    .card__icon .hero-icon--large {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .card__expand-hint {
+      opacity: 1;
+
+      .expand-icon {
+        transform: translateX(4px);
+      }
+    }
+  }
+}
+
+// Modal Overlay System
+.card-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+  animation: modalFadeIn 0.3s ease-out;
+
+  @include breakpoint-down(md) {
+    padding: 1rem;
+  }
+}
+
+.card-modal {
+  background: white;
+  border-radius: 24px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  animation: modalSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+
+  @include breakpoint-down(md) {
+    max-height: 90vh;
+    border-radius: 16px;
+  }
+}
+
+.modal__close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  background: rgba($text-tertiary, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: $text-secondary;
+  }
+
+  &:hover {
+    background: rgba($text-tertiary, 0.2);
+    transform: scale(1.1);
+  }
+
+  &:focus {
+    outline: 2px solid $interactive-primary;
+    outline-offset: 2px;
+  }
+}
+
+.modal__content {
+  padding: 3rem;
+
+  @include breakpoint-down(md) {
+    padding: 2rem;
+  }
+}
+
+.modal__header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  .modal__icon {
+    margin-bottom: 1.5rem;
+
+    .hero-icon--xl {
+      width: 4rem;
+      height: 4rem;
+      color: $interactive-primary;
+      margin: 0 auto;
+    }
+  }
+
+  .modal__title {
+    color: $text-primary;
+    font-size: $font-size-subheading;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+
+    @include breakpoint-down(md) {
+      font-size: $font-size-h3;
+    }
+  }
+}
+
+.modal__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .modal__description {
+    color: $text-secondary;
+    font-size: $font-size-h5;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    text-align: center;
+
+    @include breakpoint-down(md) {
+      font-size: $font-size-base;
+    }
+  }
+  .btn {
+    margin: 0 auto;
   }
 }
 </style>

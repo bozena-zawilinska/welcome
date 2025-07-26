@@ -1,51 +1,89 @@
 <template>
-  <div class="tablet-frame">
-    <div
-      class="video-container"
-      @mouseenter="showButton = true"
-      @mouseleave="hideButton"
-    >
-      <!-- Video Element -->
-      <video
-        ref="gutenbergVideo"
-        @click="toggleVideoPlayback"
-        @play="isPlaying = true"
-        @pause="isPlaying = false"
-        loading="lazy"
-        preload="none"
-        :poster="
-          require('@/assets/projects/prodpad/gutenberg-blocks-video-poster.png')
-        "
+  <div class="video-showcase">
+    <div class="video-card">
+      <div
+        class="video-container"
+        @mouseenter="showButton = true"
+        @mouseleave="hideButton"
       >
-        <source
-          src="@/assets/projects/prodpad/gutenberg-blocks-video.mp4"
-          type="video/mp4"
-        />
-        Your browser does not support the video tag.
-      </video>
+        <!-- Video Element -->
+        <video
+          ref="gutenbergVideo"
+          @click="toggleVideoPlayback"
+          @play="isPlaying = true"
+          @pause="isPlaying = false"
+          loading="lazy"
+          preload="none"
+          :poster="
+            require('@/assets/projects/prodpad/gutenberg-blocks-video-poster.png')
+          "
+        >
+          <source
+            src="@/assets/projects/prodpad/gutenberg-blocks-video.mp4"
+            type="video/mp4"
+          />
+          Your browser does not support the video tag.
+        </video>
 
-      <!-- Play/Pause Button (Centered) -->
-      <button
-        id="play"
-        v-show="showButton"
-        @click="toggleVideoPlayback"
-        :aria-label="isPlaying ? 'Pause video' : 'Play video'"
-        :class="{ toggle: isPlaying }"
-        class="button button--play"
-      >
-        <div id="me"></div>
-      </button>
+        <!-- Play/Pause Button -->
+        <button
+          v-show="showButton"
+          @click="toggleVideoPlayback"
+          :aria-label="isPlaying ? 'Pause video' : 'Play video'"
+          :class="{ 'is-playing': isPlaying }"
+          class="play-button"
+        >
+          <svg
+            v-if="!isPlaying"
+            class="play-icon"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path
+              d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18a1 1 0 0 0 0-1.69L9.54 5.98A1 1 0 0 0 8 6.82z"
+            />
+          </svg>
+          <svg
+            v-else
+            class="pause-icon"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path
+              d="M8 19c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2s-2 .9-2 2v10c0 1.1.9 2 2 2zm6-12v10c0 1.1.9 2 2 2s2-.9 2-2V7c0-1.1-.9-2-2-2s-2 .9-2 2z"
+            />
+          </svg>
+        </button>
 
-      <!-- Video Description for Screen Readers -->
-      <p class="sr-only">
-        This video demonstrates two of my custom Gutenberg blocks. 1️⃣ The **Hero
-        Section Block** allows users to change the background, set a supportive
-        title, adjust letter case, and customize a headline, tagline, and CTA
-        button. 2️⃣ The **Auto Image Swiper** lets users add four images with
-        descriptions. The block displays one image at a time with an automatic
-        loading bar indicating when the next image will appear.
-      </p>
+        <!-- Video Overlay with Project Info -->
+        <div class="video-overlay">
+          <div class="project-info">
+            <div class="project-badge">
+              <img
+                src="@/assets/projects/prodpad/logo.png"
+                alt="ProdPad Logo"
+                class="project-logo"
+              />
+              <span class="project-name">ProdPad</span>
+            </div>
+            <h3 class="project-title">Custom Gutenberg Blocks</h3>
+            <p class="project-description">
+              Interactive WordPress blocks for enhanced content management
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- Screen Reader Description -->
+    <p class="sr-only">
+      This video demonstrates two of my custom Gutenberg blocks. The Hero
+      Section Block allows users to change the background, set a supportive
+      title, adjust letter case, and customize a headline, tagline, and CTA
+      button. The Auto Image Swiper lets users add four images with
+      descriptions, displaying one image at a time with an automatic loading
+      bar.
+    </p>
   </div>
 </template>
 
@@ -83,206 +121,311 @@ export default {
 
 <style scoped lang="scss">
 @import '../styles/_variables.scss';
-@import '../styles/components/media';
 
-// .video-container {
-//   box-shadow: $box-shadow-soft;
-//   border-radius: 16px;
-//   position: relative;
-//   width: 100%;
-//   margin: 0 auto;
-//   padding-top: 56.25%; // 16:9 aspect ratio
-//   overflow: hidden;
-//   background-color: $lavender;
-//   video {
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     width: 100%;
-//     height: 100%;
-//     margin: auto;
-//     object-fit: cover;
-//     clip-path: inset(8px 8px);
-//     cursor: pointer;
-//   }
-// }
+/* Modern Video Showcase Design */
+.video-showcase {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
+}
 
-#play {
-  appearance: none;
-  width: 120px;
-  height: 120px;
+.video-card {
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(255, 255, 255, 0.85) 100%
+    rgba(255, 255, 255, 0.95),
+    rgba(255, 255, 255, 0.8)
   );
-  border-radius: 50%;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 24px;
+  padding: 1.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(
+      90deg,
+      $interactive-primary,
+      $interactive-hover,
+      $primary-purple
+    );
+    opacity: 0.8;
+  }
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 32px 64px rgba(0, 0, 0, 0.15), 0 16px 32px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+    .video-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+.video-container {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #000;
+  aspect-ratio: 16/9;
+  cursor: pointer;
+
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+  }
+
+  &:hover video {
+    transform: scale(1.02);
+  }
+}
+
+/* Modern Play Button */
+.play-button {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border: 3px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 50%;
   cursor: pointer;
-  backdrop-filter: blur(10px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  z-index: 10;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
+  .play-icon,
+  .pause-icon {
+    width: 24px;
+    height: 24px;
+    color: $interactive-primary;
+    transition: all 0.3s ease;
+  }
+
+  .play-icon {
+    margin-left: 2px; /* Visual adjustment for play icon */
+  }
+
   &:hover {
     transform: translate(-50%, -50%) scale(1.1);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), 0 6px 24px rgba(0, 0, 0, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.98) 0%,
-      rgba(255, 255, 255, 0.9) 100%
-    );
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.3);
+
+    .play-icon,
+    .pause-icon {
+      color: $interactive-hover;
+      transform: scale(1.1);
+    }
   }
 
   &:active {
-    transform: translate(-50%, -50%) scale(1.05);
+    transform: translate(-50%, -50%) scale(0.95);
   }
 
+  &.is-playing {
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  /* Ripple effect */
   &::before {
     content: '';
     position: absolute;
-    width: 100%;
-    height: 100%;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba($interactive-primary, 0.3);
     border-radius: 50%;
-    background: $red-background;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -1;
+    transform: translate(-50%, -50%);
+    transition: all 0.6s ease;
   }
 
-  &:hover::before {
-    opacity: 0.1;
-  }
-
-  &::after {
-    display: block;
-    content: '';
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: radial-gradient(
-      circle,
-      rgba(239, 141, 156, 0.1) 0%,
-      transparent 70%
-    );
-    transition: all 0.3s ease;
-    z-index: -1;
-  }
-
-  &:hover::after {
-    width: 100px;
-    height: 100px;
-    background: radial-gradient(
-      circle,
-      rgba(239, 141, 156, 0.15) 0%,
-      transparent 70%
-    );
+  &:active::before {
+    width: 120px;
+    height: 120px;
   }
 }
 
-#me {
-  position: relative;
-  z-index: 2;
-  height: 28px;
-  width: 5px;
-  background: linear-gradient(135deg, $soft-red 0%, $pale-orange 100%);
-  border-radius: 3px;
+/* Video Overlay with Project Information */
+.video-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.4) 50%,
+    transparent 100%
+  );
+  padding: 2rem;
+  color: white;
+  opacity: 0;
+  transform: translateY(20px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  left: -8px;
-  box-shadow: 0 2px 8px rgba(239, 141, 156, 0.3);
+  border-radius: 0 0 16px 16px;
+}
 
-  &::before,
-  &::after {
-    display: block;
-    content: '';
-    position: absolute;
-    height: 26px;
-    width: 5px;
-    background: inherit;
-    border-radius: 3px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: inherit;
+.project-info {
+  .project-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+
+    .project-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: white;
+      padding: 4px;
+    }
+
+    .project-name {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.9);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
   }
 
-  &::before {
-    top: 50%;
-    left: 0px;
-    transform: translateY(-50%) rotate(-56deg);
-    transform-origin: top center;
+  .project-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: white;
+    line-height: 1.2;
   }
 
-  &::after {
-    top: 50%;
-    left: 0px;
-    transform: translateY(-50%) rotate(56deg);
-    transform-origin: bottom center;
+  .project-description {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.5;
+    margin: 0;
   }
 }
 
-/* Play/Pause Toggle Effect */
-.toggle #me {
-  height: 28px;
-  left: -6px;
-  background: linear-gradient(135deg, $soft-red 0%, $pale-orange 100%);
-
-  &::before,
-  &::after {
-    transform: rotate(0deg);
-    left: 10px;
-    height: 28px;
-    width: 5px;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .video-showcase {
+    padding: 0.5rem;
   }
 
-  &::before {
-    top: 0;
+  .video-card {
+    padding: 1rem;
+    border-radius: 20px;
   }
 
-  &::after {
-    top: 0;
+  .video-container {
+    border-radius: 12px;
+  }
+
+  .play-button {
+    width: 64px;
+    height: 64px;
+
+    .play-icon,
+    .pause-icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .video-overlay {
+    padding: 1.5rem;
+  }
+
+  .project-info {
+    .project-title {
+      font-size: 1.25rem;
+    }
+
+    .project-description {
+      font-size: 0.9rem;
+    }
+
+    .project-badge .project-logo {
+      width: 28px;
+      height: 28px;
+    }
   }
 }
 
-/* Enhanced hover and focus effects */
-.video-container:hover #play {
-  opacity: 1;
+@media (max-width: 480px) {
+  .video-card {
+    padding: 0.75rem;
+    border-radius: 16px;
+  }
+
+  .play-button {
+    width: 56px;
+    height: 56px;
+
+    .play-icon,
+    .pause-icon {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .video-overlay {
+    padding: 1rem;
+  }
+
+  .project-info {
+    .project-badge {
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+
+      .project-name {
+        font-size: 0.75rem;
+      }
+    }
+
+    .project-title {
+      font-size: 1.1rem;
+    }
+
+    .project-description {
+      font-size: 0.85rem;
+    }
+  }
 }
 
-#play:focus {
-  outline: 3px solid $soft-red;
+/* Focus States for Accessibility */
+.play-button:focus-visible {
+  outline: 3px solid $interactive-primary;
   outline-offset: 4px;
 }
 
-/* Add a subtle pulsing animation when paused */
-@keyframes pulse {
-  0% {
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 0 0 0 rgba(239, 141, 156, 0.4);
-  }
-  50% {
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8),
-      0 0 0 20px rgba(239, 141, 156, 0.1);
-  }
-  100% {
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 0 0 0 rgba(239, 141, 156, 0);
-  }
+.video-container:focus-within {
+  outline: 2px solid $interactive-primary;
+  outline-offset: 2px;
 }
 
-#play:not(.toggle) {
-  animation: pulse 2s infinite;
-}
-
+/* Screen Reader Only Content */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -291,6 +434,57 @@ export default {
   margin: -1px;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
   border: 0;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .video-card,
+  .play-button,
+  .video-overlay,
+  video {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .play-button::before {
+    transition: none !important;
+  }
+}
+
+/* Loading State */
+.video-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    45deg,
+    rgba(239, 141, 156, 0.1) 25%,
+    transparent 25%,
+    transparent 75%,
+    rgba(239, 141, 156, 0.1) 75%
+  );
+  background-size: 20px 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+video[loading] + .video-container::after {
+  opacity: 1;
+  animation: loading-shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes loading-shimmer {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 20px 20px;
+  }
 }
 </style>

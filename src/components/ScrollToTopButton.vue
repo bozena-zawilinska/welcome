@@ -7,7 +7,6 @@
       aria-label="Scroll to top of page"
       title="Scroll to top"
       type="button"
-      :class="{ visible: visible, hidden: !visible }"
     >
       <svg
         class="scroll-icon"

@@ -1,14 +1,21 @@
 <template>
   <section class="page page--contact">
+    <!-- Progress bar -->
+    <div class="progress-bar">
+      <div
+        class="progress-bar__fill"
+        :style="{ width: scrollProgress + '%' }"
+      ></div>
+    </div>
     <div class="row">
-      <div class="col col--left">
+      <!-- <div class="col col--left">
         <img
           src="@/assets/contact-bz.jpg"
           alt="Bozena's avatar"
           width="662"
           height="883"
         />
-      </div>
+      </div> -->
       <div class="col col--right container">
         <div class="group-text">
           <h1>Let's work together!</h1>
@@ -33,9 +40,9 @@
               Your message has been sent successfully. I'll get back to you
               soon!
             </p>
-            <button @click="resetForm" class="button button--secondary">
+            <BaseButton variant="secondary" @click="resetForm">
               Send Another Message
-            </button>
+            </BaseButton>
           </div>
         </div>
 
@@ -170,20 +177,16 @@
             </div>
           </div>
 
-          <button
+          <BaseButton
             type="submit"
+            variant="primary"
             :disabled="isSubmitting"
-            :class="[
-              'button',
-              'button--primary',
-              'button--submit',
-              { 'button--loading': isSubmitting },
-            ]"
+            :loading="isSubmitting"
             :aria-describedby="isSubmitting ? 'submit-status' : null"
           >
-            <span v-if="!isSubmitting"> Send Message </span>
+            <span v-if="!isSubmitting">Send Message</span>
             <span v-else id="submit-status">Sending...</span>
-          </button>
+          </BaseButton>
 
           <div
             v-if="hasError"
@@ -207,6 +210,7 @@
               rel="noopener noreferrer"
               class="social-link linkedin"
               aria-label="Connect with me on LinkedIn"
+              tabindex="0"
             >
               <svg
                 class="social-icon"
@@ -227,6 +231,7 @@
               rel="noopener noreferrer"
               class="social-link github"
               aria-label="View my projects on GitHub"
+              tabindex="0"
             >
               <svg
                 class="social-icon"
@@ -247,6 +252,7 @@
               rel="noopener noreferrer"
               class="social-link twitter"
               aria-label="Follow me on X (formerly Twitter)"
+              tabindex="0"
             >
               <svg
                 class="social-icon"
@@ -274,16 +280,50 @@
         </div>
       </div>
     </div>
+    <!-- Background shades for visual interest -->
+    <BackgroundShades
+      :colors="['lavender', 'wisteria', 'blue-bell']"
+      :positions="['primary', 'secondary', 'tertiary']"
+    />
+
+    <!-- Scroll to top button -->
+    <ScrollToTopButton :visible="showScrollButton" />
   </section>
 </template>
 
 <script>
 import emailjs from '@emailjs/browser'
 import { EnvelopeIcon } from '@heroicons/vue/24/outline'
+import BaseButton from '@/components/Button.vue'
+import BackgroundShades from '@/components/BackgroundShades.vue'
+import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
 
 export default {
+  name: 'ContactPage',
+  metaInfo: {
+    title: 'Contact Me - Bozena Zawilinska | Vue.js & WordPress Developer',
+    meta: [
+      {
+        name: 'description',
+        content:
+          'Get in touch with Bozena Zawilinska, a Vue.js and WordPress developer. Let’s collaborate on your next web project or discuss new opportunities.',
+      },
+      { property: 'og:title', content: 'Contact Me - Bozena Zawilinska' },
+      {
+        property: 'og:description',
+        content:
+          'Contact Bozena for web development, Vue.js, WordPress, and accessible website projects.',
+      },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:url', content: 'https://bozena-zawilinska.com/contact' },
+    ],
+    link: [{ rel: 'canonical', href: 'https://bozena-zawilinska.com/contact' }],
+  },
   components: {
     EnvelopeIcon,
+    BaseButton,
+    BackgroundShades,
+    ScrollToTopButton,
   },
   data() {
     return {
@@ -303,10 +343,18 @@ export default {
         subject: '',
         message: '',
       },
+
+      showScrollButton: false,
+      scrollProgress: 0,
     }
   },
   mounted() {
     this.emailFallbackShown = false
+    this.setupScrollListener()
+  },
+
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.handleScroll)
   },
   methods: {
     validateForm() {
@@ -486,6 +534,20 @@ export default {
         }
       }, 500)
     },
+    setupScrollListener() {
+      window.addEventListener('scroll', this.handleScroll)
+    },
+
+    handleScroll() {
+      this.showScrollButton = window.pageYOffset > 300
+
+      // Calculate scroll progress
+      const scrollTop = window.pageYOffset
+      const documentHeight =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight
+      this.scrollProgress = (scrollTop / documentHeight) * 100
+    },
   },
 }
 </script>
@@ -501,21 +563,21 @@ export default {
     @include breakpoint-up(md) {
       width: 50%;
     }
-    img {
-      width: 100%;
-      height: auto;
-      object-fit: contain;
-      border-radius: 16px;
-    }
+    // img {
+    //   width: 100%;
+    //   height: auto;
+    //   object-fit: contain;
+    //   border-radius: 16px;
+    // }
   }
 
-  .col--left {
-    display: none;
-    @include breakpoint-up(md) {
-      display: block;
-      margin-right: -2.5rem;
-    }
-  }
+  // .col--left {
+  //   display: none;
+  //   @include breakpoint-up(md) {
+  //     display: block;
+  //     margin-right: -2.5rem;
+  //   }
+  // }
 
   .col--right {
     @include breakpoint-up(md) {
@@ -524,7 +586,7 @@ export default {
     }
 
     &.container {
-      background: $white;
+      // background: $white;
       display: flex;
       gap: 2.5rem;
       flex-direction: column;
@@ -707,6 +769,10 @@ form {
     background-color: $color-error-bg;
     color: $color-error;
     border: 1px solid $color-error-border;
+  }
+
+  .btn {
+    width: fit-content;
   }
 }
 
