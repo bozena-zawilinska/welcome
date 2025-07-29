@@ -13,37 +13,6 @@
   @include breakpoint-up(lg) {
     padding: 3rem;
   }
-
-  // Soft background accent (like your homepage purple corner)
-  //   &::before {
-  //     content: '';
-  //     position: absolute;
-  //     top: 0;
-  //     left: 0;
-  //     width: 400px;
-  //     height: 400px;
-  //     background: $gradient-purple;
-  //     border-radius: 50%;
-  //     filter: blur(100px);
-  //     opacity: 0.3;
-  //     z-index: -1;
-  //     pointer-events: none;
-  //   }
-
-  //   &::after {
-  //     content: '';
-  //     position: absolute;
-  //     bottom: 0;
-  //     right: 0;
-  //     width: 300px;
-  //     height: 300px;
-  //     background: $gradient-coral;
-  //     border-radius: 50%;
-  //     filter: blur(80px);
-  //     opacity: 0.2;
-  //     z-index: -1;
-  //     pointer-events: none;
-  //   }
 }
 
 // Light Theme Container
@@ -453,7 +422,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  //   padding: 1rem 0;
+  // padding: 1rem 0;
+  // position: absolute;
 
   .skill-badge {
     display: inline-block;
@@ -511,12 +481,12 @@
 
     // Content wrapper for proper animation
     .details__content {
-      padding-top: 1rem;
-      padding-bottom: 1.5rem; // Add bottom padding to create space before card__actions
+      // padding-top: 1rem;
+      // padding-bottom: 1.5rem; // Add bottom padding to create space before card__actions
 
       // Add spacing between text paragraphs
       .details__text {
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
         line-height: 1.6;
 
         &:last-of-type {
@@ -582,11 +552,11 @@
   .featured-card {
     .card__details {
       .details__content {
-        padding-bottom: 1rem; // Reduced bottom padding on mobile
+        // padding-bottom: 1rem; // Reduced bottom padding on mobile
 
         // Adjust spacing on smaller screens
         .details__text {
-          margin-bottom: 1rem;
+          margin-bottom: 0.5rem;
 
           &:last-of-type {
             margin-bottom: 1.75rem; // Increased space before image on mobile
@@ -694,5 +664,26 @@
     &:hover .scroll-text {
       display: none; // Ensure text stays hidden on mobile
     }
+  }
+}
+
+.card__divider {
+  height: 2px;
+  background: linear-gradient(
+    135deg,
+    $shadow-light 100%,
+    $shadow-strong 0%,
+    $shadow-light 100%
+  );
+  // background: linear-gradient(to right, #ddd, #aaa, #ddd);
+  margin: 1rem 0;
+  border: none;
+  opacity: 0;
+  transform: scaleX(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+
+  .is-expanded & {
+    opacity: 1;
+    transform: scaleX(1);
   }
 }

@@ -9,7 +9,15 @@
     </div>
 
     <div class="container">
-      <h1 class="animated-heading">About Me</h1>
+      <TypingAnimation
+        id="about-heading"
+        class="header animated-heading text--flex-center"
+        text="About Me"
+        :speed="80"
+        wrapperElement="h1"
+        customCursorClass="heading"
+        @typingFinished="onFirstAnimationFinished"
+      />
 
       <!-- Developer Introduction -->
       <section class="about__intro" aria-labelledby="intro-heading">
@@ -228,6 +236,7 @@ import BackgroundShades from '@/components/BackgroundShades.vue'
 import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
 import BaseButton from '@/components/Button.vue'
 import CallToAction from '@/components/CallToAction.vue'
+import TypingAnimation from '@/components/TypingAnimation.vue'
 
 export default {
   name: 'AboutPage',
@@ -244,6 +253,7 @@ export default {
     ScrollToTopButton,
     BaseButton,
     CallToAction,
+    TypingAnimation,
   },
   data() {
     return {
@@ -463,6 +473,13 @@ export default {
       margin-bottom: 2rem;
     }
   }
+
+  // .animated-heading {
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   text-align: center;
+  // }
 
   // Intro section specific styling
   .about__intro {

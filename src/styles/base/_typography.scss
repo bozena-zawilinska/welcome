@@ -180,3 +180,10 @@ ul.no-markers {
     gap: $spacing-sm;
   }
 }
+
+.text--flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}

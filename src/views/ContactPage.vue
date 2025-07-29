@@ -18,7 +18,15 @@
       </div> -->
       <div class="col col--right container">
         <div class="group-text">
-          <h1>Let's work together!</h1>
+          <TypingAnimation
+            id="my-work-heading"
+            class="header animated-heading text--flex-center"
+            text="Let's work together!"
+            :speed="80"
+            wrapperElement="h1"
+            customCursorClass="heading"
+            @typingFinished="onFirstAnimationFinished"
+          />
           <p>
             Have an exciting project or idea? Let’s collaborate to create
             something amazing! I’m always open to discussing new opportunities
@@ -200,8 +208,10 @@
           </div>
         </form>
         <div class="group-connect">
-          <h2>Connect with me!</h2>
-          <p>Let's stay in touch and collaborate on exciting projects!</p>
+          <h2 class="group-heading">Connect with me!</h2>
+          <p class="group-text">
+            Let's stay in touch and collaborate on exciting projects!
+          </p>
 
           <div class="social-links">
             <a
@@ -297,6 +307,7 @@ import { EnvelopeIcon } from '@heroicons/vue/24/outline'
 import BaseButton from '@/components/Button.vue'
 import BackgroundShades from '@/components/BackgroundShades.vue'
 import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
+import TypingAnimation from '@/components/TypingAnimation.vue'
 
 export default {
   name: 'ContactPage',
@@ -324,6 +335,7 @@ export default {
     BaseButton,
     BackgroundShades,
     ScrollToTopButton,
+    TypingAnimation,
   },
   data() {
     return {
@@ -472,8 +484,6 @@ export default {
           templateParams,
           PUBLIC_KEY
         )
-
-        console.log('Email sent successfully!')
         return response
       } catch (error) {
         console.error('EmailJS error:', error)
@@ -507,7 +517,6 @@ export default {
         subject
       )}&body=${encodeURIComponent(body)}`
 
-      console.log('Trying to open mail client...')
       window.location.href = mailtoUrl
 
       // Prevent fallback from showing multiple times
@@ -599,12 +608,29 @@ export default {
   }
 
   .group-connect {
-    h2 {
-      margin-bottom: 0.5rem;
+    flex: 2;
+
+    .group-heading {
+      color: $text-primary;
+      font-size: $font-size-h3;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+
+      @include breakpoint-down(md) {
+        font-size: $font-size-h3-mobile;
+      }
     }
 
-    p {
-      margin-bottom: 1.5rem;
+    .group-text {
+      color: $text-secondary;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      font-size: $font-size-base;
+
+      strong {
+        @include light-text-gradient;
+        font-weight: 600;
+      }
     }
   }
 
