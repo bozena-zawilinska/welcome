@@ -1,12 +1,7 @@
 <template>
   <div class="page page--work">
     <!-- Progress bar -->
-    <div class="progress-bar">
-      <div
-        class="progress-bar__fill"
-        :style="{ width: scrollProgress + '%' }"
-      ></div>
-    </div>
+    <ProgressBar :progress="scrollProgress" />
 
     <div class="container">
       <TypingAnimation
@@ -359,6 +354,7 @@ import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
 import BaseButton from '@/components/Button.vue'
 import CallToAction from '@/components/CallToAction.vue'
 import TypingAnimation from '@/components/TypingAnimation.vue'
+import ProgressBar from '@/components/ProgressBar.vue'
 
 export default {
   name: 'WorkPage',
@@ -367,6 +363,7 @@ export default {
     BaseButton,
     CallToAction,
     TypingAnimation,
+    ProgressBar,
   },
   metaInfo() {
     return {
@@ -1428,7 +1425,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: z(modal);
   padding: 2rem;
   animation: modalFadeIn 0.3s ease-out;
 
@@ -1468,7 +1465,7 @@ export default {
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  z-index: 10;
+  z-index: z(content);
 
   svg {
     width: 1.25rem;

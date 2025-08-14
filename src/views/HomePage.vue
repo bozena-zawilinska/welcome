@@ -1,9 +1,10 @@
 <template>
   <div class="home">
+    <ProgressBar :progress="scrollProgress" />
     <!-- Full-screen Hero Section -->
     <section
       id="hello"
-      class="section--welcome"
+      class="section section--welcome"
       aria-labelledby="welcome-heading"
     >
       <div class="hero-container">
@@ -209,6 +210,7 @@ import TypingAnimation from '@/components/TypingAnimation.vue'
 import GutenbergVideo from '@/components/GutenbergVideo.vue'
 import BaseButton from '@/components/Button.vue'
 import BackgroundShades from '@/components/BackgroundShades.vue'
+import ProgressBar from '@/components/ProgressBar.vue'
 import { ArrowRightIcon, EnvelopeIcon } from '@heroicons/vue/24/outline'
 
 export default {
@@ -218,11 +220,13 @@ export default {
     GutenbergVideo,
     BaseButton,
     BackgroundShades,
+    ProgressBar,
   },
   data() {
     return {
       secondAnimationDelay: 0,
       isScrolled: false,
+      scrollProgress: 0,
       ArrowRightIcon, // Make icons available in template
       EnvelopeIcon,
     }
@@ -231,6 +235,7 @@ export default {
     document.documentElement.style.scrollBehavior = 'smooth'
     this.initScrollListener()
     this.initFloatingAnimations()
+    window.addEventListener('scroll', this.handleScroll)
   },
   beforeUnmount() {
     window.removeEventListener('scroll', this.handleScroll)
@@ -248,6 +253,12 @@ export default {
     },
 
     handleScroll() {
+      const scrollTop = window.pageYOffset
+      const documentHeight =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight
+      this.scrollProgress = (scrollTop / documentHeight) * 100
+
       this.isScrolled = window.scrollY > 50
     },
 
@@ -278,6 +289,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '@/styles/index.scss';
+@import '@/styles/components/section-welcome.scss';
 
 // Global override for homepage to ensure full width
 :global(#app) {
@@ -299,231 +311,6 @@ export default {
   &.page {
     padding: 0 !important;
     margin: 0 !important;
-  }
-}
-
-// Hero Section - Full viewport
-.section--welcome {
-  height: 100vh;
-  min-height: 600px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  background: $background-primary;
-
-  // Hero Container
-  .hero-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    z-index: 2;
-    padding: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-
-  // Main Hero Content
-  .hero-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    gap: 2rem;
-    flex: 1;
-
-    @include breakpoint-up(lg) {
-      flex-direction: row;
-      text-align: left;
-      gap: 4rem;
-      max-width: 1200px;
-    }
-
-    // Avatar Image
-    .hero-image {
-      order: 1;
-
-      @include breakpoint-up(lg) {
-        order: 2;
-        flex: 0 0 auto;
-      }
-
-      img {
-        width: 280px;
-        height: 280px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 4px solid rgba(255, 255, 255, 0.8);
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-
-        @include breakpoint-up(md) {
-          width: 350px;
-          height: 350px;
-        }
-
-        @include breakpoint-up(lg) {
-          width: 400px;
-          height: 400px;
-        }
-
-        &:hover {
-          transform: scale(1.05) rotate(2deg);
-          box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
-        }
-      }
-    }
-
-    // Text Content
-    .hero-text {
-      order: 2;
-      max-width: 600px;
-
-      @include breakpoint-up(lg) {
-        order: 1;
-        flex: 1;
-      }
-
-      .animated-heading {
-        font-size: clamp(2.5rem, 8vw, 4rem);
-        margin-bottom: 1.5rem;
-        line-height: 1.1;
-
-        @include breakpoint-up(lg) {
-          text-align: left;
-        }
-      }
-
-      .hero-subtitle {
-        font-size: clamp(1.1rem, 2.5vw, 1.25rem);
-        color: $text-secondary;
-        line-height: 1.6;
-        margin-bottom: 2.5rem;
-        opacity: 0;
-        animation: fadeInUp 0.6s ease-out 0.8s forwards;
-
-        strong {
-          @include light-text-gradient;
-          font-weight: 600;
-        }
-      }
-
-      // CTA Buttons
-      .hero-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-
-        @include breakpoint-up(sm) {
-          flex-direction: row;
-          gap: 1.5rem;
-        }
-
-        @include breakpoint-up(lg) {
-          justify-content: flex-start;
-        }
-
-        &.is-visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-    }
-  }
-
-  // Scroll Indicator
-  .scroll-indicator {
-    position: absolute;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 3;
-
-    .scroll-arrow {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-      color: $text-secondary;
-      transition: all 0.3s ease;
-      padding: 1rem;
-
-      &:hover {
-        color: $interactive-primary;
-        transform: translateY(-4px);
-      }
-
-      .scroll-text {
-        font-size: 0.875rem;
-        font-weight: 500;
-        opacity: 0.8;
-      }
-
-      .scroll-icon {
-        width: 1.5rem;
-        height: 1.5rem;
-        animation: bounce 2s infinite;
-      }
-    }
-  }
-
-  // Floating Elements
-  .floating-elements {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
-
-    .floating-shape {
-      position: absolute;
-      border-radius: 50%;
-      background: linear-gradient(
-        135deg,
-        rgba($interactive-primary, 0.1),
-        rgba($primary-purple, 0.05)
-      );
-      backdrop-filter: blur(10px);
-
-      &--1 {
-        width: 120px;
-        height: 120px;
-        top: 15%;
-        left: 10%;
-        animation: float 6s ease-in-out infinite;
-      }
-
-      &--2 {
-        width: 80px;
-        height: 80px;
-        top: 60%;
-        right: 15%;
-        animation: float 8s ease-in-out infinite reverse;
-      }
-
-      &--3 {
-        width: 60px;
-        height: 60px;
-        bottom: 20%;
-        left: 20%;
-        animation: float 10s ease-in-out infinite;
-      }
-    }
   }
 }
 

@@ -79,6 +79,87 @@ export default {
 <style lang="scss" scoped>
 @import '@/styles/index.scss';
 
+.scroll-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: auto;
+  min-width: 50px;
+  height: 50px;
+  padding: 0 1rem;
+  background: $gradient-hero;
+  color: $text-inverse;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  z-index: z(scroll-to-top);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba($text-primary, 0.15);
+  backdrop-filter: blur(20px);
+
+  // Accessibility improvements
+  &:focus {
+    outline: 2px solid $text-inverse;
+    outline-offset: 2px;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $text-inverse;
+    outline-offset: 2px;
+  }
+
+  .scroll-icon {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2.5;
+    flex-shrink: 0;
+    color: $text-inverse;
+  }
+
+  .scroll-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: $text-inverse;
+    white-space: nowrap;
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 20px rgba($text-primary, 0.25);
+    filter: brightness(1.05);
+
+    .scroll-text {
+      opacity: 1;
+      width: auto;
+      margin-left: 0.25rem;
+    }
+  }
+
+  &:active {
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  // Animation for appearance
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  &.hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+  }
+}
+
 // Screen reader only text
 .sr-only {
   position: absolute;

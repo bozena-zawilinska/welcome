@@ -1,12 +1,6 @@
 <template>
   <section class="page page--contact">
-    <!-- Progress bar -->
-    <div class="progress-bar">
-      <div
-        class="progress-bar__fill"
-        :style="{ width: scrollProgress + '%' }"
-      ></div>
-    </div>
+    <ProgressBar :progress="scrollProgress" />
     <div class="row">
       <!-- <div class="col col--left">
         <img
@@ -308,6 +302,7 @@ import BaseButton from '@/components/Button.vue'
 import BackgroundShades from '@/components/BackgroundShades.vue'
 import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
 import TypingAnimation from '@/components/TypingAnimation.vue'
+import ProgressBar from '@/components/ProgressBar.vue'
 
 export default {
   name: 'ContactPage',
@@ -336,6 +331,7 @@ export default {
     BackgroundShades,
     ScrollToTopButton,
     TypingAnimation,
+    ProgressBar,
   },
   data() {
     return {

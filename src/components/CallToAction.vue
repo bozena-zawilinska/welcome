@@ -146,7 +146,7 @@ export default {
 
   .cta-content {
     position: relative;
-    z-index: 3;
+    z-index: 2;
     max-width: 600px;
     margin: 0 auto;
 

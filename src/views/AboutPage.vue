@@ -1,214 +1,210 @@
 <template>
   <div class="page page--about">
-    <!-- Progress bar -->
-    <div class="progress-bar">
-      <div
-        class="progress-bar__fill"
-        :style="{ width: scrollProgress + '%' }"
-      ></div>
-    </div>
+    <ProgressBar :progress="scrollProgress" />
 
-    <div class="container">
-      <TypingAnimation
-        id="about-heading"
-        class="header animated-heading text--flex-center"
-        text="About Me"
-        :speed="80"
-        wrapperElement="h1"
-        customCursorClass="heading"
-        @typingFinished="onFirstAnimationFinished"
-      />
+    <!-- <div class="container"> -->
+    <TypingAnimation
+      id="about-heading"
+      class="header animated-heading text--flex-center"
+      text="About Me"
+      :speed="80"
+      wrapperElement="h1"
+      customCursorClass="heading"
+      @typingFinished="onFirstAnimationFinished"
+    />
 
-      <!-- Developer Introduction -->
-      <section class="about__intro" aria-labelledby="intro-heading">
-        <div class="profile-image">
-          <img
-            src="@/assets/avatar-bz-2.png"
-            alt="Bozena's profile picture"
-            width="300"
-            height="300"
-          />
-        </div>
+    <!-- Developer Introduction -->
+    <section
+      id="about-intro"
+      class="about__intro"
+      aria-labelledby="intro-heading"
+    >
+      <div class="profile-image">
+        <img
+          src="@/assets/avatar-bz-2.png"
+          alt="Bozena's profile picture"
+          width="300"
+          height="300"
+        />
+      </div>
 
-        <div class="intro-content">
-          <h2 id="intro-heading" class="intro-heading">
-            The Person Behind the Code
-          </h2>
-          <p class="intro-text">
-            I believe in the power of curiosity and the thrill of creating
-            something out of nothing. Web development is my playground where
-            creativity meets problem-solving. Every day, I strive to build
-            meaningful and accessible digital experiences.
-          </p>
-          <p class="intro-text">
-            Over the years, I've refined my skills in front-end development,
-            WordPress, and performance optimisation. My mission is to deliver
-            inclusive, fast, and impactful web solutions that make a real
-            difference in people's lives.
-          </p>
-        </div>
-      </section>
+      <div class="intro-content">
+        <h2 id="intro-heading" class="intro-heading">
+          The Person Behind the Code
+        </h2>
+        <p class="intro-text">
+          I believe in the power of curiosity and the thrill of creating
+          something out of nothing. Web development is my playground where
+          creativity meets problem-solving. Every day, I strive to build
+          meaningful and accessible digital experiences.
+        </p>
+        <p class="intro-text">
+          Over the years, I've refined my skills in front-end development,
+          WordPress, and performance optimisation. My mission is to deliver
+          inclusive, fast, and impactful web solutions that make a real
+          difference in people's lives.
+        </p>
+      </div>
+    </section>
 
-      <!-- Interactive Cards Section -->
-      <section class="about__cards" aria-labelledby="skills-heading">
-        <h2 id="skills-heading" class="section-title">What Drives Me</h2>
-        <div class="cards-grid">
-          <div
-            v-for="card in aboutCards"
-            :key="card.id"
-            :data-card-id="card.id"
-            class="card about-card"
-            :class="`about-card--${card.type}`"
-            @click="openCardModal(card)"
-            @mouseenter="card.isHovered = true"
-            @mouseleave="card.isHovered = false"
-            @keydown.enter="openCardModal(card)"
-            @keydown.space.prevent="openCardModal(card)"
-            tabindex="0"
-            role="button"
-            :aria-label="`${card.title} - Click to view details`"
-          >
-            <div class="card__header">
-              <div class="card__icon">
-                <component :is="card.icon" class="hero-icon hero-icon--large" />
-              </div>
-              <h3 class="card__title">{{ card.title }}</h3>
-            </div>
-
-            <div class="card__preview">
-              <p class="card__preview-text">
-                {{ card.description.substring(0, 60) }}...
-              </p>
-              <div class="card__expand-hint">
-                <span>Click to explore</span>
-                <svg
-                  class="expand-icon"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Card Modal Overlay -->
+    <!-- Interactive Cards Section -->
+    <section class="about__cards" aria-labelledby="skills-heading">
+      <h2 id="skills-heading" class="section-title">What Drives Me</h2>
+      <div class="cards-grid">
         <div
-          v-if="selectedCard"
-          class="card-modal-overlay"
-          @click="closeCardModal"
-          @keydown.escape="closeCardModal"
+          v-for="card in aboutCards"
+          :key="card.id"
+          :data-card-id="card.id"
+          class="card about-card"
+          :class="`about-card--${card.type}`"
+          @click="openCardModal(card)"
+          @mouseenter="card.isHovered = true"
+          @mouseleave="card.isHovered = false"
+          @keydown.enter="openCardModal(card)"
+          @keydown.space.prevent="openCardModal(card)"
           tabindex="0"
-          role="dialog"
-          aria-modal="true"
-          :aria-labelledby="`modal-title-${selectedCard.id}`"
+          role="button"
+          :aria-label="`${card.title} - Click to view details`"
         >
-          <div class="card-modal" @click.stop>
-            <button
-              class="modal__close"
-              @click="closeCardModal"
-              aria-label="Close modal"
-            >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <div class="card__header">
+            <div class="card__icon">
+              <component :is="card.icon" class="hero-icon hero-icon--large" />
+            </div>
+            <h3 class="card__title">{{ card.title }}</h3>
+          </div>
+
+          <div class="card__preview">
+            <p class="card__preview-text">
+              {{ card.description.substring(0, 60) }}...
+            </p>
+            <div class="card__expand-hint">
+              <span>Click to explore</span>
+              <svg
+                class="expand-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M6 18L18 6M6 6l12 12"
+                  d="M9 5l7 7-7 7"
                 />
               </svg>
-            </button>
-
-            <div class="modal__content">
-              <div class="modal__header">
-                <div class="modal__icon">
-                  <component
-                    :is="selectedCard.icon"
-                    class="hero-icon hero-icon--xl"
-                  />
-                </div>
-                <h3 :id="`modal-title-${selectedCard.id}`" class="modal__title">
-                  {{ selectedCard.title }}
-                </h3>
-              </div>
-
-              <div class="modal__body">
-                <p class="modal__description">
-                  {{ selectedCard.description }}
-                </p>
-
-                <div class="modal__fun-fact">
-                  <div class="fun-fact__icon">✨</div>
-                  <div class="fun-fact__content">
-                    <span class="fun-fact__label">Fun fact:</span>
-                    <span class="fun-fact__text">{{
-                      selectedCard.funFact
-                    }}</span>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      <!-- Personal Touch Section -->
-      <section class="about__personal" aria-labelledby="personal-heading">
-        <h2 id="personal-heading" class="section-title">
-          When I'm not coding...
-        </h2>
-        <div class="personal__grid">
-          <div
-            class="personal__item"
-            v-for="(item, index) in personalItems"
-            :key="index"
-          >
-            <div class="personal__emoji">{{ item.emoji }}</div>
-            <div class="personal__content">
-              <h4>{{ item.title }}</h4>
-              <p>{{ item.description }}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Call to Action -->
-      <CallToAction
-        heading="Ready to create something amazing together?"
-        text="Let's build digital experiences that make a difference. Whether it's a new project or optimizing what you have, I'm here to help bring your vision to life."
-        support-text="Over 5 years of experience building accessible, user-focused digital solutions"
+      <!-- Card Modal Overlay -->
+      <div
+        v-if="selectedCard"
+        class="card-modal-overlay"
+        @click="closeCardModal"
+        @keydown.escape="closeCardModal"
+        tabindex="0"
+        role="dialog"
+        aria-modal="true"
+        :aria-labelledby="`modal-title-${selectedCard.id}`"
       >
-        <template #actions>
-          <BaseButton
-            variant="primary"
-            size="large"
-            to="/work"
-            :icon-right="ArrowRightIcon"
-            aria-label="View my portfolio work"
-            class="cta-button"
+        <div class="card-modal" @click.stop>
+          <button
+            class="modal__close"
+            @click="closeCardModal"
+            aria-label="Close modal"
           >
-            View My Work
-          </BaseButton>
-          <BaseButton
-            variant="secondary"
-            size="large"
-            to="/contact"
-            :icon-right="EnvelopeIcon"
-            aria-label="Get in touch with me"
-            class="cta-button"
-          >
-            Get In Touch
-          </BaseButton>
-        </template>
-      </CallToAction>
-    </div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+
+          <div class="modal__content">
+            <div class="modal__header">
+              <div class="modal__icon">
+                <component
+                  :is="selectedCard.icon"
+                  class="hero-icon hero-icon--xl"
+                />
+              </div>
+              <h3 :id="`modal-title-${selectedCard.id}`" class="modal__title">
+                {{ selectedCard.title }}
+              </h3>
+            </div>
+
+            <div class="modal__body">
+              <p class="modal__description">
+                {{ selectedCard.description }}
+              </p>
+
+              <div class="modal__fun-fact">
+                <div class="fun-fact__icon">✨</div>
+                <div class="fun-fact__content">
+                  <span class="fun-fact__label">Fun fact:</span>
+                  <span class="fun-fact__text">{{ selectedCard.funFact }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Personal Touch Section -->
+    <section class="about__personal" aria-labelledby="personal-heading">
+      <h2 id="personal-heading" class="section-title">
+        When I'm not coding...
+      </h2>
+      <div class="personal__grid">
+        <div
+          class="personal__item"
+          v-for="(item, index) in personalItems"
+          :key="index"
+        >
+          <div class="personal__emoji">{{ item.emoji }}</div>
+          <div class="personal__content">
+            <h4>{{ item.title }}</h4>
+            <p>{{ item.description }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <CallToAction
+      heading="Ready to create something amazing together?"
+      text="Let's build digital experiences that make a difference. Whether it's a new project or optimizing what you have, I'm here to help bring your vision to life."
+      support-text="Over 5 years of experience building accessible, user-focused digital solutions"
+    >
+      <template #actions>
+        <BaseButton
+          variant="primary"
+          size="large"
+          to="/work"
+          :icon-right="ArrowRightIcon"
+          aria-label="View my portfolio work"
+          class="cta-button"
+        >
+          View My Work
+        </BaseButton>
+        <BaseButton
+          variant="secondary"
+          size="large"
+          to="/contact"
+          :icon-right="EnvelopeIcon"
+          aria-label="Get in touch with me"
+          class="cta-button"
+        >
+          Get In Touch
+        </BaseButton>
+      </template>
+    </CallToAction>
+    <!-- </div> -->
 
     <!-- Background shades for visual interest -->
     <BackgroundShades
@@ -237,6 +233,7 @@ import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
 import BaseButton from '@/components/Button.vue'
 import CallToAction from '@/components/CallToAction.vue'
 import TypingAnimation from '@/components/TypingAnimation.vue'
+import ProgressBar from '@/components/ProgressBar.vue'
 
 export default {
   name: 'AboutPage',
@@ -254,6 +251,7 @@ export default {
     BaseButton,
     CallToAction,
     TypingAnimation,
+    ProgressBar,
   },
   data() {
     return {
@@ -462,6 +460,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/styles/index.scss';
+@import '@/styles/components/section-welcome.scss';
 
 // Light theme specific styles for about page
 .page--about {
@@ -735,7 +734,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: z(modal);
     padding: 2rem;
     animation: modalFadeIn 0.3s ease-out;
 
@@ -775,7 +774,7 @@ export default {
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    z-index: 10;
+    z-index: z(content);
 
     svg {
       width: 1.25rem;

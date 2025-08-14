@@ -34,7 +34,7 @@
         </li>
       </ul>
       <a class="button button--toggle" @click="toggleNav">
-        <ChevronDoubleLeftIcon
+        <ChevronDoubleRightIcon
           v-if="isCollapsed"
           class="toggle-icon"
           v-tooltip.auto="'Use [ to expand'"
@@ -62,7 +62,6 @@ import {
   UserIcon,
   PaintBrushIcon,
   EnvelopeIcon,
-  ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
   XMarkIcon,
   Bars3Icon,
@@ -74,14 +73,18 @@ export default {
     UserIcon,
     PaintBrushIcon,
     EnvelopeIcon,
-    ChevronDoubleLeftIcon,
     ChevronDoubleRightIcon,
     XMarkIcon,
     Bars3Icon,
   },
+  props: {
+    isCollapsed: {
+      type: Boolean,
+      required: true,
+    },
+  },
   data() {
     return {
-      isCollapsed: true, // controls nav state
       isMobile: false, // tracks if the device is mobile
       hoverItem: null, // tracks hovered item
       menuItems: [
@@ -108,7 +111,7 @@ export default {
       }
     },
     toggleNav() {
-      this.isCollapsed = !this.isCollapsed
+      this.$emit('update:isCollapsed', !this.isCollapsed)
     },
     updateIsMobile() {
       // Updates the isMobile property based on the screen width
@@ -139,7 +142,7 @@ export default {
   top: 0;
   height: 24px;
   padding: 16px 0;
-  z-index: 1;
+  z-index: z(side-nav);
 }
 
 /* Hamburger Menu Button (Mobile Only) */
@@ -148,7 +151,7 @@ export default {
   position: absolute;
   top: 16px;
   right: 16px;
-  z-index: 20;
+  z-index: z(side-nav);
   background: none;
   border: none;
   font-size: 24px;
@@ -175,13 +178,12 @@ export default {
   background: $white;
   box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
   transition: width 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
-
   position: fixed;
-  right: 0;
+  left: 0;
   top: 0;
   height: 100vh;
   width: 100%;
-  z-index: 10;
+  z-index: z(side-nav);
 
   opacity: 1;
   visibility: visible;
@@ -324,7 +326,8 @@ export default {
 .side-nav {
   @include breakpoint-up(md) {
     display: flex;
-    width: 200px;
+    flex-shrink: 0; // don’t shrink the nav
+    width: 200px; // default width when expanded
 
     &.collapsed {
       width: 80px;
