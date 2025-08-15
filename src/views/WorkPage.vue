@@ -1,217 +1,457 @@
 <template>
   <div class="page page--work">
-    <h1 class="visually-hidden">My Work</h1>
-    <section class="work__intro" aria-labelledby="intro-heading">
-      <div class="work__image">
-        <img
-          src="@/assets/avatar-bz-3.png"
-          aria-hidden="true"
-          width="400"
-          height="400"
-        />
-        <div class="shadow" aria-hidden="true"></div>
-      </div>
-      <div class="container work__text-group">
-        <h2 id="intro-heading" class="work__heading">
-          What I Bring to the Table
-        </h2>
-        <p>
-          With over 3 years of expertise in Vue.js and 5+ years mastering
-          WordPress, I specialize in crafting customized templates and Gutenberg
-          blocks that meet the unique needs of each project. As the sole web
-          developer in my current role, I've taken full ownership of building,
-          and optimizing ProdPad website, achieving near-perfect PageSpeed
-          scores for both desktop and mobile.
-          <!-- I specialise in building interactive, accessible, and high-performing web applications.
-                    With an eye for detail and a passion for clean code, I transform designs into seamless
-                    user experiences that stand out. -->
-        </p>
-        <p>
-          With an eye for detail and a passion for clean code, I transform
-          designs into seamless user experiences that stand out.
-          <strong>My mission?</strong> To create digital solutions that are
-          fast, functional, and future-proof. Whether you’re looking for
-          seamless performance, inclusive design, or tailored web functionality,
-          I’m here to bring your vision to life.
-        </p>
-      </div>
-    </section>
-    <section class="work__resume" aria-labelledby="featured-projects">
-      <h2 id="featured-projects" class="work__heading">Featured Projects</h2>
-      <div class="resume-container" role="list">
-        <div
-          v-for="project in projects.slice(0, 4)"
-          :key="project.id"
-          class="container resume-card"
-        >
-          <header class="card__header">
-            <h3 class="card__title">{{ project.title }}</h3>
-            <img
-              class="card__logo"
-              :src="getProjectPath(project.logo)"
-              :alt="`${project.title} logo`"
-            />
-          </header>
-          <div class="group--text">
-            <h4 class="card__subtitle text--base">
-              {{ project.role }}
-            </h4>
-            <p class="card__summary" :class="{ hide: project.showDetails }">
-              {{ project.summary }}
-            </p>
-          </div>
-          <!-- <h1 class="animated-heading">About Me</h1> -->
+    <!-- Progress bar -->
+    <ProgressBar :progress="scrollProgress" />
 
-          <!-- Full Description -->
-          <div
-            class="card__details"
-            :class="{ show: project.showDetails }"
-            aria-expanded="true"
+    <div class="container">
+      <TypingAnimation
+        id="my-work-heading"
+        class="header animated-heading text--flex-center"
+        text="My Work"
+        :speed="80"
+        wrapperElement="h1"
+        customCursorClass="heading"
+        @typingFinished="onFirstAnimationFinished"
+      />
+
+      <!-- Developer Introduction -->
+      <section class="work__intro" aria-labelledby="intro-heading">
+        <div class="profile-image">
+          <img
+            src="@/assets/avatar-bz-3.png"
+            alt="Bozena's profile picture"
+            width="300"
+            height="300"
+          />
+        </div>
+
+        <div class="intro-content">
+          <h2 id="intro-heading" class="intro-heading">
+            What I Bring to the Table
+          </h2>
+          <p class="intro-text">
+            With over 3 years of expertise in Vue.js and 5+ years mastering
+            WordPress, I specialize in crafting customized templates and
+            Gutenberg blocks that meet the unique needs of each project. As the
+            sole web developer in my current role, I've taken full ownership of
+            building and optimizing ProdPad website, achieving near-perfect
+            PageSpeed scores for both desktop and mobile.
+          </p>
+          <p class="intro-text">
+            With an eye for detail and a passion for clean code, I transform
+            designs into seamless user experiences that stand out.
+            <strong>My mission?</strong> To create digital solutions that are
+            fast, functional, and future-proof. Whether you're looking for
+            seamless performance, inclusive design, or tailored web
+            functionality, I'm here to bring your vision to life.
+          </p>
+        </div>
+      </section>
+
+      <!-- Featured Projects -->
+      <section class="work__featured" aria-labelledby="featured-projects">
+        <h2 id="featured-projects" class="section-title">Featured Projects</h2>
+        <div class="featured-projects-grid">
+          <article
+            v-for="project in projects.slice(0, 4)"
+            :key="project.id"
+            :data-project-id="project.id"
+            class="card featured-card"
+            :class="{ 'is-expanded': project.showDetails }"
+            :aria-expanded="project.showDetails"
+            role="article"
           >
-            <p
-              v-for="(line, index) in project.description.split('\n')"
-              :key="index"
+            <header class="card__header">
+              <h3 class="card__title">{{ project.title }}</h3>
+              <img
+                class="card__logo"
+                :src="getProjectPath(project.logo)"
+                :alt="`${project.title} logo`"
+                loading="lazy"
+                width="60"
+                height="60"
+              />
+            </header>
+
+            <div class="card__content">
+              <h4 class="card__subtitle" role="text">{{ project.role }}</h4>
+              <p class="card__description">
+                {{ project.summary }}
+              </p>
+            </div>
+            <div
+              v-if="project.showDetails"
+              class="card__divider"
+              aria-hidden="true"
+            />
+            <!-- Expandable details with smooth transitions -->
+            <div
+              class="card__details"
+              :class="{ show: project.showDetails }"
+              :aria-expanded="project.showDetails"
+              :id="'project-details-' + project.id"
             >
-              {{ line }}
-            </p>
-            <div class="tablet-frame">
-              <div class="image-container">
-                <img
-                  class="project__image"
-                  :src="getProjectPath(project.images[0].src)"
-                  :alt="project.images[0].alt"
-                  width="500"
-                  height="281"
-                />
+              <div class="details__content">
+                <div class="details__text-content">
+                  <p
+                    v-for="(line, index) in project.description
+                      .trim()
+                      .split('\n')"
+                    :key="index"
+                    class="details__text"
+                  >
+                    {{ line }}
+                  </p>
+                </div>
+
+                <div
+                  class="image-showcase"
+                  v-if="project.images && project.images[0]"
+                >
+                  <img
+                    :src="getProjectPath(project.images[0].src)"
+                    :alt="project.images[0].alt"
+                    loading="lazy"
+                    width="400"
+                    height="300"
+                  />
+                </div>
+
+                <!-- Skills badges -->
+                <div
+                  class="skill-badges"
+                  v-if="project.skills"
+                  role="list"
+                  aria-label="Technologies used"
+                >
+                  <span
+                    v-for="skill in project.skills"
+                    :key="skill"
+                    class="skill-badge"
+                    role="listitem"
+                    @mouseenter="animateSkill"
+                    @focus="animateSkill"
+                    @keydown="handleSkillKeydown"
+                    tabindex="0"
+                    :aria-label="`Technology: ${skill}`"
+                  >
+                    {{ skill }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card__actions">
+              <BaseButton
+                variant="secondary"
+                @click="toggleDetails(project)"
+                :aria-expanded="project.showDetails"
+                :aria-controls="'project-details-' + project.id"
+                :aria-label="`${
+                  project.showDetails ? 'Hide' : 'Show'
+                } details for ${project.title}`"
+              >
+                <span class="button-text">{{
+                  project.showDetails ? 'Show less' : 'Show more'
+                }}</span>
+                <span
+                  class="button-icon"
+                  :class="{ rotated: project.showDetails }"
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <polyline points="6,9 12,15 18,9"></polyline>
+                  </svg>
+                </span>
+              </BaseButton>
+
+              <BaseButton
+                variant="primary"
+                :href="project.link"
+                target="_blank"
+                rel="noopener noreferrer"
+                :aria-label="`Visit ${project.title} website (opens in new tab)`"
+              >
+                View Live
+                <span class="external-link-icon" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="m7 17 10-10"></path>
+                    <path d="M17 7v10"></path>
+                    <path d="M7 7h10"></path>
+                  </svg>
+                </span>
+              </BaseButton>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Interactive Cards Section -->
+      <section class="project__cards" aria-labelledby="skills-heading">
+        <h2 id="skills-heading" class="section-title">Other Projects</h2>
+        <div class="cards-grid">
+          <div
+            v-for="card in projects.filter((p) => p.id >= 5 && p.id <= 10)"
+            :key="card.id"
+            :data-project-id="card.id"
+            class="card project-card"
+            :class="{ 'is-visible': card.isVisible }"
+            @click="openCardModal(card)"
+            @mouseenter="card.isHovered = true"
+            @mouseleave="card.isHovered = false"
+            @keydown.enter="openCardModal(card)"
+            @keydown.space.prevent="openCardModal(card)"
+            tabindex="0"
+            role="button"
+            :aria-label="`${card.title} - Click to view details`"
+          >
+            <div class="card__header">
+              <h3 class="card__title">{{ card.title }}</h3>
+            </div>
+
+            <div class="card__preview">
+              <p class="card__preview-text">
+                {{ card.description.substring(0, 60) }}...
+              </p>
+              <div class="card__expand-hint">
+                <span>Click to explore</span>
+                <svg
+                  class="expand-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
               </div>
             </div>
           </div>
-          <div class="group--buttons">
-            <button
-              class="link-underline"
-              @click.stop="toggleDetails(project)"
-              :aria-expanded="project.showDetails"
-              :aria-controls="'project-' + project.id"
-            >
-              {{ project.showDetails ? 'Show less' : 'Show more' }}
-              <ChevronUpIcon v-if="project.showDetails" class="hero-icon" />
-              <ChevronDownIcon v-else class="hero-icon" />
-            </button>
-
-            <button
-              class="button button--primary"
-              :href="project.link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span class="project__footer-text">View live </span>
-              <ArrowTopRightOnSquareIcon class="hero-icon" />
-            </button>
-          </div>
         </div>
-      </div>
-    </section>
 
-    <section class="work__portfolio">
-      <div class="shade shade--soft-red"></div>
-      <!-- Other Projects -->
-      <h2 class="work__heading">Other Projects</h2>
-      <div class="bento-grid bento-grid--100">
+        <!-- Card Modal Overlay -->
         <div
-          v-for="(project, index) in projects.slice(4)"
-          :key="project.id"
-          class="bento-item"
-          :class="{
-            'is-visible': project.isVisible,
-            'left-col': index % 2 === 0,
-            'right-col': index % 2 !== 0,
-          }"
-          :style="{ '--delay': Math.floor(index / 2) * 0.4 + 's' }"
-          ref="bentoItems"
+          v-if="selectedCard"
+          class="card-modal-overlay"
+          @click="closeCardModal"
+          @keydown.escape="closeCardModal"
+          tabindex="0"
+          role="dialog"
+          aria-modal="true"
+          :aria-labelledby="`modal-title-${selectedCard.id}`"
         >
-          <!-- Image Card with Overlay -->
-          <div class="bento__card image-container">
-            <img
-              class="project__image"
-              :src="getProjectPath(project.images[0].src)"
-              :alt="project.images[0].alt"
-            />
+          <div class="card-modal" @click.stop>
+            <button
+              class="modal__close"
+              @click="closeCardModal"
+              aria-label="Close modal"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
 
-            <!-- Overlay Description -->
-            <div class="overlay" :class="{ show: project.showDetails }">
-              <p
-                v-for="(line, index) in project.description.split('\n')"
-                :key="index"
-              >
-                {{ line }}
-              </p>
+            <div class="modal__content">
+              <div class="modal__header">
+                <img
+                  v-if="selectedCard.images && selectedCard.images[0]"
+                  :src="getProjectPath(selectedCard.images[0].src)"
+                  :alt="selectedCard.images[0].alt"
+                  class="modal__project-image"
+                  style="
+                    max-width: 100%;
+                    height: auto;
+                    margin-bottom: 2rem;
+                    border-radius: 12px;
+                  "
+                />
+                <h3 :id="`modal-title-${selectedCard.id}`" class="modal__title">
+                  {{ selectedCard.title }}
+                </h3>
+              </div>
+
+              <div class="modal__body">
+                <p class="modal__description">
+                  {{ selectedCard.description }}
+                </p>
+                <BaseButton
+                  v-if="selectedCard.link"
+                  variant="primary"
+                  :href="selectedCard.link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  :aria-label="`Visit ${selectedCard.title} website (opens in new tab)`"
+                  style="margin-top: 1.5rem"
+                >
+                  Visit Website
+                  <span
+                    class="external-link-icon"
+                    aria-hidden="true"
+                    style="margin-left: 0.5rem"
+                  >
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="m7 17 10-10"></path>
+                      <path d="M17 7v10"></path>
+                      <path d="M7 7h10"></path>
+                    </svg>
+                  </span>
+                </BaseButton>
+              </div>
             </div>
           </div>
-
-          <!-- Action Buttons -->
-          <div class="bento__actions">
-            <button
-              class="button button--secondary"
-              @click="showDetails(project.id)"
-            >
-              {{ project.showDetails ? 'Hide' : 'Show' }} Details
-            </button>
-            <button
-              class="button button--primary"
-              :href="project.link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Visit website
-              <ArrowTopRightOnSquareIcon class="hero-icon" />
-            </button>
-          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <footer class="work__footer">
-      <div class="group--text">
-        <h2 class="footer__heading">🌱 Let's bring your vision to life!</h2>
-        <p>
+      <!-- Call to Action -->
+      <CallToAction
+        support-text="Building accessible, performant websites that users love"
+      >
+        <template #heading>Let's bring your vision to life!</template>
+        <template #text>
           Whether you need a custom-built solution, a performance boost, or a
           more accessible website,
-          <a href="/contact" class="footer__contact-btn link-underline"
-            >I’m here to help.</a
-          >
-        </p>
-      </div>
-    </footer>
+          <a href="/contact" class="text-link">I'm here to help.</a>
+        </template>
+      </CallToAction>
+    </div>
+
+    <!-- Scroll to top button -->
+    <ScrollToTopButton :visible="showScrollButton" />
   </div>
 </template>
 
 <script>
-import {
-  ChevronUpIcon,
-  ChevronDownIcon,
-  ArrowTopRightOnSquareIcon,
-} from '@heroicons/vue/24/outline'
+import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
+import BaseButton from '@/components/Button.vue'
+import CallToAction from '@/components/CallToAction.vue'
+import TypingAnimation from '@/components/TypingAnimation.vue'
+import ProgressBar from '@/components/ProgressBar.vue'
 
 export default {
-  name: 'ProjectsShowcase',
+  name: 'WorkPage',
   components: {
-    ChevronUpIcon,
-    ChevronDownIcon,
-    ArrowTopRightOnSquareIcon,
+    ScrollToTopButton,
+    BaseButton,
+    CallToAction,
+    TypingAnimation,
+    ProgressBar,
+  },
+  metaInfo() {
+    return {
+      title:
+        'My Work - Bozena Zawilinska | Vue.js & WordPress Developer Portfolio',
+      meta: [
+        {
+          name: 'description',
+          content:
+            'Explore my portfolio featuring Vue.js applications, WordPress websites, and custom Gutenberg blocks. 5+ years of experience building accessible, high-performance web solutions.',
+        },
+        {
+          name: 'keywords',
+          content:
+            'Vue.js developer, WordPress developer, Gutenberg blocks, frontend development, web development portfolio, accessible websites, performance optimization',
+        },
+        {
+          property: 'og:title',
+          content: 'My Work - Bozena Zawilinska | Vue.js & WordPress Developer',
+        },
+        {
+          property: 'og:description',
+          content:
+            'Explore my portfolio featuring Vue.js applications, WordPress websites, and custom Gutenberg blocks. 5+ years of experience building accessible, high-performance web solutions.',
+        },
+        { property: 'og:type', content: 'website' },
+        { property: 'og:url', content: 'https://bozena-zawilinska.com/work' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+        {
+          name: 'twitter:title',
+          content: 'My Work - Bozena Zawilinska | Vue.js & WordPress Developer',
+        },
+        {
+          name: 'twitter:description',
+          content:
+            'Explore my portfolio featuring Vue.js applications, WordPress websites, and custom Gutenberg blocks.',
+        },
+      ],
+      link: [{ rel: 'canonical', href: 'https://bozena-zawilinska.com/work' }],
+      script: [
+        {
+          type: 'application/ld+json',
+          json: {
+            '@context': 'https://schema.org',
+            '@type': 'Portfolio',
+            name: "Bozena Zawilinska's Web Development Portfolio",
+            description:
+              'Portfolio showcasing Vue.js applications, WordPress websites, and custom Gutenberg blocks',
+            url: 'https://bozena-zawilinska.com/work',
+            author: {
+              '@type': 'Person',
+              name: 'Bozena Zawilinska',
+              jobTitle: 'Vue.js & WordPress Developer',
+              url: 'https://bozena-zawilinska.com',
+            },
+            workExample: this.projects.slice(0, 4).map((project) => ({
+              '@type': 'CreativeWork',
+              name: project.title,
+              description: project.summary,
+              url: project.link,
+              creator: {
+                '@type': 'Person',
+                name: 'Bozena Zawilinska',
+              },
+            })),
+          },
+        },
+      ],
+    }
   },
   data() {
     return {
+      imageLoaded: false,
+      showScrollButton: false,
+      scrollProgress: 0,
+      isToggling: false, // Prevent double-clicks
+      selectedCard: null, // For modal system
       projects: [
         {
           id: 1,
           title: 'ProdPad - SaaS Platform',
           logo: 'prodpad/logo.png',
           role: 'Frontend Developer',
-          summary: 'Short description of the project.',
+          summary:
+            'Improved UX and accessibility for a product management platform by building reusable Vue.js components, refining the payment flow, maintaining and debugging existing features, and creating documentation to support future development.',
           showDetails: false,
           description:
-            'As a Front-end Developer at ProdPad, I collaborated closely with the Product and Design teams to enhance UI/UX, develop new features and improve accessibility. My work focused on building reusable components, maintaining clean and well-documented code, and ensuring consistency using ESLint for formatting and best practices. I frequently interacted with backend APIs, handling data fetching for users and accounts to deliver seamless product experiences.',
-
+            'I worked closely with the Product and Design teams to make the ProdPad platform more intuitive, inclusive, and user-friendly. My main focus was building a library of reusable Vue.js components to speed up development and improve consistency across the app.\n\nI contributed to improving the payment and subscription flow in areas powered by Recurly, and supported the frontend for analytics and CRM features tied to tools like Segment, Mixpanel, PostHog, and HubSpot. While I didn’t build the integrations from scratch, I helped ensure the frontend worked smoothly with existing APIs and services.\n\nClean, accessible, and maintainable code was always my priority. I used ESLint for consistency, followed accessibility best practices, and proactively improved documentation. I led efforts to document our front-end components using JSDoc, and created and maintained clear, developer-friendly guides in our FE repo Wiki, making onboarding and handover easier for the whole team.\n\n',
           link: 'https://www.prodpad.com/sandbox/',
           skills: [
             'VUE 3',
@@ -237,19 +477,13 @@ export default {
           title: 'ProdPad - Marketing Website',
           logo: 'prodpad/logo.png',
           role: 'WordPress Developer',
-          summary: 'Short description of the project.',
+          summary:
+            'Developed 20+ custom Gutenberg blocks and optimized website performance, achieving 95+ PageSpeed scores while enabling flexible content management for marketing teams.',
           showDetails: false,
           description:
-            'As the sole Website Developer at ProdPad, I developed a library of 20+ custom Gutenberg blocks, enabling the Marketing team to build flexible and engaging pages with ease. The project prioritized SEO, performance, and accessibility to enhance user experience and search rankings. My work contributed to a modern, high-performing website aligned with brand and business goals.',
-
+            'As the sole website developer, I created a comprehensive library of over 20 custom Gutenberg blocks that completely transformed how our marketing team works. Instead of waiting for developer help, they can now build engaging, professional pages on their own.\n\nI integrated essential marketing tools like HubSpot for seamless form submissions and lead capture, LinkedIn advertising pixels for targeted campaigns, and Google Analytics for detailed performance insights. The best part? I managed to achieve 95+ PageSpeed scores on both desktop and mobile.\n\nSeeing the marketing team go from feeling limited to being completely autonomous in creating beautiful, high-performing pages was incredibly satisfying. They can now focus on strategy and creativity rather than technical constraints.',
           link: 'https://www.prodpad.com/',
-          skills: [
-            'PHP',
-            'HTML & SCSS',
-            'JavaScript',
-            'Webpack',
-            'WordPress (custom themes & blocks)',
-          ],
+          skills: ['PHP', 'HTML & SCSS', 'JavaScript', 'Webpack', 'WordPress'],
           tools: ['ACF PRO', 'BrowserStack', 'GitHub', 'Figma'],
           images: [
             {
@@ -267,25 +501,25 @@ export default {
           title: 'Passion4Social',
           logo: 'p4s/logo.png',
           role: 'Website Developer',
-          summary: 'Short description of the project.',
+          summary:
+            'Led full-stack WordPress development managing the complete project lifecycle from local development to deployment, delivering high-quality accessible websites for diverse clients.',
           showDetails: false,
           description:
-            'As Lead Web Developer at Passion4Social, I built high-quality, accessible WordPress websites, transforming designs into performant, client-ready sites. I managed the full development lifecycle, from setup on 20i hosting to local development with Local by Flywheel and final deployment. My role included site migrations, performance optimization, and maintaining high coding standards.',
-
+            'At Passion4Social, I worked closely with my manager and design team who would assign me projects with PDF designs that needed to be brought to life. Each project was unique, but my approach was always the same: study the design carefully, then transform it into clean, accessible code that matched the vision perfectly.\n\nUsing the Genesis Framework as my foundation, I converted creative PDF designs into fast, SEO-optimized websites that looked great on every device. I handled everything from setting up local development environments to managing deployments and ensuring each site met accessibility standards.\n\nWhat I loved most was the challenge of translating static designs into dynamic, functional websites. Whether it was a small local business or a larger organization, each successful launch felt like a win when the final result perfectly matched the original design vision.',
           link: 'https://passion4social.com/',
           skills: [
             'PHP',
             'HTML & CSS',
             'jQuery',
             'Responsive Design',
-            'Website deployment & maintenance',
+            'Website deployment',
           ],
           tools: [
             'WordPress',
             'Genesis Framework',
             'Local by Flywheel',
             'Beanstalk',
-            'FileZilla (SFTP)',
+            'FileZilla',
           ],
           images: [
             {
@@ -303,25 +537,25 @@ export default {
           title: 'Royal Hospital for Children and Young People',
           logo: 'nhs/logo.svg',
           role: 'Website Developer',
-          summary: 'Short description of the project.',
+          summary:
+            'Developed an accessible, user-friendly healthcare platform for NHS Lothian, featuring interactive guides and comprehensive resources for children, families, and healthcare professionals.',
           showDetails: false,
           description:
-            'I led the development of an accessible, user-friendly platform for NHS Lothian, designed to support children, young people, parents, carers, and healthcare professionals. The site features interactive guides to help children understand hospital procedures, along with practical resources like accommodation, financial assistance, and wellbeing support. I ensured a seamless, user-friendly experience, focusing on accessibility, responsiveness, and performance throughout the development lifecycle.',
-
+            'This project was especially meaningful to me - creating a digital space that could help reduce anxiety for children and families during hospital visits. I developed interactive guides that explain medical procedures in child-friendly language, complete with visual aids and reassuring explanations.\n\nThe site serves multiple audiences: children who need age-appropriate information, parents seeking detailed guidance, and healthcare professionals looking for resources. I made sure everything was fully accessible and followed WCAG guidelines, because healthcare information should be available to everyone.\n\nKnowing that this platform might help a scared child feel more prepared for their hospital visit, or give parents the information they need to support their family, made every line of code feel purposeful.',
           link: 'https://children.nhslothian.scot/',
           skills: [
             'PHP',
             'HTML & CSS',
             'jQuery',
             'Responsive Design',
-            'Website deployment & maintenance',
+            'WCAG Compliance',
           ],
           tools: [
             'WordPress',
             'Genesis Framework',
             'Local by Flywheel',
             'Beanstalk',
-            'FileZilla (SFTP)',
+            'FileZilla',
           ],
           images: [
             {
@@ -339,29 +573,22 @@ export default {
           title: 'Just Enterprise',
           logo: 'just-enterprise/logo.png',
           role: 'Website Developer',
-          summary: 'Short description of the project.',
           showDetails: false,
+          isHovered: false,
+          isVisible: false,
           description:
-            'Website for a Business Support for Social Enterprises in Scotland.',
+            "Provided ongoing website maintenance and performance optimization for Scotland's leading social enterprise support organization.",
           link: 'https://justenterprise.org/',
           skills: [
-            'Vue 3',
-            'TailwindCSS',
-            'WCAG Compliance',
+            'WordPress',
+            'PHP',
+            'HTML & CSS',
             'Performance Optimization',
-          ],
-          tools: [
-            'WordPress CMS',
-            'ACF PRO',
-            'VS Code',
-            'GitHub',
-            'Google PageSpeed',
-            '',
           ],
           images: [
             {
               src: 'just-enterprise/just-enterprise-website.png',
-              alt: 'ProdPad Dashboard',
+              alt: 'Just Enterprise Website',
             },
           ],
         },
@@ -370,29 +597,17 @@ export default {
           title: 'Cerebral Palsy Scotland',
           logo: 'cps/logo.svg',
           role: 'Website Developer',
-          summary: 'Short description of the project.',
           showDetails: false,
+          isHovered: false,
+          isVisible: false,
           description:
-            'Non-profit organization supporting people with cerebral palsy in building skills and confidence.',
+            'Maintained accessibility-compliant website for vital charity supporting individuals with cerebral palsy and their families.',
           link: 'https://cerebralpalsyscotland.org.uk/',
-          skills: [
-            'Vue 3',
-            'TailwindCSS',
-            'WCAG Compliance',
-            'Performance Optimization',
-          ],
-          tools: [
-            'WordPress CMS',
-            'ACF PRO',
-            'VS Code',
-            'GitHub',
-            'Google PageSpeed',
-            '',
-          ],
+          skills: ['WordPress', 'PHP', 'HTML & CSS', 'WCAG Compliance'],
           images: [
             {
               src: 'cps/cps-website.png',
-              alt: 'ProdPad Dashboard',
+              alt: 'Cerebral Palsy Scotland Website',
             },
           ],
         },
@@ -401,29 +616,17 @@ export default {
           title: 'Bytzari',
           logo: 'tzari/logo.svg',
           role: 'Website Developer',
-          summary: 'Short description of the project.',
           showDetails: false,
+          isHovered: false,
+          isVisible: false,
           description:
-            'E-commerce platform for sustainable, ethical, and purposeful bespoke clothing.',
+            'Built showcase website for sustainable clothing designer celebrating cultural diversity and challenging fashion industry norms.',
           link: 'https://bytzari.com/',
-          skills: [
-            'Vue 3',
-            'TailwindCSS',
-            'WCAG Compliance',
-            'Performance Optimization',
-          ],
-          tools: [
-            'WordPress CMS',
-            'ACF PRO',
-            'VS Code',
-            'GitHub',
-            'Google PageSpeed',
-            '',
-          ],
+          skills: ['WordPress', 'Responsive Design', 'PHP', 'Custom Styling'],
           images: [
             {
               src: 'tzari/tzari-website.png',
-              alt: 'ProdPad Dashboard',
+              alt: 'Bytzari Website',
             },
           ],
         },
@@ -432,29 +635,22 @@ export default {
           title: 'ABZ Works',
           logo: 'abz-works/logo.svg',
           role: 'Website Developer',
-          summary: 'Short description of the project.',
           showDetails: false,
+          isHovered: false,
+          isVisible: false,
           description:
-            "Website for Aberdeen City Council's employability team to support skills and training.",
+            'Developed comprehensive website with integrated ABotZ chatbot for intelligent user guidance and content discovery.',
           link: 'https://abzworks.co.uk/',
           skills: [
-            'Vue 3',
-            'TailwindCSS',
+            'WordPress',
+            'PHP',
+            'Chatbot Integration',
             'WCAG Compliance',
-            'Performance Optimization',
-          ],
-          tools: [
-            'WordPress CMS',
-            'ACF PRO',
-            'VS Code',
-            'GitHub',
-            'Google PageSpeed',
-            '',
           ],
           images: [
             {
               src: 'abz-works/abz-works-website.png',
-              alt: 'ProdPad Dashboard',
+              alt: 'ABZ Works Website',
             },
           ],
         },
@@ -463,29 +659,17 @@ export default {
           title: 'Environmental Key Fund',
           logo: 'ekf/logo.svg',
           role: 'Website Developer',
-          summary: 'Short description of the project.',
           showDetails: false,
+          isHovered: false,
+          isVisible: false,
           description:
-            'Grant platform for North Lanarkshire focused on environmental initiatives.',
+            'Created streamlined grant application platform for North Lanarkshire Council supporting local environmental projects.',
           link: 'https://environmentalkeyfund.com/',
-          skills: [
-            'Vue 3',
-            'TailwindCSS',
-            'WCAG Compliance',
-            'Performance Optimization',
-          ],
-          tools: [
-            'WordPress CMS',
-            'ACF PRO',
-            'VS Code',
-            'GitHub',
-            'Google PageSpeed',
-            '',
-          ],
+          skills: ['WordPress', 'Form Integration', 'Performance Optimization'],
           images: [
             {
               src: 'ekf/ekf-website.png',
-              alt: 'ProdPad Dashboard',
+              alt: 'Environmental Key Fund Website',
             },
           ],
         },
@@ -494,27 +678,13 @@ export default {
           title: 'Scottish Communities Finance',
           logo: 'scf/logo.svg',
           role: 'Website Developer',
-          summary: 'Short description of the project.',
           showDetails: false,
+          isHovered: false,
+          isVisible: false,
           description:
-            'Website enabling reinvestment into local Scottish communities.',
+            'Built community finance platform promoting accessible financial services and reinvestment in local Scottish communities.',
           link: 'https://scotcomfinance.scot/',
-          skills: [
-            'HTML',
-            'CSS',
-            'PHP',
-            'WordPress',
-            'Genesis Framework',
-            'ACF',
-          ],
-          tools: [
-            'WordPress CMS',
-            'ACF PRO',
-            'VS Code',
-            'GitHub',
-            'Google PageSpeed',
-            '',
-          ],
+          skills: ['WordPress', 'Financial Integration', 'Community Features'],
           images: [
             {
               src: 'scf/scf-website.png',
@@ -523,513 +693,851 @@ export default {
           ],
         },
       ],
-      skills: [
-        {
-          id: 1,
-          title: 'Industry Knowledge',
-          items: [
-            'Web Development (Front-end and WordPress)',
-            'Accessibility Best Practices (WCAG Compliance)',
-            'Performance Optimization (PageSpeed Insights, Lighthouse)',
-            'Responsive Web Design',
-          ],
-        },
-        {
-          id: 2,
-          title: 'Tools & Technologies',
-          items: [
-            'Programming: Vue 3, JavaScript (ES6+), HTML5, CSS3, SCSS',
-            'Frameworks & Libraries: TailwindCSS, Nuxt.js, Bootstrap',
-            'Content Management: WordPress, ACF Pro',
-            'Version Control: Git, GitHub, GitLab',
-            'Testing & Debugging: Chrome DevTools, Lighthouse',
-            'Performance Tools: PageSpeed Insights, WebPageTest',
-          ],
-        },
-        {
-          id: 3,
-          title: 'Interpersonal Skills',
-          items: [
-            'Independent Problem Solving',
-            'Collaboration and Communication',
-            'Time Management',
-            'Attention to Detail',
-          ],
-        },
-      ],
     }
   },
+
   mounted() {
-    this.observeBentoItems()
+    this.observeElements()
+    this.setupScrollListener()
   },
+
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.handleScroll)
+  },
+
   methods: {
+    setupScrollListener() {
+      window.addEventListener('scroll', this.handleScroll)
+    },
+
+    handleScroll() {
+      this.showScrollButton = window.pageYOffset > 300
+
+      // Calculate scroll progress
+      const scrollTop = window.pageYOffset
+      const documentHeight =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight
+      this.scrollProgress = (scrollTop / documentHeight) * 100
+    },
+
     getProjectPath(project) {
-      // console.log(project);
       return require(`@/assets/projects/${project}`)
     },
-    toggleDropdown(id) {
-      this.projects.forEach((project) => {
-        project.showDetails = project.id === id ? !project.showDetails : false
-      })
-    },
+
     toggleDetails(project) {
-      project.showDetails = !project.showDetails
-    },
-    showDetails(id) {
-      this.projects = this.projects.map((project) =>
-        project.id === id
-          ? { ...project, showDetails: !project.showDetails }
-          : project
-      )
-    },
-    observeBentoItems() {
-      const options = {
-        root: null,
-        threshold: 0.3, // Trigger when 30% of the item is visible
+      if (this.isToggling) {
+        return
       }
 
+      this.isToggling = true
+
+      // Store scroll position to minimize jumping
+      const currentScrollY = window.scrollY
+      const projectElement = this.$el.querySelector(
+        `[data-project-id="${project.id}"]`
+      )
+      const projectTop = projectElement?.offsetTop || 0
+
+      // Find the project in the array and update it properly for Vue reactivity
+      const projectIndex = this.projects.findIndex((p) => p.id === project.id)
+      if (projectIndex !== -1) {
+        const newState = !this.projects[projectIndex].showDetails
+
+        // Use Vue.set equivalent for Vue 3 - direct assignment with reactive array
+        this.projects[projectIndex] = {
+          ...this.projects[projectIndex],
+          showDetails: newState,
+        }
+
+        // Handle smooth expansion/collapse
+        this.$nextTick(() => {
+          if (projectElement) {
+            const detailsElement =
+              projectElement.querySelector('.card__details')
+
+            // If expanding and card is below viewport, scroll to keep it in view
+            if (newState && projectTop < currentScrollY) {
+              const offset = 100 // Add some breathing room
+              window.scrollTo({
+                top: Math.max(0, projectTop - offset),
+                behavior: 'smooth',
+              })
+            }
+
+            // Manage focus for accessibility
+            this.manageFocus(project.id, newState)
+          }
+
+          // Reset toggle lock after animation completes
+          setTimeout(() => {
+            this.isToggling = false
+          }, 500) // Match animation duration
+        })
+      } else {
+        this.isToggling = false
+      }
+    },
+
+    showDetails(id) {
+      if (this.isToggling) {
+        return
+      }
+
+      this.isToggling = true
+
+      // Find the project and toggle only its showDetails state
+      const projectIndex = this.projects.findIndex((p) => p.id === id)
+      if (projectIndex !== -1) {
+        const newState = !this.projects[projectIndex].showDetails
+
+        // Update only the specific project with proper reactivity
+        this.projects[projectIndex] = {
+          ...this.projects[projectIndex],
+          showDetails: newState,
+        }
+
+        // Debug: Check if the DOM classes are being applied
+        this.$nextTick(() => {
+          const projectElement = this.$el.querySelector(
+            `[data-project-id="${id}"]`
+          )
+          if (projectElement) {
+            const overlayElement =
+              projectElement.querySelector('.card__overlay')
+          }
+
+          // Reset toggle lock after animation completes
+          setTimeout(() => {
+            this.isToggling = false
+          }, 400) // Match overlay animation duration
+        })
+      } else {
+        this.isToggling = false
+      }
+    },
+
+    observeElements() {
+      const options = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1,
+      }
+
+      // const observer = new IntersectionObserver((entries) => {
+      //   entries.forEach((entry) => {
+      //     if (entry.isIntersecting) {
+      //       entry.target.classList.add('is-visible')
+      //     }
+      //   })
+      // }, options)
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible')
+            const id = Number(entry.target.dataset.projectId)
+            const idx = this.projects.findIndex((p) => p.id === id)
+            if (idx !== -1 && !this.projects[idx].isVisible) {
+              // Vue 3: direct assignment is reactive
+              this.projects[idx].isVisible = true
+              // or if you prefer Vue.set in Vue2:
+              // this.$set(this.projects[idx], 'isVisible', true)
+              observer.unobserve(entry.target)
+            }
           }
         })
       }, options)
 
       this.$nextTick(() => {
-        this.$refs.bentoItems.forEach((item) => {
-          observer.observe(item)
+        const featuredCards = this.$el.querySelectorAll('.featured-card')
+        featuredCards.forEach((card, index) => {
+          card.style.setProperty('--delay', `${index * 0.1}s`)
+          observer.observe(card)
+        })
+
+        const portfolioCards = this.$el.querySelectorAll('.portfolio-card')
+        portfolioCards.forEach((card, index) => {
+          card.style.setProperty('--delay', `${index * 0.1}s`)
+          observer.observe(card)
+        })
+
+        const projectCards = this.$el.querySelectorAll('.project-card')
+        projectCards.forEach((card, index) => {
+          card.style.setProperty('--delay', `${index * 0.1}s`)
+          observer.observe(card)
         })
       })
+    },
+
+    animateSkill(event) {
+      const badge = event.target
+      if (!badge) return
+
+      // Store original transform to avoid conflicts
+      const originalTransform = badge.style.transform
+
+      // Apply animation
+      badge.style.transform = 'scale(1.05) rotate(2deg)'
+
+      // Reset after animation
+      setTimeout(() => {
+        badge.style.transform = originalTransform || 'scale(1) rotate(0deg)'
+      }, 200)
+    },
+
+    // Add keyboard support for skill badges
+    handleSkillKeydown(event) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault()
+        this.animateSkill(event)
+      }
+    },
+
+    // Improve accessibility with focus management
+    manageFocus(projectId, expanding) {
+      this.$nextTick(() => {
+        if (expanding) {
+          // Focus on the first interactive element in the expanded content
+          const projectElement = this.$el.querySelector(
+            `[data-project-id="${projectId}"]`
+          )
+          const firstSkillBadge = projectElement?.querySelector('.skill-badge')
+          if (firstSkillBadge) {
+            firstSkillBadge.focus()
+          }
+        }
+      })
+    },
+
+    openCardModal(card) {
+      this.selectedCard = card
+      // Prevent body scroll when modal is open
+      document.body.style.overflow = 'hidden'
+
+      // Focus management for accessibility
+      this.$nextTick(() => {
+        const modal = this.$el.querySelector('.card-modal-overlay')
+        if (modal) modal.focus()
+      })
+    },
+
+    closeCardModal() {
+      this.selectedCard = null
+      // Restore body scroll
+      document.body.style.overflow = ''
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.work {
-  &__intro {
+@import '@/styles/index.scss';
+
+// Light theme specific styles for work page
+.page--work {
+  // Global section spacing
+  section {
+    margin-bottom: 3rem;
+
+    @include breakpoint-down(md) {
+      margin-bottom: 2rem;
+    }
+  }
+
+  // Intro section specific styling
+  .work__intro {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-    position: relative;
-    margin-bottom: 5rem;
+    gap: 2rem;
     flex-direction: column;
+
     @include breakpoint-up(lg) {
-      align-items: center;
       flex-direction: row;
     }
-  }
-  &__image {
-    flex: 1;
-    max-width: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-top: 160px;
-    @include breakpoint-up(lg) {
-      margin-top: 0;
-    }
 
-    img {
-      position: absolute;
-      margin-right: -1rem;
-      height: 400px;
-      width: auto;
-      filter: drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.3));
-      z-index: -1;
-      left: 10%;
-      @include breakpoint-up(lg) {
-        left: unset;
-        z-index: 1;
-      }
-    }
+    .intro-content {
+      flex: 2;
+      max-width: 600px;
 
-    .shadow {
-      position: absolute;
-      width: 160px;
-      height: 65px;
-      background: rgba(157, 157, 157, 0.5);
-      filter: blur(16px);
-      border-radius: 50%;
-      z-index: -1;
-      display: none;
-      @include breakpoint-up(lg) {
-        display: block;
-        bottom: -1vh;
-        left: 15%;
-      }
-      @include breakpoint-up(xl) {
-        bottom: -3vh;
-        // left: 5vw;
-      }
-    }
-  }
-  &__text-group {
-    flex: 2;
-    background: $red-background;
-    border-radius: 20px;
-    box-shadow: 5px 5px 20px rgba(#cbcdd3, 10%);
-    perspective: 40px;
-  }
-}
+      .intro-heading {
+        color: $text-primary;
+        font-size: $font-size-h3;
+        margin-bottom: 1.5rem;
+        font-weight: 600;
 
-.work__heading {
-  margin: $spacing-lg auto;
-}
-
-.bento-grid {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  grid-template-rows: repeat(1, 1fr);
-  gap: 3rem;
-  margin: 3rem 0;
-
-  /* Bento Grid Full width */
-  &--100 {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    @include breakpoint-up(md) {
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    }
-    @include breakpoint-up(xl) {
-      grid-template-columns: repeat(2, minmax(400px, 1fr));
-    }
-
-    /* Bento Item */
-    .bento-item {
-      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-      border-radius: 16px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      transition: transform 0.2s ease;
-      padding: 1.5rem;
-      gap: 1.5rem;
-      position: relative;
-      overflow: hidden;
-
-      &:hover {
-        transform: translateY(-5px);
-      }
-
-      /* Image Container */
-      .image-container {
-        overflow: hidden;
-        // cursor: pointer;
-        box-shadow: none;
-
-        .project__image {
-          transition: transform 0.3s ease-in-out;
-        }
-
-        &:hover .project__image {
-          transform: scale(1.05);
+        @include breakpoint-down(md) {
+          font-size: $font-size-h3-mobile;
         }
       }
 
-      /* Action Buttons */
-      .bento__actions {
-        display: flex;
-        gap: 1.5rem;
-        justify-content: center;
+      .intro-text {
+        color: $text-secondary;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        font-size: $font-size-base;
+
+        strong {
+          @include light-text-gradient;
+          font-weight: 600;
+        }
       }
     }
   }
 
-  .project__header {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-
-    .project__logo {
-      height: 30px;
-      width: auto;
-      margin-right: $margin-large;
-      @include breakpoint-up(lg) {
-        height: 50px;
-      }
-    }
-
-    .project__title {
-      flex-grow: 1;
-      text-align: left;
-      margin: 0;
-    }
-  }
-
-  .bento__card {
-    background-color: #fff;
-    border-radius: 16px;
-    // overflow: hidden;
-    // padding: $padding-large;
-    display: flex;
-    flex-direction: column;
-    gap: $padding-large;
+  // Featured projects - enhanced UX improvements
+  .featured-card {
     position: relative;
-    filter: drop-shadow(4px 4px 4px rgba(233, 240, 243, 0.5));
-    border: 4px solid rgba(233, 240, 243, 0.5);
-    // box-shadow: 0 5px 5px 0 rgba(233, 240, 243, 0.5), 0 0 0 1px #E6ECF8;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: top center;
 
-    &.no-padding {
-      padding: 0;
-    }
-    &.no-bg {
-      background: none;
-      box-shadow: none;
-    }
-
-    &.project {
-      text-align: left;
-      display: flex;
-      justify-content: space-between;
-      p {
-        line-height: 1.5;
-        margin: 0;
-      }
-      .button {
-        width: fit-content;
-        max-width: 100%;
-      }
-    }
-
-    &.group-cards {
-      flex: 1;
-      justify-content: center;
-      text-align: left;
-    }
-
-    // .tools, .skills {
-    //     grid-column: span 1;
-    //     display: flex;
-    //     flex-direction: column;
-    //     align-items: center;
-
-    //     @include breakpoint-up(lg) {
-    //         flex-direction: row;
-    //         justify-content: start;
-    //         align-items: flex-start;
-    //         text-align: left;
-    //         gap: $padding-large;
-    //         h4 {
-    //             flex: 0 0 33%;
-    //         }
-    //         .skills__tags {
-    //             flex: 1;
-    //         }
-    //     }
-
-    //     .skills__tags {
-    //         // display: flex;
-    //         // flex-direction: column;
-    //         // flex-wrap: wrap;
-    //         // white-space:
-    //         list-style: none;
-    //         padding: 0;
-    //         margin: 0;
-    //         width: 100%;
-    //         // gap: 8px;
-    //     }
-
-    //     .skills__tag {
-    //         display: list-item;
-    //         // width: fit-content;
-    //         // padding: $spacing-xs;
-    //         // // margin: $spacing-xs;
-    //         // background: #f0f0f0;
-    //         // border-radius: 12px;
-    //         &::before {
-    //             content: "✔️";
-    //             text-align: center;
-    //             color: transparent;
-    //             text-shadow: 0 0 $rosemary;
-    //             margin-right: $spacing-xs;
-    //         }
-    //     }
-    // }
-
-    // &.image {
-    //     grid-column: span 1;
-
-    //     img {
-    //         flex: 1;
-    //         width: 100%;
-    //         height: auto;
-    //         aspect-ratio: 16 / 9;
-    //         // object-fit: scale-down;
-    //         object-fit: cover;
-    //         display: block;
-
-    //         border-radius: 12px;
-    //         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-    //     }
-    // }
-
-    /* Overlay Description */
-    .overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      color: $white;
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      justify-content: center;
-      // padding: 1.5rem;
+    // Prevent layout jumping during expansion
+    .card__details {
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      max-height: 0;
       opacity: 0;
-      transform: translateY(100%);
-      transition: opacity 0.3s ease, transform 0.3s ease;
-      overflow-wrap: break-word;
-      word-wrap: break-word;
+
+      &.show {
+        max-height: fit-content; // Large enough for content
+        opacity: 1;
+      }
+
+      .details__content {
+        padding-bottom: 1rem;
+      }
+
+      .details__text-content {
+        margin-bottom: 1.5rem;
+      }
     }
 
-    .overlay.show {
+    // Enhanced button styling
+    .card__actions {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 1.5rem;
+
+      @include breakpoint-down(sm) {
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .btn {
+          width: 100%;
+        }
+      }
+    }
+
+    .button-icon {
+      transition: transform 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      margin-left: 0.5rem;
+
+      &.rotated {
+        transform: rotate(180deg);
+      }
+    }
+
+    .external-link-icon {
+      margin-left: 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      opacity: 0.8;
+      transition: opacity 0.3s ease;
+    }
+
+    // Hover effects
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+
+      .external-link-icon {
+        opacity: 1;
+      }
+    }
+  }
+
+  // Portfolio grid improvements
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+
+    @include breakpoint-down(md) {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @include breakpoint-down(sm) {
+      gap: 1rem;
+    }
+  }
+
+  .portfolio-card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    animation-delay: var(--delay);
+    position: relative;
+
+    &.is-visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    .overlay p {
-      color: $white;
-      max-width: 80%;
+    &.has-overlay {
+      .image-showcase img {
+        transform: scale(1.05);
+      }
+    }
+
+    // Enhanced image showcase
+    .image-showcase {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+
+      img {
+        width: 100%;
+        height: auto;
+        transition: transform 0.4s ease;
+        display: block;
+      }
+    }
+
+    // Title styling
+    .card__title {
+      color: $text-primary;
+      font-size: $font-size-h4;
+      font-weight: 600;
+      margin: 0 0 1rem 0;
+      line-height: 1.3;
+    }
+
+    // Enhanced overlay
+    .card__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba($text-primary, 0.95);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 1.5rem;
+      border-radius: 12px;
+
+      &.show {
+        opacity: 1;
+      }
+
+      .overlay__content {
+        text-align: center;
+        max-width: 100%;
+      }
+
+      .overlay__text {
+        color: $text-inverse;
+        text-align: center;
+        line-height: 1.6;
+        font-size: $font-size-small;
+        margin-bottom: 0.75rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    // Actions styling
+    .card__actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: auto;
+
+      @include breakpoint-down(sm) {
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .btn {
+          width: 100%;
+        }
+      }
+    }
+
+    // Hover effects
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  // Skill badges improvements
+  .skill-badges {
+    .skill-badge {
+      background: linear-gradient(
+        135deg,
+        $interactive-primary,
+        $interactive-hover
+      );
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: $font-size-small;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      user-select: none;
+
+      &:hover,
+      &:focus {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba($interactive-primary, 0.3);
+        outline: none;
+      }
+
+      &:focus-visible {
+        outline: 2px solid $interactive-primary;
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  // Enhanced responsive design
+  @include breakpoint-down(lg) {
+    .featured-projects-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  @include breakpoint-down(md) {
+    section {
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: $font-size-subheading-mobile;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  @include breakpoint-down(sm) {
+    .container {
+      padding: 0 1rem;
+    }
+
+    .featured-projects-grid,
+    .portfolio-grid {
+      gap: 1rem;
+    }
+  }
+
+  // Focus management for accessibility
+  .btn:focus-visible,
+  .skill-badge:focus-visible {
+    outline: 2px solid $interactive-primary;
+    outline-offset: 2px;
+  }
+
+  // Reduced motion support
+  @media (prefers-reduced-motion: reduce) {
+    .featured-card,
+    .portfolio-card,
+    .button-icon,
+    .card__overlay,
+    .card__details {
+      transition: none;
+    }
+
+    .featured-card:hover,
+    .portfolio-card:hover {
+      transform: none;
     }
   }
 }
-
-// @media (prefers-reduced-motion: no-preference) {
-//   .bento-grid {
-//     & > .bento-item {
-//       animation: slide-in-from-right linear both;
-//       animation-timeline: view();
-//       animation-range: entry 0% entry 100% entry 200%;
-//     }
-//   }
-// }
 
 // Animations
-@media (prefers-reduced-motion: no-preference) {
-  .bento-grid {
-    // &--70-30 {
-    //     .bento-item {
-    //         opacity: 0;
-    //         transform: translateY(50px) scale(0.95);
-    //         transition: opacity 0.6s ease-out, transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-    //         transition-delay: var(--delay, 0s);
-    //         }
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
 
-    //     .bento-item.is-visible {
-    //         opacity: 1;
-    //         transform: translateY(0) scale(1);
-    //     }
-    // }
+// Responsive adjustments
+@include breakpoint-down(md) {
+  .page--work {
+    .portfolio-grid {
+      grid-template-columns: 1fr;
+    }
 
-    &--100 {
-      .bento-item {
-        opacity: 0;
-        transform: scale(0.95);
-        transition: opacity 0.8s ease-out,
-          transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-        transition-delay: var(--delay, 0s);
-      }
-
-      .bento-item.left-col {
-        transform: translateX(-50px) scale(0.95);
-      }
-
-      .bento-item.right-col {
-        transform: translateX(50px) scale(0.95);
-      }
-
-      .bento-item.is-visible {
-        opacity: 1;
-        transform: translateX(0) scale(1);
-      }
+    .work__intro {
+      flex-direction: column;
+      gap: 1.5rem;
     }
   }
 }
-</style>
-<style lang="scss" scoped>
-@import '../styles/components/media';
-.resume-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: $spacing-lg;
-  width: 100%;
+
+// Cards section
+.project__cards {
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+
+    // Better spacing for 6 cards
+    @include breakpoint-up(md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include breakpoint-up(lg) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @include breakpoint-up(xl) {
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 1200px;
+      margin: 2rem auto 0;
+    }
+  }
 }
 
-.resume-card {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-  width: 100%;
-  display: flex;
-  gap: $spacing-xs;
-  flex-direction: column;
+.project-card {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-delay: var(--delay);
+  cursor: pointer;
   position: relative;
-  max-width: none;
-  @include breakpoint-up(lg) {
-    gap: $spacing-sm;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  &.is-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  .group--buttons {
-    justify-content: space-between;
-    margin: 0;
-    max-width: 100%;
-    button {
-      max-width: fit-content;
-    }
-  }
-}
-
-.card {
-  /* Header: Title & Logo */
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-    word-wrap: break-word;
-    gap: $spacing-sm;
-
-    .card__title {
-      width: calc(100% - 100px);
-    }
-
-    .card__logo {
-      width: 50px;
-      height: auto;
-      position: absolute;
-      right: 0;
-      @include breakpoint-up(md) {
-        width: 70px;
-      }
-    }
+  &:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   }
 
-  &__summary {
-    transition: max-height 0.3s ease-out;
-    // max-height: fit-content;
-    overflow: hidden;
-    &.hide {
-      max-height: 0;
-    }
+  // Focus styles for accessibility
+  &:focus {
+    outline: 2px solid $interactive-primary;
+    outline-offset: 2px;
   }
 
-  /* Collapsible Details */
-  &__details {
+  &:focus-visible {
+    outline: 2px solid $interactive-primary;
+    outline-offset: 2px;
+  }
+
+  .card__header {
     display: flex;
     flex-direction: column;
-    gap: $spacing-sm;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-out;
-    &.show {
-      max-height: fit-content;
-      margin-bottom: $spacing-lg;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 1.5rem;
+
+    .card__title {
+      color: $text-primary;
+      font-size: $font-size-h4;
+      font-weight: 600;
+      margin: 0;
+      line-height: 1.3;
+      height: 60px; // Fixed height for 2 lines of text
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
+  }
+
+  .card__preview {
+    min-height: 90px; // Fixed height to align "Click to explore"
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .card__preview-text {
+      color: $text-secondary;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      font-size: $font-size-base;
+      flex-grow: 1;
+    }
+
+    .card__expand-hint {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: $interactive-primary;
+      font-size: $font-size-small;
+      font-weight: 500;
+      opacity: 0.8;
+      transition: opacity 0.3s ease;
+      margin-top: auto; // Push to bottom
+      .expand-icon {
+        width: 1rem;
+        height: 1rem;
+        transition: transform 0.3s ease;
+      }
+    }
+  }
+
+  // Hover effects for icons and hints
+  &:hover {
+    .card__icon .hero-icon--large {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .card__expand-hint {
+      opacity: 1;
+
+      .expand-icon {
+        transform: translateX(4px);
+      }
+    }
+  }
+}
+
+// Modal Overlay System
+.card-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: z(modal);
+  padding: 2rem;
+  animation: modalFadeIn 0.3s ease-out;
+
+  @include breakpoint-down(md) {
+    padding: 1rem;
+  }
+}
+
+.card-modal {
+  background: white;
+  border-radius: 24px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  animation: modalSlideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+
+  @include breakpoint-down(md) {
+    max-height: 90vh;
+    border-radius: 16px;
+  }
+}
+
+.modal__close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  background: rgba($text-tertiary, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: z(content);
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: $text-secondary;
+  }
+
+  &:hover {
+    background: rgba($text-tertiary, 0.2);
+    transform: scale(1.1);
+  }
+
+  &:focus {
+    outline: 2px solid $interactive-primary;
+    outline-offset: 2px;
+  }
+}
+
+.modal__content {
+  padding: 3rem;
+
+  @include breakpoint-down(md) {
+    padding: 2rem;
+  }
+}
+
+.modal__header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  .modal__icon {
+    margin-bottom: 1.5rem;
+
+    .hero-icon--xl {
+      width: 4rem;
+      height: 4rem;
+      color: $interactive-primary;
+      margin: 0 auto;
+    }
+  }
+
+  .modal__title {
+    color: $text-primary;
+    font-size: $font-size-subheading;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+
+    @include breakpoint-down(md) {
+      font-size: $font-size-h3;
+    }
+  }
+}
+
+.modal__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .modal__description {
+    color: $text-secondary;
+    font-size: $font-size-h5;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    text-align: center;
+
+    @include breakpoint-down(md) {
+      font-size: $font-size-base;
+    }
+  }
+  .btn {
+    margin: 0 auto;
   }
 }
 </style>

@@ -1,27 +1,28 @@
 <template>
   <div class="typing">
-    <component 
+    <component
       :is="wrapperElement"
       :aria-label="text"
       :class="{ 'visually-hidden': !displayedText }"
     >
       {{ displayedText }}
     </component>
-    <span 
-      :class="['cursor', customCursorClass]"   
+    <span
+      :class="['cursor', customCursorClass]"
       v-show="isTyping"
       aria-hidden="true"
-    >|</span>
+      >|</span
+    >
   </div>
 </template>
 
 <script>
 export default {
-  name: "TypingAnimation",
+  name: 'TypingAnimation',
   props: {
     customCursorClass: {
       type: String,
-      default: "",  // Default cursor size
+      default: '', // Default cursor size
     },
     startDelay: {
       type: Number,
@@ -37,41 +38,49 @@ export default {
     },
     wrapperElement: {
       type: String,
-      default: "span", // Default wrapper element
+      default: 'span', // Default wrapper element
       validator: (value) => {
         // Allow only valid HTML tags
-        return ["span", "p", "h1", "h2", "h3", "h4", "h5", "h6", "div"].includes(value);
+        return [
+          'span',
+          'p',
+          'h1',
+          'h2',
+          'h3',
+          'h4',
+          'h5',
+          'h6',
+          'div',
+        ].includes(value)
       },
     },
   },
   data() {
     return {
-      displayedText: "",
+      displayedText: '',
       index: 0,
       isTyping: false,
-    };
+    }
   },
   mounted() {
-    console.log("Start delay:", this.startDelay);
     setTimeout(() => {
-      this.startTyping();
-    }, this.startDelay);
+      this.startTyping()
+    }, this.startDelay)
   },
   methods: {
     startTyping() {
-      this.isTyping = true; // Start showing the cursor
+      this.isTyping = true // Start showing the cursor
       if (this.index < this.text.length) {
-        this.displayedText += this.text[this.index];
-        this.index++;
-        setTimeout(this.startTyping, this.speed);
+        this.displayedText += this.text[this.index]
+        this.index++
+        setTimeout(this.startTyping, this.speed)
       } else {
-        this.isTyping = false; // Stop showing the cursor
-        this.$emit("typingFinished", this.text.length * this.speed); // Emit total duration
-        console.log("Typing finished event emitted. Duration:", this.text.length * this.speed);
+        this.isTyping = false // Stop showing the cursor
+        this.$emit('typingFinished', this.text.length * this.speed) // Emit total duration
       }
     },
   },
-};
+}
 </script>
 
 <style scoped>

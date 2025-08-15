@@ -1,58 +1,226 @@
-// Breakpoints for responsive design
+// Breakpoints for responsive design - using more consistent values
+$breakpoint-xs: 375px; // Extra small devices (small phones)
 $breakpoint-sm: 576px; // Small devices (phones)
 $breakpoint-md: 768px; // Medium devices (tablets)
 $breakpoint-lg: 992px; // Large devices (small desktops)
 $breakpoint-xl: 1280px; // Extra large devices (large desktops)
+$breakpoint-xxl: 1536px; // Huge screens
 
-// Spacing Utilities
-$spacing-xs: 8px;
-$spacing-sm: 16px;
-$spacing-md: 24px;
-$spacing-lg: 32px;
-$spacing-xl: 48px;
+// Spacing Scale (8px increments for consistency)
+$space-1: 0.25rem; //  4px
+$space-2: 0.5rem; //  8px
+$space-3: 1rem; // 16px
+$space-4: 1.5rem; // 24px
+$space-5: 2rem; // 32px
+$space-6: 2.5rem; // 40px
+$space-7: 3rem; // 48px
+$space-8: 4rem; // 64px
+$space-9: 5rem; // 80px
+$space-10: 6rem; // 96px
 
-// Margins & Paddings
-$padding-base: $spacing-sm;
-$padding-large: $spacing-md;
-$margin-base: $spacing-xs;
-$margin-large: $spacing-sm;
+// For backward compatibility
+$spacing-xs: $space-2; // 8px
+$spacing-sm: $space-3; // 16px
+$spacing-md: $space-4; // 24px
+$spacing-lg: $space-5; // 32px
+$spacing-xl: $space-7; // 48px
+
+// Container widths
+$container-max-width: 1200px;
+$container-padding: $space-3;
+
+// Margins & Paddings (standardized to the spacing scale)
+$padding-base: $space-3; // 16px
+$padding-large: $space-4; // 24px
+$margin-base: $space-2; // 8px
+$margin-large: $space-3; // 16px
 
 // Responsive Design Mixins
 
 // Mobile-first approach
 @mixin breakpoint-up($size) {
-    @if $size ==sm {
-        @media (min-width: $breakpoint-sm) {
-            @content;
-        }
+  @if $size == xs {
+    @media (min-width: $breakpoint-xs) {
+      @content;
     }
-
-    @else if $size ==md {
-        @media (min-width: $breakpoint-md) {
-            @content;
-        }
+  } @else if $size == sm {
+    @media (min-width: $breakpoint-sm) {
+      @content;
     }
-
-    @else if $size ==lg {
-        @media (min-width: $breakpoint-lg) {
-            @content;
-        }
+  } @else if $size == md {
+    @media (min-width: $breakpoint-md) {
+      @content;
     }
-
-    @else if $size ==xl {
-        @media (min-width: $breakpoint-xl) {
-            @content;
-        }
+  } @else if $size == lg {
+    @media (min-width: $breakpoint-lg) {
+      @content;
     }
+  } @else if $size == xl {
+    @media (min-width: $breakpoint-xl) {
+      @content;
+    }
+  } @else if $size == xxl {
+    @media (min-width: $breakpoint-xxl) {
+      @content;
+    }
+  }
 }
 
-// Flexbox mixin for row or column layouts
+// Desktop-first approach (max-width)
+@mixin breakpoint-down($size) {
+  @if $size == xs {
+    @media (max-width: #{$breakpoint-xs - 1px}) {
+      @content;
+    }
+  } @else if $size == sm {
+    @media (max-width: #{$breakpoint-sm - 1px}) {
+      @content;
+    }
+  } @else if $size == md {
+    @media (max-width: #{$breakpoint-md - 1px}) {
+      @content;
+    }
+  } @else if $size == lg {
+    @media (max-width: #{$breakpoint-lg - 1px}) {
+      @content;
+    }
+  } @else if $size == xl {
+    @media (max-width: #{$breakpoint-xl - 1px}) {
+      @content;
+    }
+  } @else if $size == xxl {
+    @media (max-width: #{$breakpoint-xxl - 1px}) {
+      @content;
+    }
+  }
+}
+
+// Between two breakpoints
+@mixin breakpoint-between($min, $max) {
+  $min-width: 0;
+  $max-width: 0;
+
+  @if $min == xs {
+    $min-width: $breakpoint-xs;
+  } @else if $min == sm {
+    $min-width: $breakpoint-sm;
+  } @else if $min == md {
+    $min-width: $breakpoint-md;
+  } @else if $min == lg {
+    $min-width: $breakpoint-lg;
+  } @else if $min == xl {
+    $min-width: $breakpoint-xl;
+  }
+
+  @if $max == sm {
+    $max-width: $breakpoint-sm - 1px;
+  } @else if $max == md {
+    $max-width: $breakpoint-md - 1px;
+  } @else if $max == lg {
+    $max-width: $breakpoint-lg - 1px;
+  } @else if $max == xl {
+    $max-width: $breakpoint-xl - 1px;
+  } @else if $max == xxl {
+    $max-width: $breakpoint-xxl - 1px;
+  }
+
+  @media (min-width: $min-width) and (max-width: $max-width) {
+    @content;
+  }
+}
+
+// Flexbox layout helpers
 @mixin flex-row {
-    @include flex-center;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 @mixin flex-column {
-    @include flex-center;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// Container mixin
+@mixin container {
+  width: 100%;
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding-left: $container-padding;
+  padding-right: $container-padding;
+
+  @include breakpoint-up(lg) {
+    padding-left: $space-4;
+    padding-right: $space-4;
+  }
+}
+
+// Fluid sizing helpers
+@mixin fluid-type(
+  $min-font-size,
+  $max-font-size,
+  $min-viewport-width: $breakpoint-xs,
+  $max-viewport-width: $breakpoint-xl
+) {
+  font-size: $min-font-size;
+
+  @media (min-width: $min-viewport-width) {
+    font-size: calc(
+      #{$min-font-size} + #{strip-unit($max-font-size - $min-font-size)} *
+        (
+          (100vw - #{$min-viewport-width}) / #{strip-unit(
+              $max-viewport-width - $min-viewport-width
+            )}
+        )
+    );
+  }
+
+  @media (min-width: $max-viewport-width) {
+    font-size: $max-font-size;
+  }
+}
+
+@mixin fluid-spacing(
+  $min-size,
+  $max-size,
+  $min-viewport-width: $breakpoint-xs,
+  $max-viewport-width: $breakpoint-xl
+) {
+  $value: $min-size;
+
+  @media (min-width: $min-viewport-width) {
+    $value: calc(
+      #{$min-size} + #{strip-unit($max-size - $min-size)} *
+        (
+          (100vw - #{$min-viewport-width}) / #{strip-unit(
+              $max-viewport-width - $min-viewport-width
+            )}
+        )
+    );
+  }
+
+  @media (min-width: $max-viewport-width) {
+    $value: $max-size;
+  }
+
+  @content ($value);
+}
+
+// Helper function for fluid sizing
+@function strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+  @return $number;
 }

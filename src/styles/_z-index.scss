@@ -1,0 +1,24 @@
+// z-index map
+$z-index: (
+  base: 0,
+  content: 1,
+  side-nav: 90,
+  scroll-to-top: 95,
+  skip-link: 100,
+  progress-bar: 110,
+  modal: 200,
+  tooltip: 300,
+);
+
+// function to get value
+@function z($name) {
+  @return map-get($z-index, $name);
+}
+
+// usage
+// .modal {
+//   z-index: z(modal);
+// }
+// .scroll-to-top {
+//   z-index: z(scroll-to-top);
+// }
