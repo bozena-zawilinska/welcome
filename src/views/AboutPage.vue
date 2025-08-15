@@ -473,18 +473,11 @@ export default {
     }
   }
 
-  // .animated-heading {
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: center;
-  //   text-align: center;
-  // }
-
   // Intro section specific styling
   .about__intro {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     gap: 2rem;
     flex-direction: column;
 
@@ -494,6 +487,7 @@ export default {
 
     .intro-content {
       flex: 2;
+      max-width: 600px;
 
       .intro-heading {
         color: $text-primary;

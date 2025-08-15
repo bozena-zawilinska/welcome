@@ -2,15 +2,7 @@
   <section class="page page--contact">
     <ProgressBar :progress="scrollProgress" />
     <div class="row">
-      <!-- <div class="col col--left">
-        <img
-          src="@/assets/contact-bz.jpg"
-          alt="Bozena's avatar"
-          width="662"
-          height="883"
-        />
-      </div> -->
-      <div class="col col--right container">
+      <div class="col container">
         <div class="group-text">
           <TypingAnimation
             id="my-work-heading"
@@ -566,8 +558,19 @@ export default {
   .col {
     width: 100%;
     @include breakpoint-up(md) {
-      width: 50%;
+      margin-top: 2.5rem;
+      margin-bottom: 2.5rem;
     }
+
+    &.container {
+      // background: $white;
+      display: flex;
+      gap: 2.5rem;
+      flex-direction: column;
+    }
+    // @include breakpoint-up(md) {
+    //   width: 50%;
+    // }
     // img {
     //   width: 100%;
     //   height: auto;
@@ -584,19 +587,9 @@ export default {
   //   }
   // }
 
-  .col--right {
-    @include breakpoint-up(md) {
-      margin-top: 2.5rem;
-      margin-bottom: -2.5rem;
-    }
+  // .col--right {
 
-    &.container {
-      // background: $white;
-      display: flex;
-      gap: 2.5rem;
-      flex-direction: column;
-    }
-  }
+  // }
 
   .group-text {
     display: flex;

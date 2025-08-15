@@ -160,6 +160,33 @@ export default {
   }
 }
 
+// Responsive Design
+@include breakpoint-down(md) {
+  .scroll-to-top {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+    padding: 0;
+    border-radius: 50%;
+
+    .scroll-icon {
+      width: 18px;
+      height: 18px;
+      color: $text-inverse;
+    }
+
+    .scroll-text {
+      display: none; // Hide text on mobile for space
+    }
+
+    &:hover .scroll-text {
+      display: none; // Ensure text stays hidden on mobile
+    }
+  }
+}
+
 // Screen reader only text
 .sr-only {
   position: absolute;

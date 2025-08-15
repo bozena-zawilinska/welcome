@@ -74,102 +74,167 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba($text-primary, 0.8);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: z(modal);
-  animation: fadeIn 0.3s;
-}
-.modal-content {
-  background: #fff;
-  border-radius: 16px;
-  max-width: 95vw;
-  width: 420px;
-  max-height: 90vh;
+  animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: $space-3;
   overflow-y: auto;
-  padding: 2rem 1.5rem 1.5rem 1.5rem;
+
+  @include breakpoint-up(md) {
+    padding: $space-5;
+  }
+}
+
+.modal-content {
+  background: $white;
+  border-radius: 16px;
+  max-width: 100%;
+  width: 500px;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: $space-4 $space-3 $space-3;
   position: relative;
   outline: none;
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: $box-shadow-floating;
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: auto;
+
+  @include breakpoint-up(md) {
+    padding: $space-5 $space-4 $space-4;
+    border-radius: 24px;
+  }
 }
+
 .modal-close {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
+  top: $space-3;
+  right: $space-3;
+  background: rgba($text-tertiary, 0.1);
   border: none;
-  font-size: 2rem;
-  color: #888;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-secondary;
   cursor: pointer;
-  transition: color 0.2s;
-}
-.modal-close:hover,
-.modal-close:focus {
-  color: #222;
-}
-.modal-title {
   font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: #222;
-  font-weight: 700;
+  transition: all 0.2s ease;
+
+  &:hover,
+  &:focus {
+    background: rgba($text-tertiary, 0.2);
+    color: $text-primary;
+    transform: scale(1.05);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $interactive-primary;
+    outline-offset: 2px;
+  }
 }
+
+.modal-title {
+  font-size: clamp(1.25rem, 5vw, 1.75rem);
+  margin-bottom: $space-4;
+  color: $text-primary;
+  font-weight: 700;
+  padding-right: $space-5;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: $space-3;
+}
+
 .modal-image img {
   width: 100%;
-  border-radius: 10px;
-  margin-bottom: 1rem;
+  border-radius: 12px;
+  display: block;
+  box-shadow: $box-shadow-card;
 }
+
 .modal-description {
-  color: #444;
-  margin-bottom: 1rem;
+  color: $text-secondary;
+  line-height: 1.6;
+
+  p {
+    margin-bottom: $space-2;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
+
 .modal-skills {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: $space-2;
+  margin: $space-2 0;
 }
+
 .skill-badge {
-  background: linear-gradient(135deg, #6a82fb, #fc5c7d);
-  color: #fff;
+  background: $gradient-hero;
+  color: $white;
   padding: 0.3rem 0.8rem;
   border-radius: 12px;
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   font-weight: 500;
-}
-.modal-actions {
-  margin-top: 1rem;
-}
-.btn-primary {
-  background: #6a82fb;
-  color: #fff;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: background 0.2s;
   display: inline-block;
+  box-shadow: $box-shadow-light;
 }
-.btn-primary:hover,
-.btn-primary:focus {
-  background: #fc5c7d;
-}
-@media (max-width: 600px) {
-  .modal-content {
-    width: 98vw;
-    padding: 1.2rem 0.5rem 1rem 0.5rem;
+
+.modal-actions {
+  margin-top: $space-3;
+  display: flex;
+  justify-content: center;
+
+  @include breakpoint-up(md) {
+    justify-content: flex-start;
   }
 }
+
+.btn-primary {
+  @include light-button-primary;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+
+  &:focus-visible {
+    outline: 2px solid $interactive-primary;
+    outline-offset: 2px;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>

@@ -20,6 +20,7 @@
 
 <script>
 import SideNav from './components/SideNav.vue'
+import { useViewportHeight } from './composables/useViewport'
 
 export default {
   components: { SideNav },
@@ -28,6 +29,24 @@ export default {
       isCollapsed: true,
     }
   },
+  setup() {
+    // Use the composable to fix viewport height on mobile
+    const { setViewportHeight } = useViewportHeight()
+
+    return {
+      setViewportHeight,
+    }
+  },
+  mounted() {
+    // Fix viewport height on load and resize
+    this.setViewportHeight()
+
+    // Listen for device orientation changes (important for mobile)
+    window.addEventListener('orientationchange', this.setViewportHeight)
+  },
+  beforeUnmount() {
+    window.removeEventListener('orientationchange', this.setViewportHeight)
+  },
 }
 </script>
 
@@ -35,21 +54,42 @@ export default {
 .app__container {
   display: flex; // makes side nav and main sit next to each other
   min-height: 100vh;
+  min-height: -webkit-fill-available; // iOS height fix
+  width: 100%;
+  position: relative;
+  overflow-x: hidden; // Prevent horizontal scrolling
 }
 
 .main__container {
   flex: 1; // fill remaining space
-  transition: margin-left 0.3s;
-  margin-left: 80px; // default collapsed width
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-left: 0; // default for mobile
+  width: 100%;
+
+  @include breakpoint-up(md) {
+    margin-left: 80px; // default collapsed width for tablets/desktops
+  }
 }
 
 .main--expanded {
-  margin-left: 200px; // expanded nav width
+  @include breakpoint-up(md) {
+    margin-left: 200px; // expanded nav width for tablets/desktops
+  }
 }
 
+// Focus styles for better accessibility
 :focus {
   outline: 2px solid $color-selected;
-  outline-offset: 1px;
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid $color-selected;
+  outline-offset: 2px;
 }
 
 /* Skip Link */
@@ -69,15 +109,12 @@ export default {
     left: 0;
     padding: 1rem;
     background: $white;
+    color: $text-primary;
+    text-decoration: none;
+    font-weight: 600;
     z-index: z(skip-link);
-  }
-}
-
-@media (max-width: 768px) {
-  .main__container,
-  .main--expanded,
-  .main--collapsed {
-    margin-left: 0 !important;
+    border-radius: 0 0 4px 0;
+    border: 1px solid $surface-border;
   }
 }
 </style>

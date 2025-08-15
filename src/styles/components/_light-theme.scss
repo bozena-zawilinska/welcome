@@ -5,29 +5,17 @@
 
 @import '../animations';
 
-// Base Page Layout
-.page {
-  min-height: 100vh;
-  color: $text-primary;
-  position: relative;
-  padding: 2rem;
-
-  @include breakpoint-up(lg) {
-    padding: 3rem;
-  }
-}
-
 // Light Theme Container
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  //   @include light-card;
-  padding: 2rem;
+// .container {
+//   max-width: 1200px;
+//   margin: 0 auto;
+//   //   @include light-card;
+//   padding: 2rem;
 
-  @include breakpoint-up(lg) {
-    padding: 3rem;
-  }
-}
+//   @include breakpoint-up(lg) {
+//     padding: 3rem;
+//   }
+// }
 
 // Light Theme Headings
 .animated-heading {
@@ -297,6 +285,7 @@
     backdrop-filter: blur(10px); // Subtle glass effect
     margin-right: 80px; // More space for the larger peeking avatar
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); // Subtle shadow for depth
+    width: 100%; // Full width on mobile
   }
 }
 
@@ -478,51 +467,13 @@
 
 // Responsive Design
 @include breakpoint-down(md) {
-  .page {
-    padding: 1.5rem 1rem;
-
-    &::before {
-      width: 250px;
-      height: 250px;
-    }
-
-    &::after {
-      width: 200px;
-      height: 200px;
-    }
-  }
-
-  .container {
-    padding: 1.5rem;
-  }
+  // .container {
+  //   padding: 1.5rem;
+  // }
 
   .profile-image img {
     width: 120px;
     height: auto;
-  }
-
-  .scroll-to-top {
-    bottom: 1.5rem;
-    right: 1.5rem;
-    width: 45px;
-    height: 45px;
-    min-width: 45px;
-    padding: 0;
-    border-radius: 50%;
-
-    .scroll-icon {
-      width: 18px;
-      height: 18px;
-      color: $text-inverse;
-    }
-
-    .scroll-text {
-      display: none; // Hide text on mobile for space
-    }
-
-    &:hover .scroll-text {
-      display: none; // Ensure text stays hidden on mobile
-    }
   }
 }
 

@@ -1,18 +1,22 @@
 /* 
 * TYPOGRAPHY 
 */
+
+// Base font settings
+body,
 #app {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 400;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  // text-align: center;
   text-wrap: pretty;
-  color: $font-dark;
-  line-height: 1.55;
+  color: $text-primary;
+  line-height: 1.6;
 }
 
+// Fluid typography using clamp for consistent sizing across devices
 h1,
 h2,
 h3,
@@ -21,78 +25,95 @@ h5,
 h6,
 .heading,
 .subheading {
-  color: $font-dark;
+  color: $text-primary;
   font-family: 'Lato', sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.2rem;
-  //   margin: 0 0 $margin-base 0;
-  margin: 0;
+  margin: 0 0 $space-3 0;
+  line-height: 1.2;
+  max-width: 100%; // Prevent overflow
+  overflow-wrap: break-word;
+  hyphens: auto;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
+// Fluid heading sizes using clamp (min, preferred, max)
 h1,
 .heading {
-  font-size: $font-size-heading-mobile;
-  @include breakpoint-up(lg) {
-    font-size: $font-size-heading;
-  }
+  font-size: clamp(1.8rem, 5vw, 2.488rem);
 }
+
 h2,
 .subheading {
-  font-size: $font-size-subheading-mobile;
-  @include breakpoint-up(lg) {
-    font-size: $font-size-subheading;
-  }
+  font-size: clamp(1.6rem, 4vw, 2.074rem);
 }
 
 h3,
 .h3 {
-  font-size: $font-size-h3-mobile;
-  @include breakpoint-up(lg) {
-    font-size: $font-size-h3;
-  }
+  font-size: clamp(1.4rem, 3.5vw, 1.728rem);
 }
 
 h4,
 .h4 {
-  font-size: $font-size-h4-mobile;
-  @include breakpoint-up(lg) {
-    font-size: $font-size-h4;
-  }
+  font-size: clamp(1.2rem, 3vw, 1.44rem);
 }
 
 h5,
 .h5 {
-  font-size: $font-size-h5-mobile;
-  @include breakpoint-up(lg) {
-    font-size: $font-size-h5;
-  }
+  font-size: clamp(1.1rem, 2.5vw, 1.2rem);
 }
 
+h6,
+.h6 {
+  font-size: clamp(1rem, 2vw, 1.1rem);
+}
+
+// Paragraph and text styles
 p,
 span,
 .text--base {
-  color: $font-dark;
-  font-size: $font-size-base-mobile;
-  margin: 0;
-  @include breakpoint-up(lg) {
-    font-size: $font-size-base;
+  color: $text-secondary;
+  font-size: 1rem;
+  margin: 0 0 $space-3 0;
+  line-height: 1.6;
+  max-width: 70ch; // Optimal reading width
+
+  &:last-child {
+    margin-bottom: 0;
   }
 }
 
+// Text size variations
 .text--small {
-  font-size: $font-size-small-mobile;
-  @include breakpoint-up(lg) {
-    font-size: $font-size-small;
-  }
+  font-size: 0.875rem;
 }
 
+.text--large {
+  font-size: 1.125rem;
+}
+
+// Special text styles
 p.text--supporting,
 .text--supporting {
   text-transform: uppercase;
   font-weight: 700;
+  letter-spacing: 0.05em;
 }
 
+// Hero text for large display elements
+.display-heading {
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: $space-4;
+}
+
+// Button text styling
 .button {
   font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
@@ -100,59 +121,64 @@ p.text--supporting,
   font-weight: 700;
 }
 
+// Link styles
 a {
-  color: $color-link;
-  text-decoration: wavy;
-  transition: color 0.2s ease;
+  color: $interactive-primary;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  position: relative;
+
   &:hover {
-    color: $color-link-hover;
+    color: $interactive-hover;
   }
 
-  &:link,
-  &:active,
-  &:focus,
-  &:visited {
-    color: $color-link-active;
+  &:focus-visible {
+    outline: 2px solid $interactive-primary;
+    outline-offset: 2px;
   }
+
+  &:active {
+    color: $interactive-active;
+  }
+
   &.button {
-    color: $color-link;
+    color: inherit;
   }
 }
 
+// Animated underline link
 .link-underline {
-  all: unset;
-  cursor: pointer;
   display: inline-flex;
   align-items: center;
-  color: $color-link;
+  color: $interactive-primary;
   text-decoration: none;
   position: relative;
   transition: color 0.2s ease;
-  margin: $margin-base 0;
-  // gap: $spacing-xs;
+  margin: $space-2 0;
+  font-weight: 500;
+  padding: 2px 0;
 
   svg {
-    margin-left: $spacing-xs;
+    margin-left: $space-2;
     transition: transform 0.3s ease;
   }
 
   &::after {
-    background: $color-link;
     content: '';
     position: absolute;
     left: 0;
-    bottom: -2px;
-    height: 1px;
+    bottom: 0;
+    height: 2px;
     width: 0;
-    max-width: calc(100% - 20px);
-    transition: width 0.3s linear;
+    background: currentColor;
+    transition: width 0.3s ease;
   }
 
   &:hover {
-    color: $color-link-hover;
+    color: $interactive-hover;
+
     svg {
       transform: translateX(4px);
-      stroke: $color-link-hover;
     }
 
     &::after {
@@ -160,8 +186,24 @@ a {
     }
   }
 
-  &:hover::after {
-    background: $color-link-hover;
+  &:focus-visible {
+    outline: 2px solid $interactive-primary;
+    outline-offset: 4px;
+  }
+}
+
+// Lists
+ul,
+ol {
+  margin: 0 0 $space-3 0;
+  padding-left: $space-4;
+
+  li {
+    margin-bottom: $space-2;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 }
 
@@ -171,19 +213,76 @@ ul.no-markers {
   margin: 0;
 }
 
+// Text grouping
 .group--text {
   display: flex;
   flex-direction: column;
-  gap: $spacing-xs;
+  gap: $space-2;
   width: 100%;
-  @include breakpoint-up(lg) {
-    gap: $spacing-sm;
+  max-width: 100%;
+
+  @include breakpoint-up(md) {
+    gap: $space-3;
   }
 }
 
+// Text alignment helpers
 .text--flex-center {
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+
+.text--center {
+  text-align: center;
+}
+
+.text--left {
+  text-align: left;
+}
+
+.text--right {
+  text-align: right;
+}
+
+// Text styles
+.text--gradient {
+  @include light-text-gradient;
+  font-weight: 600;
+}
+
+.text--bold {
+  font-weight: 700;
+}
+
+.text--light {
+  font-weight: 300;
+}
+
+.text--uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+// Truncation
+.text--truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Responsive text alignment
+@include breakpoint-down(md) {
+  .text--md-center {
+    text-align: center;
+  }
+}
+
+// Reduced motion
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
 }

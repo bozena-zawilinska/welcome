@@ -137,33 +137,47 @@ export default {
 <style lang="scss" scoped>
 .side-nav__container {
   width: 100%;
-  max-width: 100vw;
   position: fixed;
   top: 0;
-  height: 24px;
-  padding: 16px 0;
+  left: 0;
+  height: auto;
   z-index: z(side-nav);
+
+  // Ensure container doesn't interfere with content
+  @include breakpoint-down(md) {
+    height: 56px; // Mobile header height
+  }
 }
 
 /* Hamburger Menu Button (Mobile Only) */
 .hamburger-btn {
   display: none;
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  z-index: z(side-nav);
-  background: none;
-  border: none;
-  font-size: 24px;
+  position: fixed;
+  top: $space-2;
+  right: $space-2;
+  z-index: z(side-nav) + 1;
+  background: rgba($white, 0.9);
+  backdrop-filter: blur(8px);
+  border: 1px solid $surface-border;
+  padding: $space-2;
+  border-radius: 8px;
   cursor: pointer;
-  color: #333;
+  color: $text-primary;
+  transition: all 0.2s ease;
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: $color-selected;
+    transform: scale(1.05);
   }
 
-  @media (max-width: 768px) {
-    display: block;
+  &:focus-visible {
+    outline: 2px solid $color-selected;
+    outline-offset: 2px;
+  }
+
+  @include breakpoint-down(md) {
+    display: flex;
   }
 
   .menu-icon {
@@ -176,174 +190,197 @@ export default {
 /* Side Navigation */
 .side-nav {
   background: $white;
-  box-shadow: -4px 0 8px rgba(0, 0, 0, 0.1);
-  transition: width 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: fixed;
   left: 0;
   top: 0;
   height: 100vh;
-  width: 100%;
+  width: 200px; // Default expanded width
   z-index: z(side-nav);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
-  opacity: 1;
-  visibility: visible;
+  // Mobile fullscreen menu
+  @include breakpoint-down(md) {
+    width: 100%;
+    transform: translateX(-100%);
+    padding-top: $space-7;
 
-  @include breakpoint-up(md) {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  &.collapsed {
-    opacity: 0;
-    visibility: hidden;
-    transition: width 0.7s ease, opacity 0.7s ease, visibility 0.7s ease;
-
-    .active-border {
-      display: block;
-      position: absolute;
-      top: 100%;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 12px;
-      height: 2px;
-      margin: 0 auto;
-      background-color: $color-selected;
-      margin-top: 8px;
+    &:not(.collapsed) {
+      transform: translateX(0);
     }
   }
 
+  &.collapsed {
+    @include breakpoint-up(md) {
+      width: 80px; // Collapsed desktop width
+    }
+
+    // Active indicator for collapsed state
+    .active-border {
+      display: block;
+      position: absolute;
+      left: 50%;
+      bottom: -8px;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 2px;
+      background-color: $color-selected;
+    }
+  }
+
+  // Toggle button styling
   .button--toggle {
-    transition: all 0.3s ease;
-    margin: $spacing-lg;
+    margin: $space-4;
+    padding: $space-2 $space-3;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: none;
+    border-radius: 8px;
+    background: rgba($text-tertiary, 0.05);
+    color: $text-secondary;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba($text-tertiary, 0.1);
+      color: $text-primary;
+    }
 
     .toggle-icon {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       stroke: currentColor;
     }
 
     .hide-button-content {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: $space-1;
 
       .hide-text {
-        // font-size: 24px;
         font-weight: 500;
+        font-size: 0.875rem;
       }
 
-      // Mobile-specific styling - remove gap when no icon
-      @media (max-width: 768px) {
-        gap: 0;
-
-        .hide-text {
-          font-size: 14px;
-        }
+      @include breakpoint-down(md) {
+        justify-content: center;
+        width: 100%;
       }
     }
   }
 
+  // Show text only when expanded
   &:not(.collapsed) {
     .icon {
-      margin-right: $spacing-xs;
+      margin-right: $space-2;
     }
   }
 
+  // Navigation items
   ul {
     list-style: none;
-    padding: 0;
+    padding: $space-5 0;
     margin: 0;
 
+    @include breakpoint-down(md) {
+      padding: 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
     .nav-item {
-      font-size: $font-size-small;
+      font-size: 0.875rem;
       font-weight: 600;
       text-align: center;
+
+      @include breakpoint-down(md) {
+        margin: $space-1 0;
+      }
 
       a {
         display: flex;
         align-items: center;
-        justify-content: flex-start;
-        color: #6b7280; // Default gray color for icons
-        margin: $spacing-sm;
-        padding: $spacing-sm;
+        color: $text-tertiary;
+        margin: $space-1;
+        padding: $space-2 $space-3;
         border-radius: 8px;
-        transition: $transition;
+        transition: all 0.2s ease;
+        position: relative;
 
         @include breakpoint-up(md) {
           justify-content: center;
+          margin: $space-1 $space-2;
+        }
+
+        @include breakpoint-down(md) {
+          justify-content: center;
+          padding: $space-3;
+          font-size: 1rem;
+
+          &.active {
+            background: rgba($interactive-primary, 0.1);
+          }
         }
 
         &:hover {
-          background: rgba(255, 255, 255, 0.1);
+          background: rgba($text-tertiary, 0.05);
+          color: $text-primary;
         }
 
         .icon {
           transition: transform 0.2s ease;
           position: relative;
-          display: inline-block;
-          line-height: 1;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
 
           .hero-icon {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             stroke: currentColor;
-            transition: color 0.2s ease;
+            transition: all 0.2s ease;
           }
-        }
-
-        .active-border {
-          display: block;
-          position: absolute;
-          bottom: var(--ds-space-0, 0);
-          left: 50%;
-          transform: translateX(-50%);
-          width: 12px;
-          height: 2px;
-          margin: var(--ds-space-0, 0) auto;
-          background-color: var(--ds-icon-selected, #0c66e4);
         }
 
         &.active {
-          background: rgba(23, 114, 243, 0.1); // Active background color
+          background: rgba($interactive-primary, 0.08);
+          color: $interactive-primary;
 
           .icon .hero-icon {
-            color: $color-selected;
-            stroke: $color-selected;
+            color: $interactive-primary;
+            stroke: $interactive-primary;
+          }
+        }
+
+        // When expanded, show text aligned properly
+        .title {
+          @include breakpoint-down(md) {
+            margin-left: $space-2;
           }
         }
       }
     }
   }
+
+  // Focus management
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid $interactive-primary;
+    outline-offset: 2px;
+  }
 }
 
-/* Media Query for Desktop View */
-.side-nav {
-  @include breakpoint-up(md) {
-    display: flex;
-    flex-shrink: 0; // don’t shrink the nav
-    width: 200px; // default width when expanded
-
-    &.collapsed {
-      width: 80px;
-      visibility: visible;
-      opacity: 1;
-
-      .button--toggle {
-        margin: $spacing-lg $spacing-xs;
-        padding: 8px;
-      }
-    }
-  }
-
+// Reduced motion preference
+@media (prefers-reduced-motion: reduce) {
+  .side-nav,
+  .side-nav *,
   .hamburger-btn {
-    display: none;
+    transition: none !important;
   }
 }
-// @import "../styles/vendors/floating-vue.scss";
 </style>

@@ -338,6 +338,7 @@ export default {
 
   // Content wrapper
   &__content {
+    margin: 0;
     transition: opacity 0.2s ease;
   }
 
