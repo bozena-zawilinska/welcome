@@ -5,38 +5,37 @@
     <title>Redirecting...</title>
     <script>
       // Single Page App for GitHub Pages
-      // Based on https://github.com/rafgraph/spa-github-pages
+      // MIT License
+      // https://github.com/rafgraph/spa-github-pages
       (function() {
-        // This works for GitHub project pages - portfolio is our segment to keep
-        var pathSegmentsToKeep = 1; 
-        var location = window.location;
+        // This repository has been renamed to 'portfolio'
+        var segmentCount = 1; // For GitHub project pages using custom domain or not
+
+        var l = window.location;
         
-        // Skip redirect if already on the correct base path
-        if (location.pathname.indexOf('/portfolio/') === 0) {
-          // Get the path after the '/portfolio/' segment
-          var cleanPath = location.pathname.split('/portfolio/')[1] || '';
-          
-          // Only process if it's not an existing asset/file
-          if (!cleanPath.match(/\.[^/]+$/)) {
-            var redirectPath = '/portfolio/?' + 
-                      cleanPath.replace(/^\/+/, '') + 
-                      (location.search ? '&' + location.search.slice(1).replace(/&/g, '~and~') : '') + 
-                      location.hash;
-                      
-            window.history.replaceState(null, null, redirectPath);
-          }
-        } else {
-          // Redirect to the portfolio base
-          location.replace(
-            location.protocol + '//' + location.hostname + 
-            (location.port ? ':' + location.port : '') + 
-            '/portfolio/'
-          );
+        // Extracts path from URL and removes leading slash
+        var path = l.pathname.slice(1);
+        
+        // Remove the repository name (portfolio) from the path if it exists
+        if (path.indexOf('portfolio/') === 0) {
+          path = path.substring('portfolio/'.length);
         }
+        
+        // Create the redirect URL
+        var redirectUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+          '/portfolio/?/' + path + 
+          (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') + 
+          l.hash;
+        
+        // Redirect to our SPA entry point
+        window.location.replace(redirectUrl);
       })();
     </script>
   </head>
   <body>
-    Redirecting...
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <p>Redirecting to portfolio...</p>
   </body>
 </html>
