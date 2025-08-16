@@ -20,17 +20,19 @@
           v-bind:title="isCollapsed && hoverItem === index ? item.title : ''"
           v-tooltip.auto="isCollapsed && hoverItem === index ? item.title : ''"
         >
-          <a :href="item.link" :class="{ active: isActiveRoute(item.link) }">
-            <span class="icon">
-              <component :is="item.icon" class="hero-icon" />
-              <span
-                v-if="isActiveRoute(item.link) && isCollapsed && !isMobile"
-                class="active-border"
-              ></span>
-            </span>
-            <span v-if="!isCollapsed" class="title">{{ item.title }}</span>
-            <span class="is-selected"></span>
-          </a>
+          <router-link :to="item.link" custom v-slot="{ href, navigate, isActive }">
+            <a :href="href" @click="navigate" :class="{ active: isActive }">
+              <span class="icon">
+                <component :is="item.icon" class="hero-icon" />
+                <span
+                  v-if="isActive && isCollapsed && !isMobile"
+                  class="active-border"
+                ></span>
+              </span>
+              <span v-if="!isCollapsed" class="title">{{ item.title }}</span>
+              <span class="is-selected"></span>
+            </a>
+          </router-link>
         </li>
       </ul>
       <a class="button button--toggle" @click="toggleNav">
@@ -88,7 +90,7 @@ export default {
       isMobile: false, // tracks if the device is mobile
       hoverItem: null, // tracks hovered item
       menuItems: [
-        { title: 'Welcome', link: '/', icon: 'HomeIcon' },
+        { title: 'Welcome', link: '/welcome', icon: 'HomeIcon' },
         { title: 'About Me', link: '/about', icon: 'UserIcon' },
         { title: 'Portfolio', link: '/work', icon: 'PaintBrushIcon' },
         { title: 'Get in Touch', link: '/contact', icon: 'EnvelopeIcon' },
