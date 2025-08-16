@@ -4,43 +4,57 @@
     <meta charset="utf-8" />
     <title>Redirecting...</title>
     <script>
-      // Enhanced script for mixed path levels (root and /welcome/)
-      // Based on spa-github-pages (https://github.com/rafgraph/spa-github-pages)
+      // Simple SPA GitHub Pages redirect script
+      // Based on https://github.com/rafgraph/spa-github-pages
       
       (function() {
-        // Parse the current URL
+        var pathSegmentsToKeep = 0; // For project pages use 1, for user/org pages use 0
         var l = window.location;
-        var path = l.pathname;
         
-        // Detect if we're at root level (/about, /work, /contact) or in welcome subdirectory
-        var segments = path.split('/').filter(function(p) { return p; });
-        var isRootPath = segments.length === 1 && ['about', 'work', 'contact'].indexOf(segments[0]) !== -1;
-        var isWelcomePath = segments[0] === 'welcome';
+        // Redirect all paths to the main app with proper query parameters
+        var path = l.pathname.replace(/^\//, ''); // Strip leading slash
         
-        // Set base for redirect
-        var base = isRootPath ? '/' : '/welcome/';
-        var redirectPath = '';
+        // Handle paths like /about, /work, /contact by redirecting to welcome/?/about
+        var segments = path.split('/');
         
-        if (isRootPath) {
-          // For /about, /work, /contact redirect to /welcome/?/about etc.
-          redirectPath = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + 
-            '/welcome/?/' + segments[0] + 
-            (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') + 
-            l.hash;
-        } else if (isWelcomePath) {
-          // For /welcome/about redirect to /welcome/?/about etc.
-          var page = segments.length > 1 ? segments.slice(1).join('/') : '';
-          redirectPath = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + 
-            '/welcome/?/' + page + 
-            (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') + 
-            l.hash;
-        } else {
-          // Default redirect to /welcome/
-          redirectPath = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') + '/welcome/';
+        // Check if we're at root level paths (/about, /work, /contact)
+        if (segments.length === 1 && ['about', 'work', 'contact'].indexOf(segments[0]) !== -1) {
+          l.replace(
+            l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+            '/welcome/?/' + segments[0] +
+            (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+            l.hash
+          );
+        } 
+        // Handle paths in the welcome directory
+        else if (segments.length > 0 && segments[0] === 'welcome') {
+          var remainingPath = segments.slice(1).join('/');
+          if (remainingPath) {
+            l.replace(
+              l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+              '/welcome/?/' + remainingPath +
+              (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+              l.hash
+            );
+          } else {
+            // Just /welcome/ path, no need to redirect
+            l.replace(
+              l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+              '/welcome/' +
+              (l.search ? l.search : '') +
+              l.hash
+            );
+          }
         }
-        
-        // Redirect to the SPA entry point
-        window.location.replace(redirectPath);
+        // Default case: redirect to welcome page
+        else {
+          l.replace(
+            l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+            '/welcome/' +
+            (l.search ? l.search : '') +
+            l.hash
+          );
+        }
       })();
     </script>
   </head>

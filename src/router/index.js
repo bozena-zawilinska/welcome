@@ -11,26 +11,35 @@ const routes = [
     component: HomePage,
   },
   {
-    path: '/welcome/',
+    path: '/welcome',
     redirect: '/'
   },
   {
     path: '/about',
     name: 'About',
     component: AboutPage,
-    alias: '/welcome/about'
+  },
+  {
+    path: '/welcome/about',
+    redirect: '/about'
   },
   {
     path: '/contact',
     name: 'Contact',
     component: ContactPage,
-    alias: '/welcome/contact'
+  },
+  {
+    path: '/welcome/contact',
+    redirect: '/contact'
   },
   {
     path: '/work',
     name: 'Work',
     component: WorkPage,
-    alias: '/welcome/work'
+  },
+  {
+    path: '/welcome/work',
+    redirect: '/work'
   },
 ]
 
