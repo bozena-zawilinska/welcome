@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../views/HomePage.vue'
 import AboutPage from '../views/AboutPage.vue'
 import ContactPage from '../views/ContactPage.vue'
@@ -7,10 +7,6 @@ import WorkPage from '../views/WorkPage.vue'
 const routes = [
   {
     path: '/',
-    redirect: '/welcome'
-  },
-  {
-    path: '/welcome',
     name: 'Home',
     component: HomePage,
   },
@@ -32,7 +28,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(process.env.BASE_URL),
   routes,
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {

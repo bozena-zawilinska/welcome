@@ -20,7 +20,11 @@
           v-bind:title="isCollapsed && hoverItem === index ? item.title : ''"
           v-tooltip.auto="isCollapsed && hoverItem === index ? item.title : ''"
         >
-          <router-link :to="item.link" custom v-slot="{ href, navigate, isActive }">
+          <router-link
+            :to="item.link"
+            custom
+            v-slot="{ href, navigate, isActive }"
+          >
             <a :href="href" @click="navigate" :class="{ active: isActive }">
               <span class="icon">
                 <component :is="item.icon" class="hero-icon" />
@@ -90,7 +94,7 @@ export default {
       isMobile: false, // tracks if the device is mobile
       hoverItem: null, // tracks hovered item
       menuItems: [
-        { title: 'Welcome', link: '/welcome', icon: 'HomeIcon' },
+        { title: 'Welcome', link: '/', icon: 'HomeIcon' },
         { title: 'About Me', link: '/about', icon: 'UserIcon' },
         { title: 'Portfolio', link: '/work', icon: 'PaintBrushIcon' },
         { title: 'Get in Touch', link: '/contact', icon: 'EnvelopeIcon' },
