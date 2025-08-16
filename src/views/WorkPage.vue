@@ -339,7 +339,7 @@
         <template #text>
           Whether you need a custom-built solution, a performance boost, or a
           more accessible website,
-          <a href="/contact" class="text-link">I'm here to help.</a>
+          <router-link to="/contact" class="text-link">I'm here to help.</router-link>
         </template>
       </CallToAction>
     </div>
