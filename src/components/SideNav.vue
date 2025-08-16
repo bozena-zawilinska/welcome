@@ -1,6 +1,5 @@
 <template>
   <div class="side-nav__container">
-    <!-- Hamburger Icon (Only visible on mobile) -->
     <button class="hamburger-btn" @click="toggleNav" v-if="isCollapsed">
       <Bars3Icon class="menu-icon" />
     </button>
@@ -91,17 +90,13 @@ export default {
   },
   data() {
     return {
-      isMobile: false, // tracks if the device is mobile
-      hoverItem: null, // tracks hovered item
+      isMobile: false,
+      hoverItem: null,
       menuItems: [
-        { title: 'Welcome', link: '/', icon: 'HomeIcon' },
+        { title: 'Welcome', link: '/welcome', icon: 'HomeIcon' },
         { title: 'About Me', link: '/about', icon: 'UserIcon' },
         { title: 'Portfolio', link: '/work', icon: 'PaintBrushIcon' },
         { title: 'Get in Touch', link: '/contact', icon: 'EnvelopeIcon' },
-        // { title: "Welcome 🌟", link: "/", emoji: "🏠" },
-        // { title: "About Me 💡", link: "/about", emoji: "👤" },
-        // { title: "Portfolio 🚀", link: "/work", emoji: "🎨" },
-        // { title: "Get in Touch 📬", link: "/contact", emoji: "✉️" },
       ],
     }
   },

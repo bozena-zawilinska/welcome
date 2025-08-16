@@ -4,55 +4,33 @@
     <meta charset="utf-8" />
     <title>Redirecting...</title>
     <script>
-      // Simple SPA GitHub Pages redirect script
+      // Single Page App for GitHub Pages
       // Based on https://github.com/rafgraph/spa-github-pages
-      
       (function() {
-        var pathSegmentsToKeep = 0; // For project pages use 1, for user/org pages use 0
-        var l = window.location;
+        // This works for GitHub project pages - portfolio is our segment to keep
+        var pathSegmentsToKeep = 1; 
+        var location = window.location;
         
-        // Redirect all paths to the main app with proper query parameters
-        var path = l.pathname.replace(/^\//, ''); // Strip leading slash
-        
-        // Handle paths like /about, /work, /contact by redirecting to welcome/?/about
-        var segments = path.split('/');
-        
-        // Check if we're at root level paths (/about, /work, /contact)
-        if (segments.length === 1 && ['about', 'work', 'contact'].indexOf(segments[0]) !== -1) {
-          l.replace(
-            l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-            '/welcome/?/' + segments[0] +
-            (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-            l.hash
-          );
-        } 
-        // Handle paths in the welcome directory
-        else if (segments.length > 0 && segments[0] === 'welcome') {
-          var remainingPath = segments.slice(1).join('/');
-          if (remainingPath) {
-            l.replace(
-              l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-              '/welcome/?/' + remainingPath +
-              (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-              l.hash
-            );
-          } else {
-            // Just /welcome/ path, no need to redirect
-            l.replace(
-              l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-              '/welcome/' +
-              (l.search ? l.search : '') +
-              l.hash
-            );
+        // Skip redirect if already on the correct base path
+        if (location.pathname.indexOf('/portfolio/') === 0) {
+          // Get the path after the '/portfolio/' segment
+          var cleanPath = location.pathname.split('/portfolio/')[1] || '';
+          
+          // Only process if it's not an existing asset/file
+          if (!cleanPath.match(/\.[^/]+$/)) {
+            var redirectPath = '/portfolio/?' + 
+                      cleanPath.replace(/^\/+/, '') + 
+                      (location.search ? '&' + location.search.slice(1).replace(/&/g, '~and~') : '') + 
+                      location.hash;
+                      
+            window.history.replaceState(null, null, redirectPath);
           }
-        }
-        // Default case: redirect to welcome page
-        else {
-          l.replace(
-            l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-            '/welcome/' +
-            (l.search ? l.search : '') +
-            l.hash
+        } else {
+          // Redirect to the portfolio base
+          location.replace(
+            location.protocol + '//' + location.hostname + 
+            (location.port ? ':' + location.port : '') + 
+            '/portfolio/'
           );
         }
       })();

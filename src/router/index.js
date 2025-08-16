@@ -7,12 +7,12 @@ import WorkPage from '../views/WorkPage.vue'
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: HomePage,
+    redirect: '/welcome',
   },
   {
     path: '/welcome',
-    redirect: '/'
+    name: 'Home',
+    component: HomePage,
   },
   {
     path: '/about',
@@ -20,27 +20,20 @@ const routes = [
     component: AboutPage,
   },
   {
-    path: '/welcome/about',
-    redirect: '/about'
-  },
-  {
     path: '/contact',
     name: 'Contact',
     component: ContactPage,
-  },
-  {
-    path: '/welcome/contact',
-    redirect: '/contact'
   },
   {
     path: '/work',
     name: 'Work',
     component: WorkPage,
   },
+  // Catch-all route to redirect to welcome page
   {
-    path: '/welcome/work',
-    redirect: '/work'
-  },
+    path: '/:pathMatch(.*)*',
+    redirect: '/welcome',
+  }
 ]
 
 const router = createRouter({
