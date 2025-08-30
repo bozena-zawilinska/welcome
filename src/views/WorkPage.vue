@@ -339,7 +339,9 @@
         <template #text>
           Whether you need a custom-built solution, a performance boost, or a
           more accessible website,
-          <router-link to="/contact" class="text-link">I'm here to help.</router-link>
+          <router-link to="/contact" class="text-link"
+            >I'm here to help.</router-link
+          >
         </template>
       </CallToAction>
     </div>
@@ -1390,6 +1392,11 @@ export default {
       opacity: 0.8;
       transition: opacity 0.3s ease;
       margin-top: auto; // Push to bottom
+
+      span {
+        margin-bottom: 0;
+      }
+
       .expand-icon {
         width: 1rem;
         height: 1rem;
@@ -1536,8 +1543,14 @@ export default {
       font-size: $font-size-base;
     }
   }
+
   .btn {
     margin: 0 auto;
+  }
+
+  .btn.btn--primary span {
+    display: inline-flex;
+    gap: 0.5rem;
   }
 }
 </style>

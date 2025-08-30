@@ -50,7 +50,7 @@
           v-tooltip.auto="'Use [ to hide'"
         >
           <span class="hide-text">Hide</span>
-          <ChevronDoubleRightIcon class="toggle-icon" />
+          <ChevronDoubleLeftIcon class="toggle-icon" />
         </div>
         <div v-else-if="isMobile" class="hide-button-content">
           <span class="hide-text">Close</span>
@@ -68,6 +68,7 @@ import {
   PaintBrushIcon,
   EnvelopeIcon,
   ChevronDoubleRightIcon,
+  ChevronDoubleLeftIcon,
   XMarkIcon,
   Bars3Icon,
 } from '@heroicons/vue/24/outline'
@@ -79,6 +80,7 @@ export default {
     PaintBrushIcon,
     EnvelopeIcon,
     ChevronDoubleRightIcon,
+    ChevronDoubleLeftIcon,
     XMarkIcon,
     Bars3Icon,
   },
@@ -144,6 +146,10 @@ export default {
   height: auto;
   z-index: z(side-nav);
 
+  span {
+    margin: 0;
+  }
+
   // Ensure container doesn't interfere with content
   @include breakpoint-down(md) {
     height: 56px; // Mobile header height
@@ -208,6 +214,7 @@ export default {
     width: 100%;
     transform: translateX(-100%);
     padding-top: $space-7;
+    justify-content: space-evenly;
 
     &:not(.collapsed) {
       transform: translateX(0);
@@ -234,7 +241,7 @@ export default {
 
   // Toggle button styling
   .button--toggle {
-    margin: $space-4;
+    margin: $space-5 $space-2;
     padding: $space-2 $space-3;
     display: flex;
     align-items: center;
@@ -288,10 +295,8 @@ export default {
 
     @include breakpoint-down(md) {
       padding: 0;
-      flex: 1;
       display: flex;
       flex-direction: column;
-      justify-content: center;
     }
 
     .nav-item {

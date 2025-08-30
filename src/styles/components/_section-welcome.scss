@@ -109,25 +109,12 @@
         }
       }
 
-      .hero-subtitle {
-        font-size: clamp(1rem, 2.5vw, 1.25rem);
-        color: $text-secondary;
-        line-height: 1.6;
-        margin-bottom: $space-5;
-        opacity: 0;
-        animation: fadeInUp 0.6s ease-out 0.8s forwards;
-
-        strong {
-          @include light-text-gradient;
-          font-weight: 600;
-        }
-      }
-
       // CTA Buttons with improved stacking behavior
       .hero-actions {
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         gap: $space-3;
         opacity: 0;
         transform: translateY(20px);
