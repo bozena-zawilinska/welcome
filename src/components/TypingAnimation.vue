@@ -83,10 +83,16 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/styles/index.scss';
+
 .typing {
   display: flex;
   align-items: center;
+  justify-content: center;
+  @include breakpoint-up(md) {
+    justify-content: flex-start;
+  }
 }
 
 .cursor {

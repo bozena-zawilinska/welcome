@@ -7,8 +7,11 @@ import WorkPage from '../views/WorkPage.vue'
 const routes = [
   {
     path: '/',
-    name: 'Home',
     component: HomePage,
+  },
+  {
+    path: '/welcome',
+    redirect: '/',
   },
   {
     path: '/about',
@@ -24,6 +27,11 @@ const routes = [
     path: '/work',
     name: 'Work',
     component: WorkPage,
+  },
+  // Catch-all route to redirect to home page
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/',
   },
 ]
 

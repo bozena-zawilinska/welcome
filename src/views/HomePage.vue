@@ -13,7 +13,7 @@
           <div class="hero-image" data-aos="fade-up" data-aos-delay="200">
             <img
               src="@/assets/contact-bz.jpg"
-              alt="Bozena - Front-end Developer"
+              alt="Bozena - Front-End Developer"
               width="400"
               height="400"
             />
@@ -29,11 +29,13 @@
               customCursorClass="heading"
               @typingFinished="onFirstAnimationFinished"
             />
-            <p class="hero-subtitle">
-              A passionate <strong>Front-end and Website Developer</strong> with
-              a knack for building web experiences that are not only visually
-              captivating but also optimized for accessibility and performance.
-              🚀
+            <p class="hero-subtitle section-description">
+              A results-driven <strong>Front-End Developer</strong> crafting
+              exceptional digital experiences that
+              <strong>captivate users</strong> and
+              <strong>drive business growth</strong>. Blending creative design
+              with technical excellence to build accessibility-first,
+              high-performance websites. 🚀
             </p>
 
             <!-- CTA Buttons -->
@@ -43,18 +45,19 @@
                 size="large"
                 to="/work"
                 :icon-right="ArrowRightIcon"
-                aria-label="View my portfolio work"
+                aria-label="Explore my portfolio work"
+                class="pulse-animation"
               >
-                View My Work
+                Showcase Portfolio
               </BaseButton>
               <BaseButton
                 variant="secondary"
                 size="large"
-                to="/contact"
-                :icon-right="EnvelopeIcon"
-                aria-label="Get in touch with me"
+                to="/about"
+                :icon-right="BookOpenIcon"
+                aria-label="Learn more about my skills and experience"
               >
-                Get In Touch
+                Discover My Story
               </BaseButton>
             </div>
           </div>
@@ -116,36 +119,29 @@
               <strong>Smart. Responsive. Effortless.</strong>
             </span>
           </div>
-          <p class="projects-description">
-            I build
-            <strong>pixel-perfect, high-performance websites</strong> that
-            empower teams to create stunning pages with minimal effort. My
-            custom Gutenberg blocks are designed for maximum flexibility,
-            allowing marketing teams to manage content effortlessly—without
-            touching a line of code.
+          <p class="projects-description section-description">
+            I transform
+            <strong>business visions into digital realities</strong> through
+            pixel-perfect, high-performance websites that deliver results. My
+            solutions empower your team to create stunning pages effortlessly
+            and manage content without technical barriers. With a focus on
+            <strong>conversion-optimized</strong> interfaces and
+            <strong>future-proof architecture</strong>, I help brands stand out
+            in a crowded digital landscape.
           </p>
-        </div>
-
-        <!-- CTA Actions -->
-        <div class="projects-actions">
-          <BaseButton
-            variant="primary"
-            size="large"
-            to="/work"
-            :icon-right="ArrowRightIcon"
-            aria-label="Explore my portfolio work"
-          >
-            Explore My Work
-          </BaseButton>
-          <BaseButton
-            variant="secondary"
-            size="large"
-            to="/contact"
-            :icon-right="ChatBubbleLeftRightIcon"
-            aria-label="Start a conversation about your project"
-          >
-            Get In Touch
-          </BaseButton>
+          <!-- CTA Actions -->
+          <div class="projects-actions">
+            <BaseButton
+              variant="primary"
+              size="large"
+              to="/contact"
+              :icon-right="EnvelopeIcon"
+              aria-label="Start a conversation about your project"
+              fullWidth
+            >
+              Let's Create Something Amazing Together
+            </BaseButton>
+          </div>
         </div>
 
         <!-- Featured Work Preview -->
@@ -211,7 +207,11 @@ import GutenbergVideo from '@/components/GutenbergVideo.vue'
 import BaseButton from '@/components/Button.vue'
 import BackgroundShades from '@/components/BackgroundShades.vue'
 import ProgressBar from '@/components/ProgressBar.vue'
-import { ArrowRightIcon, EnvelopeIcon } from '@heroicons/vue/24/outline'
+import {
+  ArrowRightIcon,
+  EnvelopeIcon,
+  BookOpenIcon,
+} from '@heroicons/vue/24/outline'
 
 export default {
   name: 'HomePage',
@@ -229,6 +229,7 @@ export default {
       scrollProgress: 0,
       ArrowRightIcon, // Make icons available in template
       EnvelopeIcon,
+      BookOpenIcon,
     }
   },
   mounted() {
@@ -338,18 +339,6 @@ export default {
       font-weight: 700;
       line-height: 1.2;
       position: relative;
-
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: -12px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 80px;
-        height: 4px;
-        background: $gradient-hero;
-        border-radius: 2px;
-      }
     }
 
     .projects-tagline {
@@ -376,16 +365,9 @@ export default {
     }
 
     .projects-description {
-      font-size: clamp(1rem, 2vw, 1.125rem);
-      color: $text-secondary;
-      line-height: 1.7;
       max-width: 700px;
-      margin: 0 auto;
-
-      strong {
-        color: $text-primary;
-        font-weight: 600;
-      }
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 
@@ -395,12 +377,25 @@ export default {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 4rem;
+    max-width: 550px;
+    margin-left: auto;
+    margin-right: auto;
 
     @include breakpoint-up(sm) {
       flex-direction: row;
       justify-content: center;
       gap: 1.5rem;
+    }
+
+    .btn {
+      overflow-wrap: break-word;
+      word-break: break-word;
+      text-wrap: wrap;
+
+      @include breakpoint-down(sm) {
+        width: 100%;
+        flex-direction: column-reverse;
+      }
     }
   }
 

@@ -4,40 +4,41 @@
     <meta charset="utf-8" />
     <title>Redirecting...</title>
     <script>
-      // Single Page Apps for GitHub Pages
+      // Single Page App for GitHub Pages
       // MIT License
       // https://github.com/rafgraph/spa-github-pages
-      // This script takes the current URL and converts the path and query
-      // string into just a query string, and then redirects the browser
-      // to the new URL with only a query string and hash fragment
+      ;(function () {
+        // This repository has been renamed to 'portfolio'
+        var segmentCount = 1 // For GitHub project pages using custom domain or not
 
-      // This is necessary for GitHub Pages to handle Vue Router history mode
-      var pathSegmentsToKeep = 1 // Keeps the repository name but removes the rest
+        var l = window.location
 
-      var l = window.location
-      var segmentCount = l.pathname.split('/').length
-      l.replace(
-        l.protocol +
+        // Extracts path from URL and removes leading slash
+        var path = l.pathname.slice(1)
+
+        // Remove the repository name (portfolio) from the path if it exists
+        if (path.indexOf('portfolio/') === 0) {
+          path = path.substring('portfolio/'.length)
+        }
+
+        // Create the redirect URL
+        var redirectUrl =
+          l.protocol +
           '//' +
           l.hostname +
           (l.port ? ':' + l.port : '') +
-          l.pathname
-            .split('/')
-            .slice(0, 1 + pathSegmentsToKeep)
-            .join('/') +
-          '/?/' +
-          l.pathname
-            .slice(1)
-            .split('/')
-            .slice(pathSegmentsToKeep)
-            .join('/')
-            .replace(/&/g, '~and~') +
+          '/portfolio/?/' +
+          path +
           (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
           l.hash
-      )
+
+        // Redirect to our SPA entry point
+        window.location.replace(redirectUrl)
+      })()
     </script>
   </head>
   <body>
-    Redirecting...
+    <noscript> You need to enable JavaScript to run this app. </noscript>
+    <p>Redirecting to home page...</p>
   </body>
 </html>

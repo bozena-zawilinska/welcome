@@ -15,37 +15,53 @@
       />
 
       <!-- Developer Introduction -->
-      <section class="work__intro" aria-labelledby="intro-heading">
-        <div class="profile-image">
+      <UnifiedSection id="work-intro" mediaAlignment="center">
+        <template #media>
           <img
             src="@/assets/avatar-bz-3.png"
             alt="Bozena's profile picture"
-            width="300"
-            height="300"
+            width="200"
+            height="200"
+            class="profile-image"
           />
-        </div>
+        </template>
 
-        <div class="intro-content">
-          <h2 id="intro-heading" class="intro-heading">
-            What I Bring to the Table
-          </h2>
-          <p class="intro-text">
-            With over 3 years of expertise in Vue.js and 5+ years mastering
-            WordPress, I specialize in crafting customized templates and
-            Gutenberg blocks that meet the unique needs of each project. As the
-            sole web developer in my current role, I've taken full ownership of
-            building and optimizing ProdPad website, achieving near-perfect
-            PageSpeed scores for both desktop and mobile.
-          </p>
-          <p class="intro-text">
-            With an eye for detail and a passion for clean code, I transform
-            designs into seamless user experiences that stand out.
-            <strong>My mission?</strong> To create digital solutions that are
-            fast, functional, and future-proof. Whether you're looking for
-            seamless performance, inclusive design, or tailored web
-            functionality, I'm here to bring your vision to life.
-          </p>
-        </div>
+        <h2 class="visually-hidden">What I Bring to the Table</h2>
+        <p>
+          With over 3 years of expertise in Vue.js and 5+ years mastering
+          WordPress, I'm a
+          <strong>results-driven Front-End Developer</strong> who transforms
+          design visions into exceptional digital experiences. I specialize in
+          crafting customized Gutenberg blocks and component libraries that
+          empower marketing teams to create stunning content independently.
+        </p>
+
+        <p>
+          As the sole web developer for ProdPad, I've delivered near-perfect
+          PageSpeed scores on both desktop and mobile while maintaining strict
+          accessibility standards.
+        </p>
+
+        <p>
+          My approach combines
+          <span class="highlight"
+            >technical excellence with thoughtful design</span
+          >, creating solutions that not only look impressive but also drive
+          business results. <strong>My mission?</strong> To build digital
+          experiences that are
+          <strong>accessible, lightning-fast, and future-proof</strong>. Whether
+          you need performance optimization, custom development, or a seamless
+          user interface that converts visitors into customers, I'll bring your
+          vision to life with code that's as clean as it is effective.
+        </p>
+      </UnifiedSection>
+
+      <!-- Interactive Cards Section -->
+      <section class="work__value-props" aria-labelledby="value-props-heading">
+        <h2 id="value-props-heading" class="section-title">
+          My Professional Value
+        </h2>
+        <InteractiveCards :customCards="workValueCards" />
       </section>
 
       <!-- Featured Projects -->
@@ -339,7 +355,9 @@
         <template #text>
           Whether you need a custom-built solution, a performance boost, or a
           more accessible website,
-          <a href="/contact" class="text-link">I'm here to help.</a>
+          <router-link to="/contact" class="text-link"
+            >I'm here to help.</router-link
+          >
         </template>
       </CallToAction>
     </div>
@@ -355,6 +373,8 @@ import BaseButton from '@/components/Button.vue'
 import CallToAction from '@/components/CallToAction.vue'
 import TypingAnimation from '@/components/TypingAnimation.vue'
 import ProgressBar from '@/components/ProgressBar.vue'
+import InteractiveCards from '@/components/InteractiveCards.vue'
+import UnifiedSection from '@/components/UnifiedSection.vue'
 
 export default {
   name: 'WorkPage',
@@ -364,6 +384,8 @@ export default {
     CallToAction,
     TypingAnimation,
     ProgressBar,
+    InteractiveCards,
+    UnifiedSection,
   },
   metaInfo() {
     return {
@@ -441,6 +463,74 @@ export default {
       scrollProgress: 0,
       isToggling: false, // Prevent double-clicks
       selectedCard: null, // For modal system
+      workValueCards: [
+        {
+          id: 1,
+          type: 'performance',
+          title: 'Performance Expert',
+          icon: 'BoltIcon',
+          description:
+            'I transform sluggish websites into lightning-fast experiences, consistently achieving 95+ PageSpeed scores on both mobile and desktop. My optimization techniques ensure visitors stay engaged rather than frustrated by slow loading times.',
+          funFact:
+            "I once reduced a client's page load time from 12 seconds to under 2 seconds with just four targeted optimizations!",
+          isHovered: false,
+        },
+        {
+          id: 2,
+          type: 'code',
+          title: 'Component Architect',
+          icon: 'CodeBracketIcon',
+          description:
+            'I build modular, reusable component systems that create consistency across platforms while dramatically reducing development time for new features. My code is clean, well-documented, and built to evolve with your business needs.',
+          funFact:
+            'My custom Gutenberg block library reduced content creation time by 60% for marketing teams!',
+          isHovered: false,
+        },
+        {
+          id: 3,
+          type: 'passion',
+          title: 'Implementation Specialist',
+          icon: 'HeartIcon',
+          description:
+            "Give me a design, and I'll bring it to life with pixel-perfect precision. I excel at transforming complex visual concepts into responsive, interactive interfaces that maintain design integrity across all devices and screen sizes.",
+          funFact:
+            'Designers love working with me because I notice even the smallest alignment details that others miss!',
+          isHovered: false,
+        },
+        {
+          id: 4,
+          type: 'innovation',
+          title: 'Accessibility Advocate',
+          icon: 'SparklesIcon',
+          description:
+            'I ensure your digital presence is truly accessible to everyone. My work complies with WCAG guidelines while maintaining beautiful design, reaching more users and protecting you from potential legal issues.',
+          funFact:
+            'I maintain a custom accessibility checklist of 37 items that I review on every project!',
+          isHovered: false,
+        },
+        {
+          id: 5,
+          type: 'problem',
+          title: 'Technical Problem Solver',
+          icon: 'PuzzlePieceIcon',
+          description:
+            'Complex challenges are where I shine. From debugging intricate issues to optimizing complex workflows, I approach every problem methodically, breaking it down into manageable pieces and finding elegant solutions.',
+          funFact:
+            'I once fixed an elusive bug that had stumped three other developers for weeks!',
+          isHovered: false,
+        },
+        {
+          id: 6,
+          type: 'collaboration',
+          title: 'Self-Directed Professional',
+          icon: 'UsersIcon',
+          description:
+            "As someone who has worked as the sole developer in my roles, I've developed strong project management skills. I can prioritize effectively, communicate clearly with stakeholders, and deliver high-quality work without constant supervision.",
+          funFact:
+            "I've successfully managed and delivered 30+ projects from concept to completion with minimal oversight!",
+          isHovered: false,
+        },
+      ],
       projects: [
         {
           id: 1,
@@ -934,6 +1024,52 @@ export default {
 
 // Light theme specific styles for work page
 .page--work {
+  // Add highlight style for gradient text
+  .highlight {
+    @include light-text-gradient;
+    font-weight: 600;
+  }
+
+  // Visually hidden elements (for accessibility)
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  // Profile image
+  .profile-image {
+    height: auto;
+    transform: rotate(-2deg);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: rotate(0) scale(1.02);
+    }
+  }
+
+  // Work value props section
+  .work__value-props {
+    margin: 4rem 0;
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: $text-primary;
+      font-size: $font-size-subheading;
+      font-weight: 700;
+
+      @include breakpoint-down(md) {
+        font-size: $font-size-h3;
+      }
+    }
+  }
   // Global section spacing
   section {
     margin-bottom: 3rem;
@@ -943,46 +1079,8 @@ export default {
     }
   }
 
-  // Intro section specific styling
-  .work__intro {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-    flex-direction: column;
-
-    @include breakpoint-up(lg) {
-      flex-direction: row;
-    }
-
-    .intro-content {
-      flex: 2;
-      max-width: 600px;
-
-      .intro-heading {
-        color: $text-primary;
-        font-size: $font-size-h3;
-        margin-bottom: 1.5rem;
-        font-weight: 600;
-
-        @include breakpoint-down(md) {
-          font-size: $font-size-h3-mobile;
-        }
-      }
-
-      .intro-text {
-        color: $text-secondary;
-        line-height: 1.6;
-        margin-bottom: 1rem;
-        font-size: $font-size-base;
-
-        strong {
-          @include light-text-gradient;
-          font-weight: 600;
-        }
-      }
-    }
-  }
+  // Intro section now uses UnifiedSection component
+  // No additional custom styling needed
 
   // Featured projects - enhanced UX improvements
   .featured-card {
@@ -1280,10 +1378,7 @@ export default {
       grid-template-columns: 1fr;
     }
 
-    .work__intro {
-      flex-direction: column;
-      gap: 1.5rem;
-    }
+    // No custom work__intro styling needed - UnifiedSection handles this
   }
 }
 
@@ -1390,6 +1485,11 @@ export default {
       opacity: 0.8;
       transition: opacity 0.3s ease;
       margin-top: auto; // Push to bottom
+
+      span {
+        margin-bottom: 0;
+      }
+
       .expand-icon {
         width: 1rem;
         height: 1rem;
@@ -1536,8 +1636,14 @@ export default {
       font-size: $font-size-base;
     }
   }
+
   .btn {
     margin: 0 auto;
+  }
+
+  .btn.btn--primary span {
+    display: inline-flex;
+    gap: 0.5rem;
   }
 }
 </style>
