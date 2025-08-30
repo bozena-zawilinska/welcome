@@ -363,7 +363,8 @@
 }
 
 // Hide profile image on mobile devices
-#story-intro {
+#story-intro,
+#work-intro {
   .section-media {
     @include breakpoint-down(md) {
       display: none;

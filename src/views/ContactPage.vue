@@ -13,7 +13,7 @@
             customCursorClass="heading"
             @typingFinished="onFirstAnimationFinished"
           />
-          <p>
+          <p class="intro-text" :class="{ 'is-animated': animationComplete }">
             Have an exciting project or idea? Let’s collaborate to create
             something amazing! I’m always open to discussing new opportunities
             or connecting with like-minded professionals.
@@ -45,6 +45,7 @@
           v-else
           @submit.prevent="submitForm"
           class="contact-form"
+          :class="{ 'is-animated': animationComplete }"
           novalidate
         >
           <div class="form-group">
@@ -346,6 +347,7 @@ export default {
 
       showScrollButton: false,
       scrollProgress: 0,
+      animationComplete: false,
     }
   },
   mounted() {
@@ -357,6 +359,9 @@ export default {
     window.removeEventListener('scroll', this.handleScroll)
   },
   methods: {
+    onFirstAnimationFinished() {
+      this.animationComplete = true
+    },
     validateForm() {
       // Reset validation errors
       this.validationErrors = {
@@ -663,6 +668,11 @@ export default {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
+    &.animated-social-item {
+      opacity: 1; /* Make visible immediately */
+      transform: none; /* No transform */
+    }
+
     &.linkedin {
       background: linear-gradient(135deg, #0077b5 0%, #005885 100%);
       color: $white;
@@ -848,6 +858,15 @@ form {
   }
   90% {
     transform: translate3d(0, -4px, 0);
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .animated-social-item {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: translateY(0) !important;
   }
 }
 </style>

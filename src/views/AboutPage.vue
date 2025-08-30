@@ -93,11 +93,6 @@
         </p>
 
         <SkillsGrid :categories="skillCategories" />
-
-        <div class="card-section">
-          <h3>What I Bring to the Table</h3>
-          <InteractiveCards :customCards="aboutCards" />
-        </div>
       </UnifiedSection>
 
       <!-- My Values section - removed -->
@@ -181,7 +176,6 @@ import UnifiedSection from '@/components/UnifiedSection.vue'
 // import JourneyTimeline from '@/components/JourneyTimeline.vue'
 import SkillsGrid from '@/components/SkillsGrid.vue'
 import JourneyBadges from '@/components/JourneyBadges.vue'
-import InteractiveCards from '@/components/InteractiveCards.vue'
 
 export default {
   name: 'AboutPage',
@@ -194,7 +188,6 @@ export default {
     // JourneyTimeline,
     SkillsGrid,
     JourneyBadges,
-    InteractiveCards,
   },
   data() {
     return {
@@ -377,9 +370,6 @@ export default {
             "I'm always reading something—from tech blogs to novels. I believe that learning across diverse fields makes me a better developer by expanding my thinking beyond code.",
         },
       ],
-
-      // Cards for the InteractiveCards component
-      aboutCards: null, // Use the default cards from the InteractiveCards component
     }
   },
 
@@ -611,11 +601,26 @@ export default {
   display: flex;
   align-items: flex-start;
   gap: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+
+  &:hover {
+    transform: translateY(
+      -8px
+    ) !important; // Override the unified-card transform value
+    border-color: rgba($interactive-primary, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+
+    .personal-emoji {
+      transform: scale(1.1) rotate(5deg);
+    }
+  }
 
   .personal-emoji {
     font-size: 3rem;
     flex-shrink: 0;
     line-height: 1;
+    transition: transform 0.3s ease;
   }
 
   .personal-content {

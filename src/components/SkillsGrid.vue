@@ -25,6 +25,7 @@
             :key="i"
             class="skill-badge"
             :class="{ 'is-main': skill.main }"
+            :style="{ '--badge-delay': `${i * 0.06}s` }"
           >
             {{ skill.name || skill }}
             <span v-if="skill.level" class="skill-level">{{
@@ -128,6 +129,10 @@ export default {
     gap: 0.35rem;
     font-weight: 500;
     margin-bottom: 0;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInUp 0.4s ease-out forwards;
+    animation-delay: calc(var(--badge-delay, 0s) + var(--delay, 0s) + 0.3s);
 
     &.is-main {
       background: rgba($interactive-primary, 0.1);
@@ -147,4 +152,13 @@ export default {
 }
 
 // Accessibility improvements are now handled by the unified card system
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .skill-badge {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+}
 </style>
