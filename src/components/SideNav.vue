@@ -1,6 +1,5 @@
 <template>
   <div class="side-nav__container">
-    <!-- Hamburger Icon (Only visible on mobile) -->
     <button class="hamburger-btn" @click="toggleNav" v-if="isCollapsed">
       <Bars3Icon class="menu-icon" />
     </button>
@@ -51,7 +50,7 @@
           v-tooltip.auto="'Use [ to hide'"
         >
           <span class="hide-text">Hide</span>
-          <ChevronDoubleRightIcon class="toggle-icon" />
+          <ChevronDoubleLeftIcon class="toggle-icon" />
         </div>
         <div v-else-if="isMobile" class="hide-button-content">
           <span class="hide-text">Close</span>
@@ -69,6 +68,7 @@ import {
   PaintBrushIcon,
   EnvelopeIcon,
   ChevronDoubleRightIcon,
+  ChevronDoubleLeftIcon,
   XMarkIcon,
   Bars3Icon,
 } from '@heroicons/vue/24/outline'
@@ -80,6 +80,7 @@ export default {
     PaintBrushIcon,
     EnvelopeIcon,
     ChevronDoubleRightIcon,
+    ChevronDoubleLeftIcon,
     XMarkIcon,
     Bars3Icon,
   },
@@ -91,17 +92,13 @@ export default {
   },
   data() {
     return {
-      isMobile: false, // tracks if the device is mobile
-      hoverItem: null, // tracks hovered item
+      isMobile: false,
+      hoverItem: null,
       menuItems: [
-        { title: 'Welcome', link: '/', icon: 'HomeIcon' },
+        { title: 'Welcome', link: '/welcome', icon: 'HomeIcon' },
         { title: 'About Me', link: '/about', icon: 'UserIcon' },
         { title: 'Portfolio', link: '/work', icon: 'PaintBrushIcon' },
         { title: 'Get in Touch', link: '/contact', icon: 'EnvelopeIcon' },
-        // { title: "Welcome 🌟", link: "/", emoji: "🏠" },
-        // { title: "About Me 💡", link: "/about", emoji: "👤" },
-        // { title: "Portfolio 🚀", link: "/work", emoji: "🎨" },
-        // { title: "Get in Touch 📬", link: "/contact", emoji: "✉️" },
       ],
     }
   },
@@ -148,6 +145,10 @@ export default {
   left: 0;
   height: auto;
   z-index: z(side-nav);
+
+  span {
+    margin: 0;
+  }
 
   // Ensure container doesn't interfere with content
   @include breakpoint-down(md) {
@@ -213,6 +214,7 @@ export default {
     width: 100%;
     transform: translateX(-100%);
     padding-top: $space-7;
+    justify-content: space-evenly;
 
     &:not(.collapsed) {
       transform: translateX(0);
@@ -239,7 +241,7 @@ export default {
 
   // Toggle button styling
   .button--toggle {
-    margin: $space-4;
+    margin: $space-5 $space-2;
     padding: $space-2 $space-3;
     display: flex;
     align-items: center;
@@ -293,10 +295,8 @@ export default {
 
     @include breakpoint-down(md) {
       padding: 0;
-      flex: 1;
       display: flex;
       flex-direction: column;
-      justify-content: center;
     }
 
     .nav-item {
